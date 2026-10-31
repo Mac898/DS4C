@@ -41,12 +41,6 @@ import net.minecraft.world.phys.Vec3;
  * ({@code name/<n>}) only contribute the active bucket: a missing fact reads as false.
  */
 public final class Ds4cFacts {
-    /**
-     * Phase 0 verification fact, enabled with {@code -Dds4c.debugProbe=true}. A rule in the built-in
-     * pack uses it to override Controlify's default bow effect, proving the pack loads, this
-     * contributor runs, and DS4C's rules are evaluated before Controlify's.
-     */
-    public static final Identifier DEBUG_PROBE = Constants.id("debug_probe");
     /** Master switch for every DS4C trigger rule. */
     public static final Identifier ENABLED = Constants.id("enabled");
 
@@ -84,13 +78,10 @@ public final class Ds4cFacts {
     /** {@code ds4c:target_resistance/1..8}: hardness of the harvestable block being looked at. */
     public static final String TARGET_RESISTANCE = "target_resistance/";
 
-    private static final boolean DEBUG_PROBE_ENABLED = Boolean.getBoolean("ds4c.debugProbe");
-
     private Ds4cFacts() {
     }
 
     public static void contributeInGame(InGameContext context, ContextualStateSink sink) {
-        sink.contributeFact(DEBUG_PROBE, DEBUG_PROBE_ENABLED);
         sink.contributeFact(ENABLED, Ds4cSettings.triggerEffectsEnabled());
         for (FeedbackCategory category : FeedbackCategory.values()) {
             sink.contributeFact(category.factId(), Ds4cSettings.isCategoryEnabled(category));

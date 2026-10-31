@@ -49,6 +49,12 @@ def feedback_slope(start, end, start_strength, end_strength):
             "start_strength": start_strength, "end_strength": end_strength}
 
 
+def bow(start, end, strength, snap_force):
+    # Unofficial firmware effect; needs Controlify 3.5.4+ (unsigned, corrected encoding).
+    return {"type": "bow", "start_position": start, "end_position": end,
+            "strength": strength, "snap_force": snap_force}
+
+
 OFF = {"type": "off"}
 
 
@@ -110,25 +116,23 @@ def both(category, condition, effect, idle_only=False):
         rule(binding, category, condition, effect, idle_only)
 
 
-def draw_curve(level):
-    """Bow-like tension for draw bucket 0..7: the wall moves earlier and gets stronger."""
+def draw_curve(level, snap_force=None):
+    """Bow tension for draw bucket 0..7: the tension zone widens and stiffens as the draw builds,
+    then snaps back on release. snap_force defaults to full (8)."""
     power = level / 7
     start = max(2, round(7 - 5 * power))
     strength = min(8, round(4 + 4 * power ** 0.5))
-    return feedback_slope(start, 9, max(1, strength - 3), strength)
+    return bow(start, 8, strength, 8 if snap_force is None else snap_force)
+
+
+def horse_jump_curve(level):
+    """Mount jump charge 0..7: same shape as the bow, with resistance climbing from 2 to 8."""
+    charge = level / 7
+    return bow(max(2, round(7 - 5 * charge)), 8, round(2 + 6 * charge), 8)
 
 
 # Block-break pulse frequency by main-hand tool class (ds4c:tool/*).
 TOOL_FREQUENCIES = {"pickaxe": 60, "shovel": 40, "axe": 24, "hoe": 18, "shears": 75, "mace": 22, "other": 30}
-
-
-def debug_probe():
-    # Phase 0 check: replaces Controlify's bow-draw effect when -Dds4c.debugProbe=true.
-    RULES.append({
-        "for": USE,
-        "if": {"all_of": ["ds4c:debug_probe", {"slot": "controlify:active_item", "item": {"items": "#c:tools/bow"}}]},
-        "then": vibration(0, 8, 40),
-    })
 
 
 def bursts():
@@ -189,7 +193,8 @@ def actions():
     rule(USE, "combat", "ds4c:crossbow_loaded", OFF)
     for level in range(7, -1, -1):
         rule(USE, "combat", [use_anim("bow"), bucket("draw", level)], draw_curve(level))
-        rule(USE, "combat", [use_anim("trident"), bucket("draw", level)], draw_curve(level))
+        trident_snap = min(8, round(4 + 4 * (level / 7) ** 0.5))
+        rule(USE, "combat", [use_anim("trident"), bucket("draw", level)], draw_curve(level, trident_snap))
         loading = min(7, 4 + round(3 * (level / 7) ** 0.5))
         rule(USE, "combat", [use_anim("crossbow"), bucket("draw", level)], feedback_slope(2, 9, loading, 8))
     rule(USE, "items", {"any_of": [use_anim("eat"), use_anim("drink")]}, feedback_slope(0, 9, 2, 6))
@@ -197,7 +202,7 @@ def actions():
     rule(USE, "items", use_anim("toot_horn"), vibration(2, 5, 18))
 
     for level in range(7, -1, -1):
-        rule(USE, "movement", bucket("horse_jump", level), draw_curve(level))
+        rule(USE, "movement", bucket("horse_jump", level), horse_jump_curve(level))
 
 
 def held_item_baselines():
@@ -206,8 +211,8 @@ def held_item_baselines():
     rule(USE, "combat", main_hand({"items": "#c:tools/crossbow", "components": {"minecraft:charged_projectiles": []}}),
          feedback(4, 2), idle_only=True)
     rule(USE, "combat", main_hand({"items": "#c:tools/crossbow"}), feedback(4, 8), idle_only=True)
-    # Bow: narrow wall at the end of travel. Switch to the Bow effect once Controlify supports it.
-    rule(USE, "combat", main_hand({"items": "#c:tools/bow"}), feedback(7, 2), idle_only=True)
+    # Bow: the start of a draw, so there's no jump in feel when the draw begins.
+    rule(USE, "combat", main_hand({"items": "#c:tools/bow"}), bow(7, 8, 2, 8), idle_only=True)
     rule(USE, "combat", main_hand({"items": "#c:tools/trident"}), feedback(3, 4), idle_only=True)
     rule(USE, "items", main_hand({"items": "minecraft:spyglass"}), feedback(5, 5), idle_only=True)
     rule(USE, "environment", "ds4c:place_ready", feedback(4, 3), idle_only=True)
@@ -239,7 +244,6 @@ def environment():
 
 
 def build():
-    debug_probe()
     bursts()
     actions()
     # Portal swirl outranks everything passive: it's the "something big is about to happen" cue.

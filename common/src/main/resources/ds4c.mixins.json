@@ -14,7 +14,8 @@
     "LivingEntityMixin",
     "MinecraftMixin",
     "MultiPlayerGameModeMixin",
-    "SoundEngineMixin"
+    "SoundEngineMixin",
+    "SoundManagerMixin"
   ],
   "server": [],
   "injectors": {

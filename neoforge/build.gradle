@@ -18,8 +18,6 @@ neoForge {
         client {
             client()
             gameDirectory = this.mkdir(this.file('runs/client'))
-            // Phase 0 check: overrides Controlify's bow rule from DS4C's built-in pack.
-            systemProperty('ds4c.debugProbe', 'true')
         }
         data {
             clientData()

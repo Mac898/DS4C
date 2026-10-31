@@ -7,6 +7,8 @@ dependencies {
     implementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
     implementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
     compileOnly("maven.modrinth:modmenu:${modmenu_version}")
+    // Dev runs only: Mod Menu is how Fabric players open DS4C's settings screen.
+    localRuntime("maven.modrinth:modmenu:${modmenu_version}")
     implementation("dev.isxander:controlify:${controlify_version}") {
         attributes {
             attribute(Attribute.of('io.github.mcgradleconventions.loader', String), 'fabric')
@@ -25,8 +27,6 @@ loom {
             setConfigName('Fabric Client')
             ideConfigGenerated(true)
             runDir('runs/client')
-            // Phase 0 check: overrides Controlify's bow rule from DS4C's built-in pack.
-            property('ds4c.debugProbe', 'true')
         }
         server {
             server()

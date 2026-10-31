@@ -9,13 +9,20 @@ base {
 
 repositories {
     mavenCentral()
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = 'XanderReleases'
-                url = uri('https://maven.isxander.dev/releases')
-            }
+    // dev.isxander comes from Maven Local first (Controlify builds published with
+    // ./gradlew :26.3:publishToMavenLocal), then the release repository.
+    def xanderLocal = mavenLocal {
+        name = 'XanderLocal'
+        content {
+            includeGroupAndSubgroups('dev.isxander')
         }
+    }
+    def xanderReleases = maven {
+        name = 'XanderReleases'
+        url = uri('https://maven.isxander.dev/releases')
+    }
+    exclusiveContent {
+        forRepositories(xanderLocal, xanderReleases)
         filter {
             includeGroupAndSubgroups('dev.isxander')
         }

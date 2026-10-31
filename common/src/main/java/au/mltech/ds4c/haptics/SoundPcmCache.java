@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Decoded PCM for game sounds, kept separately from the sound engine. The engine uploads its
  * buffers to OpenAL and drops the data, so we decode the .ogg ourselves (16-bit LE PCM) and keep it.
  */
-final class SoundPcmCache {
+public final class SoundPcmCache {
     record Pcm(byte[] data, AudioFormat format) {
     }
 
@@ -32,7 +32,8 @@ final class SoundPcmCache {
         return CACHE.computeIfAbsent(path, p -> CompletableFuture.supplyAsync(() -> decode(p), Util.nonCriticalIoPool()));
     }
 
-    static void clear() {
+    /** Resources reloaded: sound files may have changed. */
+    public static void clear() {
         CACHE.clear();
     }
 
