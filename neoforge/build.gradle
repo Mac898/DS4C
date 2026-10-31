@@ -18,6 +18,8 @@ neoForge {
         client {
             client()
             gameDirectory = this.mkdir(this.file('runs/client'))
+            // Phase 0 check: overrides Controlify's bow rule from DS4C's built-in pack.
+            systemProperty('ds4c.debugProbe', 'true')
         }
         data {
             clientData()
@@ -40,6 +42,14 @@ neoForge {
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+dependencies {
+    implementation("dev.isxander:controlify:${controlify_version}") {
+        attributes {
+            attribute(Attribute.of('io.github.mcgradleconventions.loader', String), 'neoforge')
+        }
+    }
+}
 
 // Implement mcgradleconventions loader attribute
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)

@@ -6,6 +6,11 @@ dependencies {
     minecraft("com.mojang:minecraft:${minecraft_version}")
     implementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
     implementation("net.fabricmc.fabric-api:fabric-api:${fabric_version}")
+    implementation("dev.isxander:controlify:${controlify_version}") {
+        attributes {
+            attribute(Attribute.of('io.github.mcgradleconventions.loader', String), 'fabric')
+        }
+    }
 }
 
 loom {
@@ -19,6 +24,8 @@ loom {
             setConfigName('Fabric Client')
             ideConfigGenerated(true)
             runDir('runs/client')
+            // Phase 0 check: overrides Controlify's bow rule from DS4C's built-in pack.
+            property('ds4c.debugProbe', 'true')
         }
         server {
             server()

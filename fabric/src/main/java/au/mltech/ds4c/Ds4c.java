@@ -1,18 +1,22 @@
 package au.mltech.ds4c;
 
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.network.chat.Component;
 
-public class Ds4c implements ModInitializer {
-
+public class Ds4c implements ClientModInitializer {
     @Override
-    public void onInitialize() {
-
-        // This method is invoked by the Fabric mod loader when it is ready
-        // to load your mod. You can access Fabric and Common code in this
-        // project.
-
-        // Use Fabric to bootstrap the Common mod.
-        Constants.LOG.info("Hello Fabric world!");
-        CommonClass.init();
+    public void onInitializeClient() {
+        boolean registered = ResourceLoader.registerBuiltinPack(
+                Constants.EFFECTS_PACK_ID,
+                FabricLoader.getInstance().getModContainer(Constants.MOD_ID).orElseThrow(),
+                Component.translatable(Constants.EFFECTS_PACK_NAME_KEY),
+                PackActivationType.ALWAYS_ENABLED
+        );
+        if (!registered) {
+            Constants.LOG.error("Failed to register built-in pack {}", Constants.EFFECTS_PACK_ID);
+        }
     }
 }

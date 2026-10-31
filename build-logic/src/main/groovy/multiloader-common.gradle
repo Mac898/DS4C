@@ -7,6 +7,32 @@ base {
     archivesName = "${mod_id}-${project.name}-${minecraft_version}"
 }
 
+repositories {
+    mavenCentral()
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'XanderReleases'
+                url = uri('https://maven.isxander.dev/releases')
+            }
+        }
+        filter {
+            includeGroupAndSubgroups('dev.isxander')
+        }
+    }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'QuiltMC'
+                url = uri('https://maven.quiltmc.org/repository/release')
+            }
+        }
+        filter {
+            includeGroupAndSubgroups('org.quiltmc')
+        }
+    }
+}
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(java_version)
     withSourcesJar()
@@ -50,7 +76,8 @@ processResources {
             'neoforge_version'             : neoforge_version,
             'neoforge_loader_version_range': neoforge_loader_version_range,
             'credits'                      : credits,
-            'java_version'                 : java_version
+            'java_version'                 : java_version,
+            'controlify_version_range'     : controlify_version_range
     ]
 
     var jsonExpandProps = expandProps.collectEntries {

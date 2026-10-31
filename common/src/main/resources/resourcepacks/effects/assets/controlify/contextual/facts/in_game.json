@@ -1,0 +1,59 @@
+{
+  "ds4c:in_portal": {
+    "slot": "ds4c:block_at_feet",
+    "block": {
+      "blocks": [
+        "minecraft:nether_portal",
+        "minecraft:end_portal"
+      ]
+    }
+  },
+  "ds4c:on_ice": {
+    "all_of": [
+      "controlify:on_ground",
+      {
+        "slot": "ds4c:block_below",
+        "block": {
+          "blocks": "#minecraft:ice"
+        }
+      }
+    ]
+  },
+  "ds4c:on_magma": {
+    "all_of": [
+      "controlify:on_ground",
+      {
+        "slot": "ds4c:block_below",
+        "block": {
+          "blocks": "minecraft:magma_block"
+        }
+      }
+    ]
+  },
+  "ds4c:hungry_sprint": {
+    "all_of": [
+      "controlify:sprinting",
+      "ds4c:low_food"
+    ]
+  },
+  "ds4c:holding_mace": {
+    "slot": "controlify:main_hand",
+    "item": {
+      "items": "minecraft:mace"
+    }
+  },
+  "ds4c:holding_weapon": {
+    "slot": "controlify:main_hand",
+    "item": {
+      "predicates": {
+        "minecraft:weapon": {}
+      }
+    }
+  },
+  "ds4c:place_ready": {
+    "all_of": [
+      "controlify:main_hand_is_block_item",
+      "controlify:looking_at_block"
+    ]
+  }
+}
