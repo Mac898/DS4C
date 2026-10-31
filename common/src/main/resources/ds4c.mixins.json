@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [],
   "client": [
+    "ClientPacketListenerMixin",
     "CrossbowItemMixin",
     "EntityMixin",
     "FireworkRocketEntityMixin",
@@ -15,7 +16,8 @@
     "MinecraftMixin",
     "MultiPlayerGameModeMixin",
     "SoundEngineMixin",
-    "SoundManagerMixin"
+    "SoundManagerMixin",
+    "WeighedSoundEventsAccessor"
   ],
   "server": [],
   "injectors": {

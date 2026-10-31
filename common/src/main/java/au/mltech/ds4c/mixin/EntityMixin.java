@@ -21,7 +21,7 @@ public class EntityMixin {
         LocalPlayer player = Minecraft.getInstance().player;
         if ((Object) this == player) {
             Ds4cEvents.onLanding(player, player.fallDistance);
-            HapticEvents.onLanding(player, player.fallDistance);
+            HapticEvents.onLanding(player, onState, player.fallDistance);
         }
     }
 

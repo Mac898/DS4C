@@ -22,12 +22,10 @@ import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 
 /**
  * Exposes game state to Controlify's contextual rule engine as {@code ds4c:*} facts and slots.
@@ -62,21 +60,29 @@ public final class Ds4cFacts {
 
     /** {@code ds4c:use_anim/<animation>}: the use animation of the item being used (bow, crossbow, eat...). */
     public static final String USE_ANIM = "use_anim/";
-    /** {@code ds4c:draw/0..7}: draw or charge progress of the bow, crossbow or trident being used. */
+    /** {@code ds4c:draw/0..3}: draw or charge progress of the bow, crossbow or trident being used. */
     public static final String DRAW = "draw/";
-    /** {@code ds4c:horse_jump/0..7}: mount jump charge. */
+    /** {@code ds4c:horse_jump/0..3}: mount jump charge. */
     public static final String HORSE_JUMP = "horse_jump/";
     /** {@code ds4c:tool/<class>}: main-hand tool class, for block-break pulse frequency. */
     public static final String TOOL = "tool/";
 
-    /** {@code ds4c:sticky/1..4}: how strongly the block at/under the player slows movement. */
-    public static final String STICKY = "sticky/";
-    /** {@code ds4c:vehicle_speed/2..6}: horizontal speed of a boat or minecart, as a trigger amplitude. */
-    public static final String VEHICLE_SPEED = "vehicle_speed/";
-    /** {@code ds4c:fall_charge/3..8}: airborne fall distance, as a trigger strength (mace wind-up). */
+    /** {@code ds4c:trigger_strength/50|75}: the trigger strength setting, when below 100%. */
+    public static final String TRIGGER_STRENGTH = "trigger_strength/";
+    /** {@code ds4c:fall_charge/1..3}: airborne fall distance (mace wind-up). */
     public static final String FALL_CHARGE = "fall_charge/";
-    /** {@code ds4c:target_resistance/1..8}: hardness of the harvestable block being looked at. */
+    /**
+     * {@code ds4c:target_resistance/1..3}: hardness of the block a held tool is aimed at and can
+     * harvest (soft, medium, hard). Held briefly through changes, see {@link Dwell}.
+     */
     public static final String TARGET_RESISTANCE = "target_resistance/";
+    /** Looking at a block, held briefly through changes so sweeping the crosshair doesn't flicker. */
+    public static final Identifier AIMING_AT_BLOCK = Constants.id("aiming_at_block");
+
+    /** How long a looked-at block change must persist before the trigger follows it: 150 ms. */
+    private static final int AIM_DWELL_TICKS = 3;
+    private static final Dwell aimDwell = new Dwell(AIM_DWELL_TICKS, 0);
+    private static final Dwell resistanceDwell = new Dwell(AIM_DWELL_TICKS, 0);
 
     private Ds4cFacts() {
     }
@@ -86,14 +92,14 @@ public final class Ds4cFacts {
         for (FeedbackCategory category : FeedbackCategory.values()) {
             sink.contributeFact(category.factId(), Ds4cSettings.isCategoryEnabled(category));
         }
+        int strength = Ds4cSettings.triggerStrength();
+        if (strength < 100) sink.contributeFact(Constants.id(TRIGGER_STRENGTH + strength));
 
         LocalPlayer player = context.player();
         ClientLevel level = context.level();
 
         BlockPos feetPos = player.blockPosition();
         BlockPos belowPos = player.getOnPos();
-        BlockState feet = level.getBlockState(feetPos);
-        BlockState below = level.getBlockState(belowPos);
         sink.contributeBlock(SLOT_BLOCK_AT_FEET, new BlockInWorld(level, feetPos, false));
         sink.contributeBlock(SLOT_BLOCK_BELOW, new BlockInWorld(level, belowPos, false));
 
@@ -101,10 +107,11 @@ public final class Ds4cFacts {
         sink.contributeFact(UNDERWATER, player.isUnderWater());
         sink.contributeFact(LOW_FOOD, player.getFoodData().getFoodLevel() <= 6);
 
-        contributeSticky(sink, feet, below);
-        contributeVehicle(sink, player.getVehicle());
+        Entity vehicle = player.getVehicle();
+        sink.contributeFact(RIDING_MINECART, vehicle instanceof AbstractMinecart);
+        sink.contributeFact(RIDING_BOAT, vehicle instanceof AbstractBoat);
         contributeFallCharge(sink, player);
-        contributeTargetResistance(sink, player, level, context.hitResult());
+        contributeAim(sink, player, level, context.hitResult());
 
         contributeItemUse(sink, player);
         contributeHorseJump(sink, player);
@@ -131,7 +138,7 @@ public final class Ds4cFacts {
             default -> -1f;
         };
         if (progress >= 0f) {
-            sink.contributeFact(bucket(DRAW, Math.round(Math.min(1f, progress) * 7f)));
+            sink.contributeFact(bucket(DRAW, Math.round(Math.min(1f, progress) * 3f)));
         }
 
         sink.contributeFact(CROSSBOW_LOADED, Ds4cEvents.isCrossbowLoaded(player));
@@ -142,7 +149,7 @@ public final class Ds4cFacts {
     private static void contributeHorseJump(ContextualStateSink sink, LocalPlayer player) {
         float charge = player.getJumpRidingScale();
         if (charge <= 0f || player.jumpableVehicle() == null) return;
-        sink.contributeFact(bucket(HORSE_JUMP, Math.round(Math.min(1f, charge) * 7f)));
+        sink.contributeFact(bucket(HORSE_JUMP, Math.round(Math.min(1f, charge) * 3f)));
     }
 
     private static Identifier toolClass(ItemStack stack) {
@@ -157,48 +164,44 @@ public final class Ds4cFacts {
         return Constants.id(TOOL + name);
     }
 
-    /** Resistance proportional to how much the block slows movement; cobwebs slow via entity damping, so check them explicitly. */
-    private static void contributeSticky(ContextualStateSink sink, BlockState feet, BlockState below) {
-        float speedFactor = Math.min(feet.getBlock().getSpeedFactor(), below.getBlock().getSpeedFactor());
-        boolean inCobweb = feet.is(Blocks.COBWEB);
-        if (speedFactor >= 1.0f && !inCobweb) return;
-
-        float slow = inCobweb ? 1.0f : Math.max(0f, 1.0f - speedFactor);
-        int level = Math.min(4, 1 + Math.round(3.5f * slow));
-        sink.contributeFact(bucket(STICKY, level));
-    }
-
-    private static void contributeVehicle(ContextualStateSink sink, Entity vehicle) {
-        boolean minecart = vehicle instanceof AbstractMinecart;
-        boolean boat = vehicle instanceof AbstractBoat;
-        sink.contributeFact(RIDING_MINECART, minecart);
-        sink.contributeFact(RIDING_BOAT, boat);
-        if (!minecart && !boat) return;
-
-        Vec3 v = vehicle.getDeltaMovement();
-        double speed = Math.sqrt(v.x * v.x + v.z * v.z);
-        if (speed < 0.05) return;
-        int amplitude = Math.min(6, 2 + (int) Math.round(speed * 12));
-        sink.contributeFact(bucket(VEHICLE_SPEED, amplitude));
-    }
-
     private static void contributeFallCharge(ContextualStateSink sink, LocalPlayer player) {
         if (player.onGround() || player.fallDistance <= 1.0) return;
-        int strength = Math.min(8, 3 + (int) Math.round(5.0 * Math.min(1.0, player.fallDistance / 6.0)));
-        sink.contributeFact(bucket(FALL_CHARGE, strength));
+        int level = player.fallDistance <= 2.5 ? 1 : player.fallDistance <= 4.5 ? 2 : 3;
+        sink.contributeFact(bucket(FALL_CHARGE, level));
     }
 
-    /** Only blocks the player can actually break and that would drop with the held item. */
-    private static void contributeTargetResistance(ContextualStateSink sink, LocalPlayer player, ClientLevel level, HitResult hitResult) {
-        if (!(hitResult instanceof BlockHitResult blockHit) || blockHit.getType() != HitResult.Type.BLOCK) return;
-        BlockState state = level.getBlockState(blockHit.getBlockPos());
-        if (state.isAir()) return;
-        if (state.getDestroySpeed(level, blockHit.getBlockPos()) < 0f) return; // unbreakable
-        if (state.requiresCorrectToolForDrops() && !player.hasCorrectToolForDrops(state)) return;
+    private static void contributeAim(ContextualStateSink sink, LocalPlayer player, ClientLevel level, HitResult hitResult) {
+        long now = player.tickCount;
+        boolean aiming = hitResult instanceof BlockHitResult blockHit && blockHit.getType() == HitResult.Type.BLOCK
+                && !level.getBlockState(blockHit.getBlockPos()).isAir();
+        sink.contributeFact(AIMING_AT_BLOCK, aimDwell.update(aiming ? 1 : 0, now) == 1);
+
+        int resistance = aiming ? targetResistance(player, level, (BlockHitResult) hitResult) : 0;
+        resistance = resistanceDwell.update(resistance, now);
+        if (resistance > 0) {
+            sink.contributeFact(bucket(TARGET_RESISTANCE, resistance));
+        }
+    }
+
+    /**
+     * 1..3 for a block the held tool can harvest (soft below 1 hardness: dirt, sand; medium below 3:
+     * stone, logs; hard: ores, deepslate, obsidian), or 0 for none. Only while holding a tool, since
+     * looking around is constant and other items gain nothing from it.
+     */
+    private static int targetResistance(LocalPlayer player, ClientLevel level, BlockHitResult hit) {
+        ItemStack stack = player.getMainHandItem();
+        if (!isDiggingTool(stack)) return 0;
+        BlockState state = level.getBlockState(hit.getBlockPos());
+        if (state.getDestroySpeed(level, hit.getBlockPos()) <= 0f) return 0; // instant or unbreakable
+        if (state.requiresCorrectToolForDrops() && !player.hasCorrectToolForDrops(state)) return 0;
 
         float hardness = state.getBlock().defaultDestroyTime();
-        int strength = hardness <= 0f ? 1 : Math.min(8, 2 + (int) Math.round(6.0 * Math.min(1.0, hardness / 10.0)));
-        sink.contributeFact(bucket(TARGET_RESISTANCE, strength));
+        return hardness < 1f ? 1 : hardness < 3f ? 2 : 3;
+    }
+
+    private static boolean isDiggingTool(ItemStack stack) {
+        return stack.is(ItemTags.PICKAXES) || stack.is(ItemTags.AXES) || stack.is(ItemTags.SHOVELS)
+                || stack.is(ItemTags.HOES) || stack.getItem() instanceof ShearsItem;
     }
 
     private static Identifier bucket(String prefix, int value) {

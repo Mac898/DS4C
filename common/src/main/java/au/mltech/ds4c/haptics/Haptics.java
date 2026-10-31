@@ -9,8 +9,9 @@ import javax.sound.sampled.AudioFormat;
 
 /**
  * DS4C's single path to the DualSense HD haptics output, through Controlify's
- * {@link HDHapticsApi}. Every play goes through {@link #play(byte[], AudioFormat, float)}, which
- * applies DS4C's own switch and master intensity once; Controlify handles thread delivery.
+ * {@link HDHapticsApi}. Every play goes through here, which gates on the category, runs the
+ * {@link HapticBudget} (priority, ducking, layer cap), applies the master intensity once and pans
+ * between the two grip actuators. Client thread only.
  */
 public final class Haptics {
     private static HapticTickHandler tickHandler = new HapticTickHandler();
@@ -28,20 +29,50 @@ public final class Haptics {
         return Ds4cSettings.isCategoryEnabled(category) && isAvailable();
     }
 
-    public static void play(HapticWaveform waveform) {
-        play(waveform.pcm(), waveform.format(), 1f);
+    /** A one-off effect (an event). Effects of the action and danger tiers duck lower tiers. */
+    public static void play(FeedbackCategory category, HapticWaveform waveform) {
+        play(category, waveform, 1f, 0f);
     }
 
-    public static void play(HapticWaveform waveform, float gain) {
-        play(waveform.pcm(), waveform.format(), gain);
+    public static void play(FeedbackCategory category, HapticWaveform waveform, float gain) {
+        play(category, waveform, gain, 0f);
     }
 
-    /** Plays 16-bit little-endian PCM at {@code gain} times the master intensity. Any thread. */
-    public static void play(byte[] pcm, AudioFormat format, float gain) {
-        if (!isAvailable()) return;
+    /** @param pan -1 = left grip only, 0 = both, 1 = right grip only */
+    public static void play(FeedbackCategory category, HapticWaveform waveform, float gain, float pan) {
+        submit(category, HapticTier.of(category), waveform.pcm(), waveform.format(), gain, pan, false);
+    }
+
+    /**
+     * A repeating cue (heartbeat, compass ticks, wind chunks, loop chunks). Ranked like
+     * {@link #play} but never ducks anything else, so a cue that keeps firing can't hold the
+     * other effects down.
+     */
+    public static void playSustained(FeedbackCategory category, HapticWaveform waveform, float gain, float pan) {
+        submit(category, HapticTier.of(category), waveform.pcm(), waveform.format(), gain, pan, true);
+    }
+
+    /** A decoded game sound (16-bit little-endian PCM, mono or stereo). */
+    static void playSound(FeedbackCategory category, byte[] pcm, AudioFormat format, float gain) {
+        submit(category, HapticTier.of(category), pcm, format, gain, 0f, false);
+    }
+
+    private static void submit(FeedbackCategory category, HapticTier tier, byte[] pcm, AudioFormat format,
+                               float gain, float pan, boolean sustained) {
+        if (!isAvailable(category) || pcm.length == 0) return;
         float total = gain * Ds4cSettings.masterIntensity();
         if (total <= 0.001f) return;
-        HDHapticsApi.playPcm(HapticWaveform.scaleSamples(pcm, total), format);
+
+        int frameBytes = Math.max(1, format.getFrameSize());
+        int durationMs = (int) (1000L * (pcm.length / frameBytes) / Math.max(1f, format.getSampleRate()));
+        total *= HapticBudget.admit(tier, durationMs, sustained);
+        if (total <= 0.001f) return;
+
+        if (format.getChannels() == 1 && Math.abs(pan) > 0.01f) {
+            HDHapticsApi.playPcm(HapticWaveform.panToStereo(pcm, total, pan), HapticWaveform.stereoFormat(format));
+        } else {
+            HDHapticsApi.playPcm(HapticWaveform.scaleSamples(pcm, total), format);
+        }
     }
 
     /**
@@ -50,6 +81,7 @@ public final class Haptics {
      * handler so nothing keeps playing.
      */
     public static void clientTick(Minecraft minecraft) {
+        HapticsSetupCheck.tick(minecraft);
         boolean active = minecraft.player != null
                 && minecraft.level != null
                 && !minecraft.isPaused()
@@ -69,6 +101,7 @@ public final class Haptics {
     private static void reset() {
         HapticLoops.clear();
         SoundHaptics.clear();
+        HapticBudget.clear();
         tickHandler = new HapticTickHandler();
     }
 }

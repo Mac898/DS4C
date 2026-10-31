@@ -110,6 +110,13 @@ public final class HapticSoundRegistry {
 		return null;
 	}
 
+	/** Every sound with an exact passthrough mapping or a synth overlay (suffix rules aren't listable). */
+	public static java.util.Set<Identifier> mappedSounds() {
+		java.util.Set<Identifier> ids = new java.util.TreeSet<>(EXACT.keySet());
+		ids.addAll(OVERLAYS.keySet());
+		return ids;
+	}
+
 	public static Map<Identifier, HapticProfile> view() {
 		return Collections.unmodifiableMap(EXACT);
 	}

@@ -8,6 +8,7 @@ import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
+import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -35,12 +36,21 @@ public final class Ds4cConfigScreen {
                 .name(Component.translatable("ds4c.config.group.triggers"))
                 .option(toggle("ds4c.config.trigger_effects", true,
                         Ds4cSettings::triggerEffectsEnabled, Ds4cSettings::setTriggerEffectsEnabled))
+                .option(Option.<Integer>createBuilder()
+                        .name(Component.translatable("ds4c.config.trigger_strength"))
+                        .description(OptionDescription.of(Component.translatable("ds4c.config.trigger_strength.tooltip")))
+                        .binding(100, Ds4cSettings::triggerStrength, Ds4cSettings::setTriggerStrength)
+                        .controller(opt -> IntegerSliderControllerBuilder.create(opt).range(50, 100).step(25)
+                                .formatValue(v -> Component.literal(v + "%")))
+                        .build())
                 .build();
 
         OptionGroup haptics = OptionGroup.createBuilder()
                 .name(Component.translatable("ds4c.config.group.haptics"))
                 .option(toggle("ds4c.config.hd_haptics", true,
                         Ds4cSettings::hapticsEnabled, Ds4cSettings::setHapticsEnabled))
+                .option(toggle("ds4c.config.footsteps", true,
+                        Ds4cSettings::footstepsEnabled, Ds4cSettings::setFootstepsEnabled))
                 .option(slider("ds4c.config.master_intensity", 1.0f, 0f, 2f, 0.05f,
                         Ds4cSettings::masterIntensity, Ds4cSettings::setMasterIntensity))
                 .option(slider("ds4c.config.synthesis_intensity", 1.0f, 0f, 2f, 0.05f,

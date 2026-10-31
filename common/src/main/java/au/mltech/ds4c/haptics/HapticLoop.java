@@ -1,82 +1,86 @@
 package au.mltech.ds4c.haptics;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+import au.mltech.ds4c.FeedbackCategory;
+
+import java.util.function.Supplier;
 
 /**
- * A continuous haptic drone built from a short PCM buffer. The dispatcher re-queues {@link #nextChunk()}
- * back-to-back; the crossfade ramp at each end prevents clicks at the seam.
+ * A continuous haptic bed (rain, water, rides) played as back-to-back chunks. Each chunk comes
+ * fresh from the generator, so noise and random accents never repeat exactly, and short fades at
+ * the chunk ends hide the seams.
+ * <p>
+ * Steady touch fades from awareness within seconds to minutes (docs/haptics-review.md,
+ * guideline 8), so a loop whose level hasn't changed for {@link #HABITUATION_START_TICKS} eases
+ * down to {@link #HABITUATION_FLOOR} of its level. Any marked change ({@link #accent()} or a level
+ * change of 25% or more) brings it back to full.
  */
 public final class HapticLoop {
-	private final HapticWaveform base;
-	private final int crossfadeMs;
-	private final int chunkTicks;
-	private float amplitude = 1f;
-	/** Ticks of audio currently buffered downstream. Decremented each {@link #onTickConsumed()} call. */
-	private int ticksRemaining = 0;
+    static final int HABITUATION_START_TICKS = 20 * 20;
+    static final int HABITUATION_FADE_TICKS = 10 * 20;
+    static final float HABITUATION_FLOOR = 0.5f;
+    private static final int FADE_MS = 10;
 
-	public HapticLoop(HapticWaveform base) {
-		this(base, 40);
-	}
+    private final FeedbackCategory category;
+    private final Supplier<HapticWaveform> generator;
+    private final int chunkTicks;
+    private float amplitude = 1f;
+    private float pan = 0f;
+    private int ticksSinceAccent = 0;
+    /** Ticks of audio currently buffered downstream. */
+    private int ticksRemaining = 0;
 
-	public HapticLoop(HapticWaveform base, int crossfadeMs) {
-		this.base = base;
-		this.crossfadeMs = Math.max(0, crossfadeMs);
-		// ms / 50 = ticks (Minecraft is 20Hz). Floor of 1 — even tiny chunks count as one tick.
-		this.chunkTicks = Math.max(1, base.durationMs() / 50);
-	}
+    /**
+     * @param generator produces one chunk; called for every chunk. Chunks should be a whole
+     *                  number of ticks long (multiples of 50 ms) so they queue back to back.
+     */
+    public HapticLoop(FeedbackCategory category, Supplier<HapticWaveform> generator) {
+        this.category = category;
+        this.generator = generator;
+        this.chunkTicks = Math.max(1, generator.get().durationMs() / 50);
+    }
 
-	/** True if the previous chunk has been consumed and the next chunk should be queued. */
-	public boolean shouldQueue() {
-		return ticksRemaining <= 0;
-	}
+    public FeedbackCategory category() {
+        return category;
+    }
 
-	/** Call once per tick. Does not produce a chunk; just advances the buffer-consumed counter. */
-	public void onTickConsumed() {
-		if (ticksRemaining > 0) ticksRemaining--;
-	}
+    public void setAmplitude(float amp) {
+        float next = Math.max(0f, Math.min(1f, amp));
+        if (Math.abs(next - amplitude) >= 0.25f * Math.max(amplitude, 0.05f)) accent();
+        this.amplitude = next;
+    }
 
-	/** Mark a chunk as queued — adds the chunk's tick duration to the remaining counter. */
-	public void onQueued() {
-		ticksRemaining += chunkTicks;
-	}
+    public float amplitude() {
+        return amplitude;
+    }
 
-	public void setAmplitude(float amp) {
-		this.amplitude = Math.max(0f, Math.min(1f, amp));
-	}
+    public void setPan(float pan) {
+        this.pan = pan;
+    }
 
-	public float amplitude() {
-		return amplitude;
-	}
+    /** Something changed (a bump, a gust, a new state): play at full level again. */
+    public void accent() {
+        ticksSinceAccent = 0;
+    }
 
-	public HapticWaveform base() {
-		return base;
-	}
+    /** The level this loop plays at right now, after habituation. */
+    float effectiveAmplitude() {
+        float faded = Math.min(1f, Math.max(0f, (ticksSinceAccent - HABITUATION_START_TICKS) / (float) HABITUATION_FADE_TICKS));
+        return amplitude * (1f - (1f - HABITUATION_FLOOR) * faded);
+    }
 
-	public int crossfadeMs() {
-		return crossfadeMs;
-	}
+    /** Advances one tick. Returns true if the next chunk should be queued now. */
+    boolean tick() {
+        ticksSinceAccent++;
+        if (ticksRemaining > 0) ticksRemaining--;
+        return ticksRemaining <= 0;
+    }
 
-	public byte[] nextChunk() {
-		short[] samples = HapticWaveform.readSamples(base.pcm());
-		int crossfadeSamples = (int) (crossfadeMs * base.format().getSampleRate() / 1000.0);
-		crossfadeSamples = Math.min(crossfadeSamples, samples.length / 2);
-
-		short[] out = new short[samples.length];
-		for (int i = 0; i < samples.length; i++) {
-			float gain = amplitude;
-			if (i < crossfadeSamples) {
-				gain *= (float) i / crossfadeSamples;
-			} else if (i >= samples.length - crossfadeSamples) {
-				int rel = samples.length - i;
-				gain *= (float) rel / crossfadeSamples;
-			}
-			int v = Math.round(samples[i] * gain);
-			out[i] = (short) Math.max(Short.MIN_VALUE, Math.min(Short.MAX_VALUE, v));
-		}
-
-		byte[] bytes = new byte[out.length * 2];
-		ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().put(out);
-		return bytes;
-	}
+    /** Plays the next chunk, or skips it (silence) if {@code audible} is false. */
+    void queueNext(boolean audible) {
+        ticksRemaining += chunkTicks;
+        float amp = effectiveAmplitude();
+        if (!audible || amp <= 0.001f) return;
+        HapticWaveform chunk = HapticWaveform.withASR(generator.get(), FADE_MS, Math.max(0, chunkTicks * 50 - 2 * FADE_MS), FADE_MS);
+        Haptics.playSustained(category, chunk, amp, pan);
+    }
 }

@@ -3,18 +3,28 @@ package au.mltech.ds4c.haptics;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
-/** Looping haptic beds (rain, underwater, rides...). Ticked and cleared by {@link Haptics}. */
+/**
+ * Looping haptic beds (rain, underwater, rides...). Ticked and cleared by {@link Haptics}.
+ * Only the {@link #MAX_AUDIBLE} most important loops play at once (highest tier, then loudest);
+ * the rest keep their state silently until they're among the top again.
+ */
 public final class HapticLoops {
+    static final int MAX_AUDIBLE = 2;
     private static final Map<Identifier, HapticLoop> LOOPS = new LinkedHashMap<>();
 
     private HapticLoops() {
     }
 
-    public static void startLoop(Identifier id, HapticLoop loop) {
-        LOOPS.put(id, loop);
+    /** Starts the loop if it isn't running and returns it. */
+    public static HapticLoop ensure(Identifier id, Supplier<HapticLoop> factory) {
+        return LOOPS.computeIfAbsent(id, k -> factory.get());
     }
 
     public static void stopLoop(Identifier id) {
@@ -33,14 +43,16 @@ public final class HapticLoops {
         LOOPS.clear();
     }
 
-    /** Queue the next chunk of each loop only once the previous one has been consumed. */
     static void tick() {
-        for (HapticLoop loop : LOOPS.values()) {
-            loop.onTickConsumed();
-            if (loop.shouldQueue()) {
-                Haptics.play(loop.nextChunk(), loop.base().format(), 1f);
-                loop.onQueued();
-            }
+        if (LOOPS.isEmpty()) return;
+        List<HapticLoop> ranked = new ArrayList<>(LOOPS.values());
+        ranked.sort(Comparator
+                .comparingInt((HapticLoop l) -> HapticTier.of(l.category()).ordinal())
+                .thenComparingDouble(HapticLoop::effectiveAmplitude)
+                .reversed());
+        for (int i = 0; i < ranked.size(); i++) {
+            HapticLoop loop = ranked.get(i);
+            if (loop.tick()) loop.queueNext(i < MAX_AUDIBLE);
         }
     }
 }

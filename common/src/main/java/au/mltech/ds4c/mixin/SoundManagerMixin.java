@@ -17,4 +17,10 @@ public class SoundManagerMixin {
     private void ds4c$onReload(CallbackInfo ci) {
         SoundPcmCache.clear();
     }
+
+    /** RETURN: the sound events are registered now, so their variants can be decoded ahead of use. */
+    @Inject(method = "apply(Lnet/minecraft/client/sounds/SoundManager$Preparations;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V", at = @At("RETURN"))
+    private void ds4c$afterReload(CallbackInfo ci) {
+        SoundPcmCache.preloadMapped((SoundManager) (Object) this);
+    }
 }

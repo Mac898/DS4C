@@ -1,0 +1,1226 @@
+[
+  {
+    "name": "r2_hit_crit",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_hit_knockback",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 7,
+      "frequency": 18
+    }
+  },
+  {
+    "name": "r2_hit_strong",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "r2_hit_sweep",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 5,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_hit_weak",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 3,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_hit_no_damage",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 2,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_mace_land_3",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_mace_land_2",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_mace_land_1",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "l2_explosion_3",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "r2_explosion_3",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "l2_explosion_2",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "r2_explosion_2",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "l2_explosion_1",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "r2_explosion_1",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "l2_shield_break",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 20
+    }
+  },
+  {
+    "name": "l2_shield_block",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 5,
+      "amplitude": 8,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "l2_crossbow_fire",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 2,
+      "amplitude": 8,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "l2_crossbow_loaded",
+    "trigger": "L2",
+    "effect": {
+      "type": "weapon",
+      "start_position": 7,
+      "end_position": 8,
+      "strength": 8
+    }
+  },
+  {
+    "name": "l2_bow_release",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 2,
+      "amplitude": 7,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "l2_trident_release",
+    "trigger": "L2",
+    "effect": {
+      "type": "weapon",
+      "start_position": 2,
+      "end_position": 8,
+      "strength": 8
+    }
+  },
+  {
+    "name": "r2_tool_warning_attack",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 4,
+      "amplitude": 3,
+      "frequency": 6
+    }
+  },
+  {
+    "name": "l2_tool_warning_use",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 4,
+      "amplitude": 3,
+      "frequency": 6
+    }
+  },
+  {
+    "name": "l2_bucket_lava",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 4,
+      "amplitude": 4,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "l2_chew",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 4,
+      "amplitude": 3,
+      "frequency": 8
+    }
+  },
+  {
+    "name": "l2_fishing_biting",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 2,
+      "amplitude": 6,
+      "frequency": 25
+    }
+  },
+  {
+    "name": "r2_swing",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_block_broken",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_break_pulse_8_tool_pickaxe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_break_pulse_8_tool_shovel",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 20
+    }
+  },
+  {
+    "name": "r2_break_pulse_8_tool_axe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 24
+    }
+  },
+  {
+    "name": "r2_break_pulse_8_tool_hoe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 16
+    }
+  },
+  {
+    "name": "r2_break_pulse_8_tool_shears",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 35
+    }
+  },
+  {
+    "name": "r2_break_pulse_8_tool_mace",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_break_pulse_8_tool_other",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 8,
+      "frequency": 26
+    }
+  },
+  {
+    "name": "r2_break_pulse_7_tool_pickaxe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 7,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_break_pulse_7_tool_shovel",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 7,
+      "frequency": 20
+    }
+  },
+  {
+    "name": "r2_break_pulse_7_tool_axe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 7,
+      "frequency": 24
+    }
+  },
+  {
+    "name": "r2_break_pulse_7_tool_hoe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 7,
+      "frequency": 16
+    }
+  },
+  {
+    "name": "r2_break_pulse_7_tool_shears",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 7,
+      "frequency": 35
+    }
+  },
+  {
+    "name": "r2_break_pulse_7_tool_mace",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 7,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_break_pulse_7_tool_other",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 7,
+      "frequency": 26
+    }
+  },
+  {
+    "name": "r2_break_pulse_6_tool_pickaxe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_break_pulse_6_tool_shovel",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 20
+    }
+  },
+  {
+    "name": "r2_break_pulse_6_tool_axe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 24
+    }
+  },
+  {
+    "name": "r2_break_pulse_6_tool_hoe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 16
+    }
+  },
+  {
+    "name": "r2_break_pulse_6_tool_shears",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 35
+    }
+  },
+  {
+    "name": "r2_break_pulse_6_tool_mace",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_break_pulse_6_tool_other",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 6,
+      "frequency": 26
+    }
+  },
+  {
+    "name": "r2_break_pulse_5_tool_pickaxe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 5,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_break_pulse_5_tool_shovel",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 5,
+      "frequency": 20
+    }
+  },
+  {
+    "name": "r2_break_pulse_5_tool_axe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 5,
+      "frequency": 24
+    }
+  },
+  {
+    "name": "r2_break_pulse_5_tool_hoe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 5,
+      "frequency": 16
+    }
+  },
+  {
+    "name": "r2_break_pulse_5_tool_shears",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 5,
+      "frequency": 35
+    }
+  },
+  {
+    "name": "r2_break_pulse_5_tool_mace",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 5,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_break_pulse_5_tool_other",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 5,
+      "frequency": 26
+    }
+  },
+  {
+    "name": "r2_break_pulse_4_tool_pickaxe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_break_pulse_4_tool_shovel",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 20
+    }
+  },
+  {
+    "name": "r2_break_pulse_4_tool_axe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 24
+    }
+  },
+  {
+    "name": "r2_break_pulse_4_tool_hoe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 16
+    }
+  },
+  {
+    "name": "r2_break_pulse_4_tool_shears",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 35
+    }
+  },
+  {
+    "name": "r2_break_pulse_4_tool_mace",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_break_pulse_4_tool_other",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 4,
+      "frequency": 26
+    }
+  },
+  {
+    "name": "r2_break_pulse_3_tool_pickaxe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 3,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_break_pulse_3_tool_shovel",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 3,
+      "frequency": 20
+    }
+  },
+  {
+    "name": "r2_break_pulse_3_tool_axe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 3,
+      "frequency": 24
+    }
+  },
+  {
+    "name": "r2_break_pulse_3_tool_hoe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 3,
+      "frequency": 16
+    }
+  },
+  {
+    "name": "r2_break_pulse_3_tool_shears",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 3,
+      "frequency": 35
+    }
+  },
+  {
+    "name": "r2_break_pulse_3_tool_mace",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 3,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_break_pulse_3_tool_other",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 3,
+      "frequency": 26
+    }
+  },
+  {
+    "name": "r2_break_pulse_2_tool_pickaxe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 2,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_break_pulse_2_tool_shovel",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 2,
+      "frequency": 20
+    }
+  },
+  {
+    "name": "r2_break_pulse_2_tool_axe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 2,
+      "frequency": 24
+    }
+  },
+  {
+    "name": "r2_break_pulse_2_tool_hoe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 2,
+      "frequency": 16
+    }
+  },
+  {
+    "name": "r2_break_pulse_2_tool_shears",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 2,
+      "frequency": 35
+    }
+  },
+  {
+    "name": "r2_break_pulse_2_tool_mace",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 2,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_break_pulse_2_tool_other",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 2,
+      "frequency": 26
+    }
+  },
+  {
+    "name": "r2_break_pulse_1_tool_pickaxe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 1,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "r2_break_pulse_1_tool_shovel",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 1,
+      "frequency": 20
+    }
+  },
+  {
+    "name": "r2_break_pulse_1_tool_axe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 1,
+      "frequency": 24
+    }
+  },
+  {
+    "name": "r2_break_pulse_1_tool_hoe",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 1,
+      "frequency": 16
+    }
+  },
+  {
+    "name": "r2_break_pulse_1_tool_shears",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 1,
+      "frequency": 35
+    }
+  },
+  {
+    "name": "r2_break_pulse_1_tool_mace",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 1,
+      "frequency": 22
+    }
+  },
+  {
+    "name": "r2_break_pulse_1_tool_other",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 1,
+      "frequency": 26
+    }
+  },
+  {
+    "name": "l2_bucket",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback",
+      "position": 4,
+      "strength": 5
+    }
+  },
+  {
+    "name": "l2_hoe_till",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 3,
+      "amplitude": 5,
+      "frequency": 18
+    }
+  },
+  {
+    "name": "l2_spawn_egg",
+    "trigger": "L2",
+    "effect": {
+      "type": "weapon",
+      "start_position": 3,
+      "end_position": 4,
+      "strength": 2
+    }
+  },
+  {
+    "name": "l2_block_place",
+    "trigger": "L2",
+    "effect": {
+      "type": "weapon",
+      "start_position": 3,
+      "end_position": 4,
+      "strength": 3
+    }
+  },
+  {
+    "name": "l2_shears_clip",
+    "trigger": "L2",
+    "effect": {
+      "type": "weapon",
+      "start_position": 4,
+      "end_position": 6,
+      "strength": 7
+    }
+  },
+  {
+    "name": "l2_fishing_cast",
+    "trigger": "L2",
+    "effect": {
+      "type": "weapon",
+      "start_position": 3,
+      "end_position": 5,
+      "strength": 4
+    }
+  },
+  {
+    "name": "l2_firework",
+    "trigger": "L2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 7,
+      "frequency": 30
+    }
+  },
+  {
+    "name": "l2_use_anim_bow_draw_3",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 2,
+      "end_position": 8,
+      "strength": 8,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_trident_draw_3",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 2,
+      "end_position": 8,
+      "strength": 8,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_crossbow_draw_3",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback_slope",
+      "start_position": 2,
+      "end_position": 9,
+      "start_strength": 8,
+      "end_strength": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_bow_draw_2",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 4,
+      "end_position": 8,
+      "strength": 6,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_trident_draw_2",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 4,
+      "end_position": 8,
+      "strength": 6,
+      "snap_force": 6
+    }
+  },
+  {
+    "name": "l2_use_anim_crossbow_draw_2",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback_slope",
+      "start_position": 2,
+      "end_position": 9,
+      "start_strength": 6,
+      "end_strength": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_bow_draw_1",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 5,
+      "end_position": 8,
+      "strength": 4,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_trident_draw_1",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 5,
+      "end_position": 8,
+      "strength": 4,
+      "snap_force": 4
+    }
+  },
+  {
+    "name": "l2_use_anim_crossbow_draw_1",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback_slope",
+      "start_position": 2,
+      "end_position": 9,
+      "start_strength": 4,
+      "end_strength": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_bow_draw_0",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 7,
+      "end_position": 8,
+      "strength": 2,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_trident_draw_0",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 7,
+      "end_position": 8,
+      "strength": 2,
+      "snap_force": 2
+    }
+  },
+  {
+    "name": "l2_use_anim_crossbow_draw_0",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback_slope",
+      "start_position": 2,
+      "end_position": 9,
+      "start_strength": 2,
+      "end_strength": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_eat_or_use_anim_drink",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback_slope",
+      "start_position": 0,
+      "end_position": 9,
+      "start_strength": 2,
+      "end_strength": 6
+    }
+  },
+  {
+    "name": "l2_use_anim_block",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback",
+      "position": 6,
+      "strength": 5
+    }
+  },
+  {
+    "name": "l2_horse_jump_3",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 2,
+      "end_position": 8,
+      "strength": 8,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_horse_jump_2",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 4,
+      "end_position": 8,
+      "strength": 6,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_horse_jump_1",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 5,
+      "end_position": 8,
+      "strength": 4,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_horse_jump_0",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 7,
+      "end_position": 8,
+      "strength": 2,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_main_hand_crossbow_uncharged",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback",
+      "position": 4,
+      "strength": 2
+    }
+  },
+  {
+    "name": "l2_main_hand_crossbow",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback",
+      "position": 4,
+      "strength": 8
+    }
+  },
+  {
+    "name": "l2_main_hand_bow",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 7,
+      "end_position": 8,
+      "strength": 2,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_main_hand_trident",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback",
+      "position": 3,
+      "strength": 3
+    }
+  },
+  {
+    "name": "l2_main_hand_spyglass",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback",
+      "position": 5,
+      "strength": 3
+    }
+  },
+  {
+    "name": "l2_place_ready",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback",
+      "position": 4,
+      "strength": 1
+    }
+  },
+  {
+    "name": "r2_holding_mace_fall_charge_3",
+    "trigger": "R2",
+    "effect": {
+      "type": "feedback",
+      "position": 0,
+      "strength": 8
+    }
+  },
+  {
+    "name": "r2_holding_mace_fall_charge_2",
+    "trigger": "R2",
+    "effect": {
+      "type": "feedback",
+      "position": 0,
+      "strength": 5
+    }
+  },
+  {
+    "name": "r2_holding_mace_fall_charge_1",
+    "trigger": "R2",
+    "effect": {
+      "type": "feedback",
+      "position": 0,
+      "strength": 3
+    }
+  },
+  {
+    "name": "r2_target_resistance_3",
+    "trigger": "R2",
+    "effect": {
+      "type": "feedback",
+      "position": 2,
+      "strength": 3
+    }
+  },
+  {
+    "name": "r2_target_resistance_2",
+    "trigger": "R2",
+    "effect": {
+      "type": "feedback",
+      "position": 2,
+      "strength": 2
+    }
+  },
+  {
+    "name": "r2_target_resistance_1",
+    "trigger": "R2",
+    "effect": {
+      "type": "feedback",
+      "position": 2,
+      "strength": 1
+    }
+  },
+  {
+    "name": "r2_holding_weapon",
+    "trigger": "R2",
+    "effect": {
+      "type": "feedback",
+      "position": 3,
+      "strength": 2
+    }
+  }
+]

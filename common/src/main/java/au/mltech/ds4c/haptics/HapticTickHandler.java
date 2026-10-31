@@ -1,605 +1,498 @@
 package au.mltech.ds4c.haptics;
 
+import au.mltech.ds4c.Constants;
 import au.mltech.ds4c.Ds4cSettings;
 import au.mltech.ds4c.FeedbackCategory;
-import au.mltech.ds4c.Constants;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.bee.Bee;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
+import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.LodestoneTracker;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
+
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Supplier;
 
 /**
- * Per-tick gameplay haptics that aren't sound-driven: heartbeat at low HP, elytra wind, ambient
- * loops (rain, underwater, magma, honey, altitude wind, rides), compass and clock clicks,
- * conduit/beacon/bee proximity and the portal swirl.
+ * Per-tick haptics that aren't driven by a single sound or event: beds (rain, water, wind, rides,
+ * slowing blocks, portals), repeating cues (heartbeat, compass, bow at full draw, proximity
+ * pulses) and rhythmic accents (rail joins, hoof beats).
+ * <p>
+ * Voicing follows docs/haptics-review.md: energy in the 80-250 Hz band the palm feels best, beds
+ * that change with the game state (speed, depth, rain strength) and carry accents, and repeating
+ * cues that never duck other effects.
  * <p>
  * Owned by {@link Haptics}, which only ticks it while haptics can play and replaces it (after
  * clearing every loop) when they can't, so no loop outlives a world, a pause or a settings change.
  */
 public final class HapticTickHandler {
-	private static final Identifier ELYTRA_WIND_LOOP = Constants.id("elytra_wind");
-	private static final Identifier UNDERWATER_LOOP = Constants.id("underwater");
-	private static final Identifier RAIN_LOOP = Constants.id("rain");
-	private static final Identifier MAGMA_LOOP = Constants.id("magma");
-	private static final Identifier HONEY_LOOP = Constants.id("honey");
+    private static final Identifier UNDERWATER = Constants.id("underwater");
+    private static final Identifier RAIN = Constants.id("rain");
+    private static final Identifier MAGMA = Constants.id("magma");
+    private static final Identifier DRAG = Constants.id("drag");
+    private static final Identifier ALTITUDE_WIND = Constants.id("altitude_wind");
+    private static final Identifier ELYTRA_WIND = Constants.id("elytra_wind");
+    private static final Identifier MINECART = Constants.id("minecart");
+    private static final Identifier BOAT = Constants.id("boat");
+    private static final Identifier PORTAL = Constants.id("portal");
 
-	private static final Identifier ALTITUDE_WIND_LOOP = Constants.id("altitude_wind");
-	private static final Identifier MINECART_RIDE_LOOP = Constants.id("minecart_ride");
-	private static final Identifier BOAT_RIDE_LOOP = Constants.id("boat_ride");
-	private static final Identifier PORTAL_PRE_LOOP = Constants.id("portal_pre");
-	private static final Identifier HORSE_GALLOP_LOOP = Constants.id("horse_gallop");
+    /** Loop chunk length: five ticks. */
+    private static final int CHUNK_MS = 250;
 
-	private int heartbeatCooldown = 0;
-	private int compassCooldown = 0;
-	private int conduitCooldown = 0;
-	private int beeCooldown = 0;
-	private int beaconCooldown = 0;
-	/** Last world-time slot we fired the clock click at (in 12000-tick increments — noon / midnight). */
-	private long lastClockTimeSlot = Long.MIN_VALUE;
-	/** Tracks the player's current dimension key as a string so we can detect dimension changes. */
-	private @org.jetbrains.annotations.Nullable net.minecraft.resources.ResourceKey<net.minecraft.world.level.Level> lastDimension = null;
-	private boolean elytraWindActive = false;
-	private boolean underwaterActive = false;
-	private boolean rainActive = false;
-	private boolean magmaActive = false;
-	private boolean honeyActive = false;
-	private boolean altitudeWindActive = false;
-	private boolean minecartRideActive = false;
-	private boolean boatRideActive = false;
-	private boolean portalPreActive = false;
-	/** Ticks the player has been standing in a portal block — drives the swirl crescendo. */
-	private int portalPreTicks = 0;
-	/** Set when a dimension change fires while inside a portal block; suppresses the pre-portal
-	 *  loop until the player leaves the destination portal block. Without this the loop keeps
-	 *  going on the destination side because the player typically spawns inside a portal block. */
-	private boolean portalPreSuppressed = false;
-	private boolean horseGallopActive = false;
-	/** Last tick we saw the horse airborne — triggers a jump landing thump on transition. */
-	private boolean horseAirborneLast = false;
+    private int heartbeatCooldown;
+    private int compassCooldown;
+    private int conduitCooldown;
+    private int beeCooldown;
+    private int beaconCooldown;
+    private long lastClockSlot = Long.MIN_VALUE;
+    private @Nullable ResourceKey<Level> lastDimension;
+    private int portalTicks;
+    private boolean portalSuppressed;
+    private int waterDepth;
+    private int depthScanCooldown;
+    private double railDistance;
+    private @Nullable Vec3 lastVehiclePos;
+    private boolean horseAirborne;
+    private int strideCooldown;
+    private int strideBeat;
+    private boolean bowWasReady;
+    private int bowTremble;
+    private @Nullable Block dragBlock;
+    /** Read by loop generators, which are created once and called for every chunk. */
+    private float rainStrength;
+    private float portalRate = 4f;
 
-	public void tick(LocalPlayer player) {
-		if (Ds4cSettings.isCategoryEnabled(FeedbackCategory.COMBAT)) {
-			tickHeartbeat(player);
-		}
-		if (Ds4cSettings.isCategoryEnabled(FeedbackCategory.ITEMS)) {
-			tickCompass(player);
-			tickClock(player);
-		}
-		if (Ds4cSettings.isCategoryEnabled(FeedbackCategory.MOVEMENT)) {
-			tickElytraWind(player);
-			tickMinecartRide(player);
-			tickBoatRide(player);
-			tickHorseRide(player);
-		} else {
-			stopElytraWindIfActive();
-			stopRideLoops();
-		}
+    public void tick(LocalPlayer player) {
+        tickHeartbeat(player);
+        tickBowDraw(player);
 
-		if (Ds4cSettings.isCategoryEnabled(FeedbackCategory.AMBIENT)) {
-			tickUnderwater(player);
-			tickRain(player);
-			tickConduit(player);
-			tickMagma(player);
-			tickHoney(player);
-			tickBeeBuzz(player);
-			tickAltitudeWind(player);
-			tickBeaconProximity(player);
-			tickPortalPreTransport(player);
-			tickDimensionSweep(player);
-		} else {
-			stopAmbientLoops();
-		}
-	}
+        tickCompass(player);
+        tickClock(player);
 
-	/** Builds an AM-modulated swirl loop that fades in slowly while the player stands in a
-	 *  portal block, crescendoing right at the dimension-change moment (~80 ticks = 4 s, matching
-	 *  vanilla's nether-portal cooldown). Resets when the player leaves. The dimension-sweep
-	 *  handler ({@link #tickDimensionSweep}) handles the actual transition and suppresses this
-	 *  loop until the player leaves the destination portal block. */
-	private void tickPortalPreTransport(LocalPlayer player) {
-		var feet = player.level().getBlockState(player.blockPosition());
-		boolean inPortal = feet.is(net.minecraft.world.level.block.Blocks.NETHER_PORTAL)
-				|| feet.is(net.minecraft.world.level.block.Blocks.END_PORTAL);
+        tickElytraWind(player);
+        tickDrag(player);
+        tickMinecart(player);
+        tickBoat(player);
+        tickHorse(player);
 
-		// Clear suppression as soon as the player leaves the portal block — re-entry should
-		// crescendo again from scratch.
-		if (!inPortal) {
-			portalPreSuppressed = false;
-		}
+        tickUnderwater(player);
+        tickRain(player);
+        tickMagma(player);
+        tickAltitudeWind(player);
+        tickConduit(player);
+        tickBees(player);
+        tickBeacon(player);
+        tickPortal(player);
+        tickDimensionChange(player);
+    }
 
-		if (inPortal && !portalPreSuppressed) {
-			portalPreTicks = Math.min(80, portalPreTicks + 1); // 4-second cap
-			if (!portalPreActive) {
-				HapticWaveform carrier = HapticWaveform.sine(40f, 1000, 0.85f);
-				HapticWaveform mod = HapticWaveform.sine(2.5f, 1000, 0.7f);
-				HapticWaveform am = HapticWaveform.am(carrier, mod);
-				HapticLoops.startLoop(PORTAL_PRE_LOOP, new HapticLoop(am, 80));
-				portalPreActive = true;
-			}
-			HapticLoop loop = HapticLoops.getLoop(PORTAL_PRE_LOOP);
-			if (loop != null) {
-				// Slow fade-in over the 4-second portal cooldown. Squared so the back end is
-				// dramatic — early seconds are barely felt, the last second peaks, then the
-				// dimension-sweep takes over at the transition.
-				float ramp = Math.min(1f, (float) portalPreTicks / 80f);
-				loop.setAmplitude(ramp * ramp * intensity());
-			}
-		} else {
-			if (portalPreActive) {
-				HapticLoops.stopLoop(PORTAL_PRE_LOOP);
-				portalPreActive = false;
-			}
-			portalPreTicks = 0;
-		}
-	}
+    // --- helpers -----------------------------------------------------------------------------------
 
-	/** Fire a long sweep waveform when the player crosses a dimension boundary, and suppress
-	 *  the portal pre-transport loop until the player leaves the destination portal block. */
-	private void tickDimensionSweep(LocalPlayer player) {
-		var current = player.level().dimension();
-		if (lastDimension == null) {
-			lastDimension = current;
-			return;
-		}
-		if (current.equals(lastDimension)) return;
-		lastDimension = current;
+    private static float intensity() {
+        return Ds4cSettings.synthesisIntensity();
+    }
 
-		// Stop the pre-portal loop and prevent it from re-engaging on the destination side
-		// (where the player typically spawns still inside a portal block).
-		if (portalPreActive) {
-			HapticLoops.stopLoop(PORTAL_PRE_LOOP);
-			portalPreActive = false;
-		}
-		portalPreTicks = 0;
-		portalPreSuppressed = true;
+    private static boolean on(FeedbackCategory category) {
+        return Ds4cSettings.isCategoryEnabled(category);
+    }
 
-		// Sweep: low rumble that AM-modulates faster as it ends, on top of any portal-travel
-		// passthrough already firing. Long enough to feel like the dimension transition itself.
-		HapticWaveform carrier = HapticWaveform.sine(45f, 1200, 0.8f * intensity());
-		HapticWaveform mod = HapticWaveform.sine(2f, 1200, 0.6f);
-		Haptics.play(HapticWaveform.withASR(HapticWaveform.am(carrier, mod), 60, 900, 240));
-	}
+    /** Keeps loop {@code id} running at {@code level} while {@code active}, and stops it otherwise. */
+    private static @Nullable HapticLoop bed(Identifier id, boolean active, FeedbackCategory category,
+                                            Supplier<HapticWaveform> generator, float level) {
+        if (!active || !on(category)) {
+            HapticLoops.stopLoop(id);
+            return null;
+        }
+        HapticLoop loop = HapticLoops.ensure(id, () -> new HapticLoop(category, generator));
+        loop.setAmplitude(level * intensity());
+        return loop;
+    }
 
-	/** Synthesized double-thump that accelerates as HP drops below 6. */
-	private void tickHeartbeat(LocalPlayer player) {
-		float health = player.getHealth();
-		if (health > 6f || health <= 0f) {
-			heartbeatCooldown = 0;
-			return;
-		}
-		if (heartbeatCooldown > 0) {
-			heartbeatCooldown--;
-			return;
-		}
-		// Two short low-frequency thumps separated by a 200ms silence.
-		HapticWaveform thump = HapticWaveform.withASR(
-				HapticWaveform.sine(50f, 80, 0.85f * intensity()), 10, 50, 60);
-		HapticWaveform gap = HapticWaveform.sine(50f, 200, 0f);
-		Haptics.play(HapticWaveform.concat(thump, gap, thump));
+    private static float horizontalSpeed(Entity entity) {
+        Vec3 v = entity.getDeltaMovement();
+        return (float) Math.sqrt(v.x * v.x + v.z * v.z);
+    }
 
-		// Period: 1000ms at HP 6 → 400ms at HP 0. (1000 - 100*(6-HP), floor 400.)
-		int periodMs = Math.max(400, 1000 - 100 * Math.round(6f - health));
-		heartbeatCooldown = Math.max(8, periodMs / 50);
-	}
+    // --- danger and combat -----------------------------------------------------------------------
 
-	/** Continuous sine pulse on the actuator — frequency rises with view-to-spawn alignment;
-	 *  amplitude scales with alignment too, so pointing 90° away is faint and pointing 180° away
-	 *  is silent. Per-tick fresh chunks let parameters update smoothly. Background-level only
-	 *  so it doesn't drown out foreground haptics like sword swings.
-	 *
-	 *  <p>Tracks the lodestone target if the held compass has a {@code LodestoneTracker} component;
-	 *  otherwise falls back to the world spawn / respawn point for plain compasses. */
-	private void tickCompass(LocalPlayer player) {
-		ItemStack main = player.getMainHandItem();
-		ItemStack off = player.getOffhandItem();
-		boolean mainIsCompass = main.getItem() instanceof CompassItem;
-		boolean offIsCompass = off.getItem() instanceof CompassItem;
-		if (!mainIsCompass && !offIsCompass) return;
-		// Off-hand compass is even quieter than main-hand so it doesn't dominate when the player
-		// is doing something else with the main hand (sword swing, mining).
-		ItemStack compass = mainIsCompass ? main : off;
-		float handMultiplier = mainIsCompass ? 1.0f : 0.5f;
+    /** Lub-dub heartbeat below 3 hearts, faster as health drops. */
+    private void tickHeartbeat(LocalPlayer player) {
+        float health = player.getHealth();
+        if (!on(FeedbackCategory.COMBAT) || health > 6f || health <= 0f) {
+            heartbeatCooldown = 0;
+            return;
+        }
+        if (heartbeatCooldown-- > 0) return;
 
-		BlockPos targetPos = controlify$resolveCompassTarget(player, compass);
-		if (targetPos == null) return;
+        HapticWaveform beat = HapticWaveform.mix(
+                HapticWaveform.thump(80f, 110, 0.85f),
+                HapticWaveform.thump(70f, 120, 0.6f).delayed(190));
+        Haptics.playSustained(FeedbackCategory.COMBAT, beat, intensity(), 0f);
 
-		Vec3 toTarget = Vec3.atCenterOf(targetPos).subtract(player.position());
-		Vec3 view = player.getViewVector(1f);
-		Vec3 toTargetH = horizontalNormalized(toTarget);
-		Vec3 viewH = horizontalNormalized(view);
-		if (toTargetH == null || viewH == null) return;
+        // 1000 ms at 3 hearts down to 450 ms near death
+        int periodMs = Math.max(450, 1000 - 90 * Math.round(6f - health));
+        heartbeatCooldown = periodMs / 50 - 1;
+    }
 
-		double dot = toTargetH.dot(viewH);            // -1 (opposite) … 1 (aligned)
-		double normalised = (dot + 1.0) / 2.0;       // 0 (opposite) … 1 (aligned)
-		// Curve fades hard near the back so opposite-side is silent, with a gentle build to facing.
-		double alignment = Math.pow(normalised, 2.0);
-		if (alignment < 0.05) return;
+    /** At full bow draw: one "ready" click, then a faint arm tremble while it's held. */
+    private void tickBowDraw(LocalPlayer player) {
+        boolean ready = on(FeedbackCategory.COMBAT) && player.isUsingItem()
+                && player.getUseItem().getUseAnimation() == ItemUseAnimation.BOW
+                && BowItem.getPowerForTime(player.getTicksUsingItem()) >= 1f;
+        if (ready && !bowWasReady) {
+            Haptics.play(FeedbackCategory.COMBAT, HapticWaveform.thump(190f, 40, 0.45f), intensity());
+            bowTremble = 10;
+        } else if (ready && --bowTremble <= 0) {
+            Haptics.playSustained(FeedbackCategory.COMBAT,
+                    HapticWaveform.withASR(HapticWaveform.bandNoise(150f, 120, 0.14f), 20, 60, 40), intensity(), 0f);
+            bowTremble = 6 + ThreadLocalRandom.current().nextInt(4);
+        }
+        bowWasReady = ready;
+    }
 
-		// Background-only volume: cap at 0.18 (was 0.6) so it doesn't compete with foreground.
-		float freq = (float) (30.0 + 80.0 * alignment);          // 30..110 Hz (was 30..140)
-		float amp = (float) (0.04 + 0.14 * alignment) * intensity() * handMultiplier;
-		if (amp <= 0.001f) return;
+    // --- items -----------------------------------------------------------------------------------
 
-		HapticWaveform pulse = HapticWaveform.sine(freq, 50, amp);
-		Haptics.play(pulse);
-	}
+    /**
+     * A ticking compass: clicks come faster as you face the target (like a metal detector) and lean
+     * towards the side it's on. Rate reads more reliably than pitch, which the hand discriminates
+     * poorly.
+     */
+    private void tickCompass(LocalPlayer player) {
+        if (!on(FeedbackCategory.ITEMS)) return;
+        ItemStack main = player.getMainHandItem();
+        boolean mainHand = main.getItem() instanceof CompassItem;
+        ItemStack compass = mainHand ? main : player.getOffhandItem();
+        if (!(compass.getItem() instanceof CompassItem)) return;
+        if (compassCooldown-- > 0) return;
 
-	/** Resolve where a compass should point: lodestone target if the stack has a tracker with a
-	 *  same-dimension target, otherwise the world spawn / respawn point. Returns null if there's
-	 *  no resolvable target (e.g. lodestone tracker pointing to another dimension). */
-	private static @org.jetbrains.annotations.Nullable BlockPos controlify$resolveCompassTarget(LocalPlayer player, ItemStack compass) {
-		net.minecraft.world.item.component.LodestoneTracker tracker =
-				compass.get(net.minecraft.core.component.DataComponents.LODESTONE_TRACKER);
-		if (tracker != null && tracker.target().isPresent()) {
-			net.minecraft.core.GlobalPos global = tracker.target().get();
-			// Only point if the lodestone is in the same dimension as the player; otherwise the
-			// compass spins randomly in vanilla, so we stay silent.
-			if (!global.dimension().equals(player.level().dimension())) return null;
-			return global.pos();
-		}
-		var respawn = player.level().getRespawnData();
-		if (respawn == null) return null;
-		return respawn.pos();
-	}
+        BlockPos target = compassTarget(player, compass);
+        if (target == null) return;
+        Vec3 to = Vec3.atCenterOf(target).subtract(player.position());
+        if (to.x * to.x + to.z * to.z < 4.0) return; // standing on it
 
-	/** Per-tick brown-noise burst with speed-dependent amplitude and random gust modulation.
-	 *  Each tick generates a fresh ~50ms chunk so stopping the wind is instant: as soon as the
-	 *  player lands, no more chunks are queued and the residual is one tick (50ms). The fresh
-	 *  noise per tick + amplitude jitter gives the "more random" feel.
-	 */
-	private void tickElytraWind(LocalPlayer player) {
-		if (!player.isFallFlying()) {
-			elytraWindActive = false;
-			return;
-		}
-		Vec3 v = player.getDeltaMovement();
-		float speed = (float) v.length();
-		// Don't even start until the player is actually moving — gentle glides at <1.0 m/tick are
-		// basically silent. Maps speed in [1.0, 4.5] m/tick → amp [0, 1], so high-speed dives
-		// saturate while typical glides feel light and proportionate.
-		float threshold = 1.0f;
-		float ceiling = 4.5f;
-		if (speed <= threshold) {
-			elytraWindActive = false;
-			return;
-		}
-		float baseAmp = Math.min(1f, (speed - threshold) / (ceiling - threshold));
-		// Random gust factor 0.7..1.05 per tick — gives the wind a turbulent feel.
-		float gust = 0.7f + 0.35f * (float) Math.random();
-		float amp = baseAmp * gust * intensity();
-		if (amp <= 0.001f) return;
-		elytraWindActive = true;
-		HapticWaveform chunk = HapticWaveform.brownNoise(50, amp);
-		Haptics.play(chunk);
-	}
+        Vec3 view = player.getViewVector(1f);
+        double viewLen = Math.sqrt(view.x * view.x + view.z * view.z);
+        double toLen = Math.sqrt(to.x * to.x + to.z * to.z);
+        if (viewLen < 1e-4) return;
+        double dot = (view.x * to.x + view.z * to.z) / (viewLen * toLen);
+        float alignment = (float) ((dot + 1) / 2); // 0 behind, 1 ahead
 
-	private void stopElytraWindIfActive() {
-		// Per-tick chunk approach: nothing to release. Just clear the active flag so the next tick
-		// doesn't push a fresh chunk.
-		elytraWindActive = false;
-	}
+        float amp = (0.12f + 0.2f * alignment) * (mainHand ? 1f : 0.6f);
+        Haptics.playSustained(FeedbackCategory.ITEMS, HapticWaveform.thump(170f, 35, amp),
+                intensity(), 0.6f * HapticEvents.panTowards(player, Vec3.atCenterOf(target)));
+        compassCooldown = Math.round(16 - 13 * alignment * alignment);
+    }
 
-	/** Low-frequency AM-modulated hum while submerged. */
-	private void tickUnderwater(LocalPlayer player) {
-		boolean active = player.isUnderWater();
-		if (active && !underwaterActive) {
-			HapticWaveform carrier = HapticWaveform.sine(35f, 1000, 0.5f);
-			HapticWaveform mod = HapticWaveform.sine(0.3f, 1000, 0.5f);
-			HapticWaveform am = HapticWaveform.am(carrier, mod);
-			HapticLoops.startLoop(UNDERWATER_LOOP, new HapticLoop(am, 80));
-			underwaterActive = true;
-		} else if (!active && underwaterActive) {
-			HapticLoops.stopLoop(UNDERWATER_LOOP);
-			underwaterActive = false;
-		}
-		HapticLoop loop = HapticLoops.getLoop(UNDERWATER_LOOP);
-		if (loop != null) loop.setAmplitude(0.5f * intensity());
-	}
+    /** Lodestone target in this dimension, else the respawn point. */
+    private static @Nullable BlockPos compassTarget(LocalPlayer player, ItemStack compass) {
+        LodestoneTracker tracker = compass.get(DataComponents.LODESTONE_TRACKER);
+        if (tracker != null && tracker.target().isPresent()) {
+            GlobalPos global = tracker.target().get();
+            return global.dimension().equals(player.level().dimension()) ? global.pos() : null;
+        }
+        var respawn = player.level().getRespawnData();
+        return respawn == null ? null : respawn.pos();
+    }
 
-	/** Pink-noise loop while it's raining and the player has open sky overhead. */
-	private void tickRain(LocalPlayer player) {
-		Level level = player.level();
-		boolean active = level.isRaining() && level.canSeeSky(player.blockPosition());
-		if (active && !rainActive) {
-			HapticWaveform rain = HapticWaveform.pinkNoise(500, 0.5f);
-			HapticLoops.startLoop(RAIN_LOOP, new HapticLoop(rain, 40));
-			rainActive = true;
-		} else if (!active && rainActive) {
-			HapticLoops.stopLoop(RAIN_LOOP);
-			rainActive = false;
-		}
-		HapticLoop loop = HapticLoops.getLoop(RAIN_LOOP);
-		if (loop != null) {
-			loop.setAmplitude(level.getRainLevel(1f) * 0.4f * intensity());
-		}
-	}
+    /** One click as a held clock passes noon (bright) or midnight (dull). */
+    private void tickClock(LocalPlayer player) {
+        boolean holding = player.getMainHandItem().is(Items.CLOCK) || player.getOffhandItem().is(Items.CLOCK);
+        if (!holding || !on(FeedbackCategory.ITEMS)) {
+            lastClockSlot = Long.MIN_VALUE;
+            return;
+        }
+        long time = Math.floorMod(player.level().getOverworldClockTime(), 24000L);
+        long slot = ((time + 18000L) % 24000L) / 12000L; // flips at 6000 (noon) and 18000 (midnight)
+        if (lastClockSlot != Long.MIN_VALUE && slot != lastClockSlot) {
+            boolean noon = time >= 6000 && time < 18000;
+            Haptics.play(FeedbackCategory.ITEMS, HapticWaveform.thump(noon ? 220f : 120f, 70, 0.5f), intensity());
+        }
+        lastClockSlot = slot;
+    }
 
-	/** A single 100Hz pulse every ~2 seconds while the player has Conduit Power. */
-	private void tickConduit(LocalPlayer player) {
-		if (!player.hasEffect(MobEffects.CONDUIT_POWER)) {
-			conduitCooldown = 0;
-			return;
-		}
-		if (conduitCooldown > 0) {
-			conduitCooldown--;
-			return;
-		}
-		HapticWaveform pulse = HapticWaveform.withASR(
-				HapticWaveform.sine(100f, 60, 0.5f * intensity()), 8, 30, 22);
-		Haptics.play(pulse);
-		conduitCooldown = 40; // ~2 seconds
-	}
+    // --- movement --------------------------------------------------------------------------------
 
-	/** 90Hz throb at 4Hz while standing on a magma block. */
-	private void tickMagma(LocalPlayer player) {
-		boolean active = player.onGround() && player.level().getBlockState(player.blockPosition().below()).is(Blocks.MAGMA_BLOCK);
-		if (active && !magmaActive) {
-			HapticWaveform carrier = HapticWaveform.sine(90f, 1000, 0.6f);
-			HapticWaveform mod = HapticWaveform.sine(4f, 1000, 0.5f);
-			HapticWaveform am = HapticWaveform.am(carrier, mod);
-			HapticLoops.startLoop(MAGMA_LOOP, new HapticLoop(am, 60));
-			magmaActive = true;
-		} else if (!active && magmaActive) {
-			HapticLoops.stopLoop(MAGMA_LOOP);
-			magmaActive = false;
-		}
-		HapticLoop loop = HapticLoops.getLoop(MAGMA_LOOP);
-		if (loop != null) loop.setAmplitude(0.7f * intensity());
-	}
+    /** Rushing air while gliding, by speed, with gusts. */
+    private void tickElytraWind(LocalPlayer player) {
+        float speed = (float) player.getDeltaMovement().length();
+        boolean active = player.isFallFlying() && speed > 0.8f;
+        float level = Math.min(1f, (speed - 0.8f) / 3f);
+        HapticLoop loop = bed(ELYTRA_WIND, active, FeedbackCategory.MOVEMENT,
+                () -> HapticWaveform.bandNoise(130f, 100, 1f), 0.15f + 0.6f * level);
+        if (loop != null && ThreadLocalRandom.current().nextFloat() < 0.08f) loop.accent();
+    }
 
-	/** 25Hz constant low while standing on a honey block. */
-	private void tickHoney(LocalPlayer player) {
-		boolean active = player.onGround() && player.level().getBlockState(player.blockPosition().below()).is(Blocks.HONEY_BLOCK);
-		if (active && !honeyActive) {
-			HapticWaveform low = HapticWaveform.sine(25f, 1000, 0.4f);
-			HapticLoops.startLoop(HONEY_LOOP, new HapticLoop(low, 80));
-			honeyActive = true;
-		} else if (!active && honeyActive) {
-			HapticLoops.stopLoop(HONEY_LOOP);
-			honeyActive = false;
-		}
-		HapticLoop loop = HapticLoops.getLoop(HONEY_LOOP);
-		if (loop != null) loop.setAmplitude(0.4f * intensity());
-	}
+    /**
+     * Pushing through blocks that slow you (soul sand, honey, cobwebs, powder snow, berry bushes):
+     * a texture per block while you're actually trying to move.
+     */
+    private void tickDrag(LocalPlayer player) {
+        BlockState feet = player.level().getBlockState(player.blockPosition());
+        BlockState below = player.level().getBlockState(player.getOnPos());
+        Block block = null;
+        if (feet.is(Blocks.COBWEB) || feet.is(Blocks.POWDER_SNOW) || feet.is(Blocks.SWEET_BERRY_BUSH)) {
+            block = feet.getBlock();
+        } else if (player.onGround() && below.getBlock().getSpeedFactor() < 1f) {
+            block = below.getBlock();
+        }
+        float push = player.input.getMoveVector().length();
+        boolean active = block != null && push > 0.1f && player.getVehicle() == null;
+        if (active && block != dragBlock) HapticLoops.stopLoop(DRAG); // new texture
+        dragBlock = active ? block : null;
+        if (!active) {
+            HapticLoops.stopLoop(DRAG);
+            return;
+        }
 
-	private void stopAmbientLoops() {
-		if (underwaterActive) { HapticLoops.stopLoop(UNDERWATER_LOOP); underwaterActive = false; }
-		if (rainActive)       { HapticLoops.stopLoop(RAIN_LOOP);       rainActive = false; }
-		if (magmaActive)      { HapticLoops.stopLoop(MAGMA_LOOP);      magmaActive = false; }
-		if (honeyActive)      { HapticLoops.stopLoop(HONEY_LOOP);      honeyActive = false; }
-		if (altitudeWindActive) { HapticLoops.stopLoop(ALTITUDE_WIND_LOOP); altitudeWindActive = false; }
-		if (portalPreActive)  { HapticLoops.stopLoop(PORTAL_PRE_LOOP);  portalPreActive = false; portalPreTicks = 0; }
-		conduitCooldown = 0;
-		beeCooldown = 0;
-		beaconCooldown = 0;
-	}
+        Supplier<HapticWaveform> texture;
+        if (block == Blocks.HONEY_BLOCK) {
+            texture = () -> HapticWaveform.amSine(85f, 4f, CHUNK_MS, 1f, 0.8f); // sticky pull
+        } else if (block == Blocks.COBWEB) {
+            texture = () -> HapticWaveform.bandNoise(180f, CHUNK_MS, 0.7f); // fine strands
+        } else if (block == Blocks.POWDER_SNOW) {
+            texture = () -> HapticWaveform.bandNoise(140f, CHUNK_MS, 0.8f);
+        } else {
+            texture = () -> HapticWaveform.bandNoise(110f, CHUNK_MS, 1f); // soul sand, berries
+        }
+        bed(DRAG, true, FeedbackCategory.MOVEMENT, texture, 0.35f * Math.min(1f, push));
+    }
 
-	private void stopRideLoops() {
-		if (minecartRideActive) { HapticLoops.stopLoop(MINECART_RIDE_LOOP); minecartRideActive = false; }
-		if (boatRideActive)     { HapticLoops.stopLoop(BOAT_RIDE_LOOP);     boatRideActive = false; }
-		if (horseGallopActive)  { HapticLoops.stopLoop(HORSE_GALLOP_LOOP);  horseGallopActive = false; }
-		horseAirborneLast = false;
-	}
+    /** A low rolling bed by speed, plus a click at every rail join (each block travelled). */
+    private void tickMinecart(LocalPlayer player) {
+        boolean riding = player.getVehicle() instanceof AbstractMinecart;
+        if (!riding) {
+            HapticLoops.stopLoop(MINECART);
+            if (!(player.getVehicle() instanceof AbstractBoat)) lastVehiclePos = null;
+            return;
+        }
+        Entity cart = player.getVehicle();
+        float speed = horizontalSpeed(cart);
+        bed(MINECART, speed > 0.02f, FeedbackCategory.MOVEMENT,
+                () -> HapticWaveform.bandNoise(100f, CHUNK_MS, 1f), Math.min(0.35f, speed * 0.6f));
 
-	/** Per-tick gallop pattern + jump landing thump while riding any AbstractHorse-like vehicle.
-	 *  The vanilla HORSE_GALLOP sound fires too rarely (one chunk every ~half-second of motion);
-	 *  here we run a loop that pulses every ~12 ticks scaled with horizontal speed, plus a discrete
-	 *  thump when the horse goes airborne→ground. */
-	private void tickHorseRide(LocalPlayer player) {
-		var vehicle = player.getVehicle();
-		boolean onHorse = vehicle instanceof net.minecraft.world.entity.animal.equine.AbstractHorse;
-		if (!onHorse) {
-			if (horseGallopActive) {
-				HapticLoops.stopLoop(HORSE_GALLOP_LOOP);
-				horseGallopActive = false;
-			}
-			horseAirborneLast = false;
-			return;
-		}
-		net.minecraft.world.entity.animal.equine.AbstractHorse horse =
-				(net.minecraft.world.entity.animal.equine.AbstractHorse) vehicle;
-		var v = horse.getDeltaMovement();
-		double hSpeed = Math.sqrt(v.x * v.x + v.z * v.z);
+        Vec3 pos = cart.position();
+        if (lastVehiclePos != null) railDistance += pos.distanceTo(lastVehiclePos);
+        lastVehiclePos = pos;
+        if (railDistance >= 1.0) {
+            railDistance %= 1.0;
+            if (on(FeedbackCategory.MOVEMENT)) {
+                float amp = Math.min(0.45f, 0.15f + speed * 0.5f);
+                Haptics.playSustained(FeedbackCategory.MOVEMENT, HapticWaveform.thump(150f, 30, amp), intensity(), 0f);
+            }
+        }
+    }
 
-		// Detect landing: was airborne, now on ground.
-		boolean airborne = !horse.onGround();
-		if (horseAirborneLast && !airborne) {
-			// Landing thump — bigger if the horse fell further. Vanilla HORSE_LAND fires too, but
-			// its sound content varies, so synthesise a guaranteed punch on top.
-			float landAmp = (float) Math.min(1.0, 0.4 + horse.fallDistance / 4.0);
-			Haptics.play(HapticWaveform.withASR(
-					HapticWaveform.sine(35f, 130, 0.85f * landAmp * intensity()), 4, 50, 76));
-		}
-		horseAirborneLast = airborne;
+    /** Hull rocking on the water: a swell that rises and falls, stronger with speed. */
+    private void tickBoat(LocalPlayer player) {
+        boolean riding = player.getVehicle() instanceof AbstractBoat;
+        if (!riding) {
+            HapticLoops.stopLoop(BOAT);
+            return;
+        }
+        float speed = horizontalSpeed(player.getVehicle());
+        float swell = 0.5f + 0.5f * Mth.sin(player.tickCount * 0.25f);
+        bed(BOAT, true, FeedbackCategory.MOVEMENT,
+                () -> HapticWaveform.sine(90f, CHUNK_MS, 1f), (0.08f + Math.min(0.25f, speed * 0.6f)) * swell);
+    }
 
-		// Gallop loop — only while on the ground and moving. Saw-tooth carrier × low-freq AM
-		// gives the four-beat hoof feel; loop is only ~50ms so amplitude tracks speed responsively.
-		if (!airborne && hSpeed > 0.05) {
-			if (!horseGallopActive) {
-				HapticWaveform carrier = HapticWaveform.sine(45f, 200, 0.7f);
-				HapticWaveform mod = HapticWaveform.sine(8f, 200, 0.7f);
-				HapticWaveform am = HapticWaveform.am(carrier, mod);
-				HapticLoops.startLoop(HORSE_GALLOP_LOOP, new HapticLoop(am, 50));
-				horseGallopActive = true;
-			}
-			HapticLoop loop = HapticLoops.getLoop(HORSE_GALLOP_LOOP);
-			if (loop != null) {
-				// Speed normalised: walking ~0.1, trotting ~0.25, gallop ~0.5+ m/tick.
-				float amp = (float) Math.min(1.0, hSpeed / 0.5);
-				loop.setAmplitude(amp * 0.55f * intensity());
-			}
-		} else if (horseGallopActive) {
-			HapticLoops.stopLoop(HORSE_GALLOP_LOOP);
-			horseGallopActive = false;
-		}
-	}
+    /** Hoof beats at the horse's stride rate (a three-beat canter when fast) and a landing thump. */
+    private void tickHorse(LocalPlayer player) {
+        if (!(player.getVehicle() instanceof AbstractHorse horse) || !on(FeedbackCategory.MOVEMENT)) {
+            horseAirborne = false;
+            strideCooldown = 0;
+            return;
+        }
+        boolean airborne = !horse.onGround();
+        if (horseAirborne && !airborne) {
+            float amp = Math.min(1f, 0.45f + (float) horse.fallDistance / 4f);
+            Haptics.play(FeedbackCategory.MOVEMENT, HapticWaveform.thump(85f, 180, amp), intensity());
+        }
+        horseAirborne = airborne;
 
-	/** Brown-noise wind drone above Y≈200 (mountain peaks / high altitude). Amplitude grows with altitude. */
-	private void tickAltitudeWind(LocalPlayer player) {
-		// Scale 200..320 → 0..1 (320 is just above the world build limit of 320 in 1.21+).
-		double y = player.getY();
-		boolean active = y > 200 && !player.isUnderWater();
-		if (active && !altitudeWindActive) {
-			HapticWaveform drone = HapticWaveform.brownNoise(800, 0.5f);
-			HapticLoops.startLoop(ALTITUDE_WIND_LOOP, new HapticLoop(drone, 60));
-			altitudeWindActive = true;
-		} else if (!active && altitudeWindActive) {
-			HapticLoops.stopLoop(ALTITUDE_WIND_LOOP);
-			altitudeWindActive = false;
-		}
-		HapticLoop loop = HapticLoops.getLoop(ALTITUDE_WIND_LOOP);
-		if (loop != null) {
-			float amp = (float) Math.min(1.0, Math.max(0.0, (y - 200) / 120.0));
-			loop.setAmplitude(amp * 0.6f * intensity());
-		}
-	}
+        float speed = horizontalSpeed(horse);
+        if (airborne || speed < 0.05f) {
+            strideCooldown = 0;
+            return;
+        }
+        if (strideCooldown-- > 0) return;
+        boolean canter = speed > 0.25f;
+        HapticWaveform beat = canter
+                ? HapticWaveform.mix(
+                        HapticWaveform.thump(100f, 45, 0.35f),
+                        HapticWaveform.thump(100f, 45, 0.3f).delayed(70),
+                        HapticWaveform.thump(95f, 55, 0.45f).delayed(140))
+                : HapticWaveform.thump(100f, 45, 0.25f);
+        Haptics.playSustained(FeedbackCategory.MOVEMENT, beat, intensity(), (strideBeat++ % 2 == 0) ? -0.25f : 0.25f);
+        strideCooldown = Math.max(5, Math.round(12 - speed * 14));
+    }
 
-	/** Cheap-as-possible per-2s scan for an active beacon nearby; pulses softly while close. */
-	private void tickBeaconProximity(LocalPlayer player) {
-		if (beaconCooldown > 0) {
-			beaconCooldown--;
-			return;
-		}
-		beaconCooldown = 40; // ~2 seconds
-		Level level = player.level();
-		// Scan a small box centred on the player — beacons are visible from far away but proximity
-		// haptics should be felt only at close range (~16 blocks). Cheap iteration on block entities.
-		AABB box = player.getBoundingBox().inflate(16.0);
-		BlockPos pmin = BlockPos.containing(box.minX, box.minY, box.minZ);
-		BlockPos pmax = BlockPos.containing(box.maxX, box.maxY, box.maxZ);
-		double bestDistSq = Double.MAX_VALUE;
-		boolean foundActive = false;
-		for (BlockPos pos : BlockPos.betweenClosed(pmin, pmax)) {
-			if (!level.getBlockState(pos).is(Blocks.BEACON)) continue;
-			// We don't have a public getter for beacon level on the BE; treat any beacon as a source
-			// (vanilla beacons are nearly always active when placed).
-			double dx = pos.getX() + 0.5 - player.getX();
-			double dy = pos.getY() + 0.5 - player.getY();
-			double dz = pos.getZ() + 0.5 - player.getZ();
-			double d2 = dx * dx + dy * dy + dz * dz;
-			if (d2 < bestDistSq) {
-				bestDistSq = d2;
-				foundActive = true;
-			}
-		}
-		if (!foundActive) return;
-		double dist = Math.sqrt(bestDistSq);
-		float proximity = (float) Math.max(0, 1.0 - dist / 16.0);
-		if (proximity < 0.05f) return;
-		HapticWaveform pulse = HapticWaveform.withASR(
-				HapticWaveform.sine(70f, 80, 0.4f * proximity * intensity()), 6, 50, 24);
-		Haptics.play(pulse);
-	}
+    // --- ambient ---------------------------------------------------------------------------------
 
-	/** Clock midday/midnight click — fires once when the world time crosses a 12000-tick boundary
-	 *  (noon = 6000, midnight = 18000) while the player holds a clock. */
-	private void tickClock(LocalPlayer player) {
-		ItemStack main = player.getMainHandItem();
-		ItemStack off = player.getOffhandItem();
-		boolean holdingClock = main.is(Items.CLOCK) || off.is(Items.CLOCK);
-		if (!holdingClock) {
-			lastClockTimeSlot = Long.MIN_VALUE;
-			return;
-		}
-		long dayTime = player.level().getOverworldClockTime();
-		long timeOfDay = ((dayTime % 24000L) + 24000L) % 24000L;
-		// Slot 0 = midnight (18000..23999 + 0..5999 reads as a "midnight" half), slot 1 = noon.
-		// Detect transitions exactly at noon (6000) and midnight (18000).
-		long slot = timeOfDay / 12000L; // 0 for the morning-into-afternoon half, 1 for evening-into-morning
-		if (lastClockTimeSlot == Long.MIN_VALUE) {
-			lastClockTimeSlot = slot;
-			return;
-		}
-		if (slot == lastClockTimeSlot) return;
-		lastClockTimeSlot = slot;
-		// Different click for noon (bright) vs midnight (dull).
-		boolean isNoon = slot == 0; // we just crossed 0 — was 1 before, meaning we hit 6000
-		// Note: the slot transition happens at 6000 (noon) and 18000 (midnight). Pick a freq.
-		float freq = isNoon ? 200f : 90f;
-		Haptics.play(HapticWaveform.withASR(
-				HapticWaveform.sine(freq, 60, 0.5f * intensity()), 3, 30, 27));
-	}
+    /** Water pressure: a swelling hum that deepens the further down you are. */
+    private void tickUnderwater(LocalPlayer player) {
+        boolean active = player.isUnderWater();
+        if (active && depthScanCooldown-- <= 0) {
+            depthScanCooldown = 10;
+            BlockPos.MutableBlockPos pos = BlockPos.containing(player.getEyePosition()).mutable();
+            int depth = 0;
+            while (depth < 24 && player.level().getFluidState(pos.move(0, 1, 0)).is(FluidTags.WATER)) depth++;
+            if (Math.abs(depth - waterDepth) >= 3) {
+                HapticLoop loop = HapticLoops.getLoop(UNDERWATER);
+                if (loop != null) loop.accent();
+            }
+            waterDepth = depth;
+        }
+        float swell = 0.75f + 0.25f * Mth.sin(player.tickCount * 0.08f);
+        bed(UNDERWATER, active, FeedbackCategory.AMBIENT,
+                () -> HapticWaveform.sine(90f, CHUNK_MS, 1f),
+                (0.12f + 0.25f * Math.min(1f, waterDepth / 16f)) * swell);
+    }
 
-	/** Faint vibration drone while the player is riding a minecart. */
-	private void tickMinecartRide(LocalPlayer player) {
-		boolean active = player.getVehicle() instanceof net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
-		if (active && !minecartRideActive) {
-			HapticWaveform rumble = HapticWaveform.brownNoise(400, 0.4f);
-			HapticLoops.startLoop(MINECART_RIDE_LOOP, new HapticLoop(rumble, 50));
-			minecartRideActive = true;
-		} else if (!active && minecartRideActive) {
-			HapticLoops.stopLoop(MINECART_RIDE_LOOP);
-			minecartRideActive = false;
-		}
-		HapticLoop loop = HapticLoops.getLoop(MINECART_RIDE_LOOP);
-		if (loop != null) {
-			// Amplitude scales with the cart's speed, so straight rails are quieter than
-			// bumpy descents. fallDistance heuristic isn't right; use horizontal velocity.
-			var v = player.getVehicle().getDeltaMovement();
-			double speed = Math.sqrt(v.x * v.x + v.z * v.z);
-			float amp = (float) Math.min(1.0, speed / 0.5);
-			loop.setAmplitude(amp * 0.4f * intensity());
-		}
-	}
+    /** Raindrops: random taps whose density follows the rain (and storm) strength, never the same twice. */
+    private void tickRain(LocalPlayer player) {
+        Level level = player.level();
+        rainStrength = level.getRainLevel(1f) * (level.isThundering() ? 1f : 0.7f);
+        boolean active = rainStrength > 0.05f && level.canSeeSky(player.blockPosition().above())
+                && level.getBiome(player.blockPosition()).value()
+                        .getPrecipitationAt(player.blockPosition(), level.getSeaLevel()) == Biome.Precipitation.RAIN;
+        HapticLoop loop = bed(RAIN, active, FeedbackCategory.AMBIENT, () -> raindrops(rainStrength), 0.55f);
+        if (loop != null) loop.setPan((ThreadLocalRandom.current().nextFloat() - 0.5f) * 0.5f);
+    }
 
-	/** Slow wave drone while riding a boat — water rocking the hull. */
-	private void tickBoatRide(LocalPlayer player) {
-		boolean active = player.getVehicle() instanceof net.minecraft.world.entity.vehicle.boat.AbstractBoat;
-		if (active && !boatRideActive) {
-			HapticWaveform carrier = HapticWaveform.sine(35f, 1000, 0.5f);
-			HapticWaveform mod = HapticWaveform.sine(0.8f, 1000, 0.5f);
-			HapticWaveform am = HapticWaveform.am(carrier, mod);
-			HapticLoops.startLoop(BOAT_RIDE_LOOP, new HapticLoop(am, 60));
-			boatRideActive = true;
-		} else if (!active && boatRideActive) {
-			HapticLoops.stopLoop(BOAT_RIDE_LOOP);
-			boatRideActive = false;
-		}
-		HapticLoop loop = HapticLoops.getLoop(BOAT_RIDE_LOOP);
-		if (loop != null) loop.setAmplitude(0.35f * intensity());
-	}
+    private static HapticWaveform raindrops(float strength) {
+        var rng = ThreadLocalRandom.current();
+        int drops = Math.round(strength * 9 + rng.nextFloat() * 2);
+        HapticWaveform[] parts = new HapticWaveform[drops + 1];
+        parts[0] = HapticWaveform.bandNoise(140f, CHUNK_MS, 0.1f);
+        for (int i = 1; i <= drops; i++) {
+            parts[i] = HapticWaveform.thump(170f + rng.nextInt(60), 15, 0.4f + 0.6f * rng.nextFloat())
+                    .delayed(rng.nextInt(CHUNK_MS - 20));
+        }
+        return HapticWaveform.mix(parts);
+    }
 
-	/** Saw × AM buzz when a Bee entity is within ~4 blocks of the player. Re-checked every 4 ticks. */
-	private void tickBeeBuzz(LocalPlayer player) {
-		if (beeCooldown > 0) {
-			beeCooldown--;
-			return;
-		}
-		beeCooldown = 4; // ~200ms — keeps the entity scan cheap
-		var box = player.getBoundingBox().inflate(4.0);
-		var bees = player.level().getEntitiesOfClass(net.minecraft.world.entity.animal.bee.Bee.class, box);
-		if (bees.isEmpty()) return;
-		double minDistSq = Double.MAX_VALUE;
-		for (var bee : bees) {
-			double d = player.distanceToSqr(bee);
-			if (d < minDistSq) minDistSq = d;
-		}
-		double dist = Math.sqrt(minDistSq);
-		float proximity = (float) Math.max(0, 1.0 - dist / 4.0);
-		if (proximity < 0.05f) return;
+    /** Searing heat: a 4 Hz throb while standing on magma without sneaking (sneaking is safe). */
+    private void tickMagma(LocalPlayer player) {
+        boolean active = player.onGround() && !player.isShiftKeyDown()
+                && player.level().getBlockState(player.getOnPos()).is(Blocks.MAGMA_BLOCK);
+        bed(MAGMA, active, FeedbackCategory.AMBIENT, () -> HapticWaveform.amSine(110f, 4f, CHUNK_MS, 1f, 0.8f), 0.45f);
+    }
 
-		// 220Hz saw × 35Hz sine modulator gives the angry-buzzing-insect feel.
-		HapticWaveform carrier = HapticWaveform.saw(220f, 200, 0.5f * proximity * intensity());
-		HapticWaveform mod = HapticWaveform.sine(35f, 200, 0.7f);
-		Haptics.play(HapticWaveform.am(carrier, mod));
-	}
+    /** Wind on high ground under open sky, by altitude, with gusts. */
+    private void tickAltitudeWind(LocalPlayer player) {
+        double y = player.getY();
+        boolean active = y > 180 && !player.isUnderWater() && !player.isFallFlying()
+                && player.level().canSeeSky(player.blockPosition().above());
+        float height = (float) Math.min(1.0, (y - 180) / 120.0);
+        float gust = 0.7f + 0.3f * Mth.sin(player.tickCount * 0.05f) * Mth.sin(player.tickCount * 0.13f);
+        bed(ALTITUDE_WIND, active, FeedbackCategory.AMBIENT,
+                () -> HapticWaveform.bandNoise(110f, CHUNK_MS, 1f), 0.35f * height * gust);
+    }
 
-	private float intensity() {
-		return Ds4cSettings.synthesisIntensity();
-	}
+    /** A soft pulse every two seconds while the player has Conduit Power. */
+    private void tickConduit(LocalPlayer player) {
+        if (!on(FeedbackCategory.AMBIENT) || !player.hasEffect(MobEffects.CONDUIT_POWER)) {
+            conduitCooldown = 0;
+            return;
+        }
+        if (conduitCooldown-- > 0) return;
+        Haptics.playSustained(FeedbackCategory.AMBIENT, HapticWaveform.thump(110f, 140, 0.4f), intensity(), 0f);
+        conduitCooldown = 40;
+    }
 
-	private static Vec3 horizontalNormalized(Vec3 v) {
-		double lenSq = v.x * v.x + v.z * v.z;
-		if (lenSq < 1e-6) return null;
-		double len = Math.sqrt(lenSq);
-		return new Vec3(v.x / len, 0, v.z / len);
-	}
+    /** Buzzing on the side of the nearest bee within 4 blocks. */
+    private void tickBees(LocalPlayer player) {
+        if (!on(FeedbackCategory.AMBIENT) || beeCooldown-- > 0) return;
+        beeCooldown = 3;
+        Bee nearest = null;
+        double best = Double.MAX_VALUE;
+        for (Bee bee : player.level().getEntitiesOfClass(Bee.class, player.getBoundingBox().inflate(4.0))) {
+            double d = player.distanceToSqr(bee);
+            if (d < best) {
+                best = d;
+                nearest = bee;
+            }
+        }
+        if (nearest == null) return;
+        float proximity = (float) Math.max(0, 1.0 - Math.sqrt(best) / 4.0);
+        if (proximity < 0.05f) return;
+        Haptics.playSustained(FeedbackCategory.AMBIENT,
+                HapticWaveform.withASR(HapticWaveform.amSine(200f, 30f, 200, 0.4f * proximity, 0.7f), 20, 150, 30),
+                intensity(), 0.7f * HapticEvents.panTowards(player, nearest.position()));
+    }
+
+    /** A soft pulse every two seconds within 16 blocks of a beacon, stronger when closer. */
+    private void tickBeacon(LocalPlayer player) {
+        if (!on(FeedbackCategory.AMBIENT) || beaconCooldown-- > 0) return;
+        beaconCooldown = 40;
+        Level level = player.level();
+        AABB box = player.getBoundingBox().inflate(16.0);
+        double best = Double.MAX_VALUE;
+        for (BlockPos pos : BlockPos.betweenClosed(
+                BlockPos.containing(box.minX, box.minY, box.minZ), BlockPos.containing(box.maxX, box.maxY, box.maxZ))) {
+            if (level.getBlockState(pos).is(Blocks.BEACON)) best = Math.min(best, Vec3.atCenterOf(pos).distanceToSqr(player.position()));
+        }
+        if (best == Double.MAX_VALUE) return;
+        float proximity = (float) Math.max(0, 1.0 - Math.sqrt(best) / 16.0);
+        if (proximity < 0.05f) return;
+        Haptics.playSustained(FeedbackCategory.AMBIENT, HapticWaveform.thump(120f, 120, 0.35f * proximity), intensity(), 0f);
+    }
+
+    /**
+     * Standing in a portal: a swirl that builds over the 4 s it takes to travel, pulsing faster as
+     * it builds. Suppressed on arrival until you step out of the destination portal.
+     */
+    private void tickPortal(LocalPlayer player) {
+        BlockState feet = player.level().getBlockState(player.blockPosition());
+        boolean inPortal = feet.is(Blocks.NETHER_PORTAL) || feet.is(Blocks.END_PORTAL);
+        if (!inPortal) portalSuppressed = false;
+        boolean active = inPortal && !portalSuppressed;
+        portalTicks = active ? Math.min(80, portalTicks + 1) : 0;
+
+        float ramp = portalTicks / 80f;
+        // whole cycles per 250 ms chunk keep the pulse seamless: 4, 8, 12 Hz
+        portalRate = ramp < 0.4f ? 4f : ramp < 0.75f ? 8f : 12f;
+        HapticLoop loop = bed(PORTAL, active, FeedbackCategory.AMBIENT,
+                () -> HapticWaveform.amSine(100f, portalRate, CHUNK_MS, 1f, 0.7f), 0.15f + 0.75f * ramp * ramp);
+        if (loop != null && portalTicks % 20 == 0) loop.accent();
+    }
+
+    /** A long sweep when changing dimension. */
+    private void tickDimensionChange(LocalPlayer player) {
+        ResourceKey<Level> current = player.level().dimension();
+        if (lastDimension == null || current.equals(lastDimension)) {
+            lastDimension = current;
+            return;
+        }
+        lastDimension = current;
+        HapticLoops.stopLoop(PORTAL);
+        portalTicks = 0;
+        portalSuppressed = true;
+        if (on(FeedbackCategory.AMBIENT)) {
+            Haptics.play(FeedbackCategory.AMBIENT,
+                    HapticWaveform.withASR(HapticWaveform.amSine(90f, 2f, 1200, 0.8f, 0.6f), 60, 900, 240), intensity());
+        }
+    }
 }

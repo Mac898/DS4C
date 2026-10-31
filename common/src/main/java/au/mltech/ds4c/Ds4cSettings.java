@@ -12,6 +12,10 @@ public final class Ds4cSettings {
 
     private static volatile boolean triggerEffectsEnabled = true;
     private static volatile boolean hapticsEnabled = true;
+    /** Footstep and small-landing taps (frequent, so some players want them off). */
+    private static volatile boolean footstepsEnabled = true;
+    /** Adaptive trigger strength in percent: 100, 75 or 50. */
+    private static volatile int triggerStrength = 100;
     /** Scales every DS4C HD haptic, applied once in {@code Haptics.play}. */
     private static volatile float masterIntensity = 1.0f;
     /** Additionally scales synthesised waveforms (not passed-through game sounds). */
@@ -38,6 +42,23 @@ public final class Ds4cSettings {
 
     public static void setHapticsEnabled(boolean enabled) {
         hapticsEnabled = enabled;
+    }
+
+    public static boolean footstepsEnabled() {
+        return footstepsEnabled;
+    }
+
+    public static void setFootstepsEnabled(boolean enabled) {
+        footstepsEnabled = enabled;
+    }
+
+    public static int triggerStrength() {
+        return triggerStrength;
+    }
+
+    /** Rounds to the nearest supported level (100, 75, 50). */
+    public static void setTriggerStrength(int percent) {
+        triggerStrength = percent >= 88 ? 100 : percent >= 63 ? 75 : 50;
     }
 
     public static float masterIntensity() {

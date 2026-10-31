@@ -28,6 +28,8 @@ public final class Ds4cConfig {
     static final class Data {
         boolean triggerEffects = true;
         boolean hdHaptics = true;
+        boolean footsteps = true;
+        int triggerStrength = 100;
         float masterIntensity = 1.0f;
         float synthesisIntensity = 1.0f;
         float falloffNearBlocks = 0.0f;
@@ -72,6 +74,8 @@ public final class Ds4cConfig {
     private static void apply(Data data) {
         Ds4cSettings.setTriggerEffectsEnabled(data.triggerEffects);
         Ds4cSettings.setHapticsEnabled(data.hdHaptics);
+        Ds4cSettings.setFootstepsEnabled(data.footsteps);
+        Ds4cSettings.setTriggerStrength(data.triggerStrength);
         Ds4cSettings.setMasterIntensity(data.masterIntensity);
         Ds4cSettings.setSynthesisIntensity(data.synthesisIntensity);
         Ds4cSettings.setFalloff(data.falloffNearBlocks, data.falloffFarBlocks);
@@ -85,6 +89,8 @@ public final class Ds4cConfig {
         Data data = new Data();
         data.triggerEffects = Ds4cSettings.triggerEffectsEnabled();
         data.hdHaptics = Ds4cSettings.hapticsEnabled();
+        data.footsteps = Ds4cSettings.footstepsEnabled();
+        data.triggerStrength = Ds4cSettings.triggerStrength();
         data.masterIntensity = Ds4cSettings.masterIntensity();
         data.synthesisIntensity = Ds4cSettings.synthesisIntensity();
         data.falloffNearBlocks = Ds4cSettings.falloffNearBlocks();

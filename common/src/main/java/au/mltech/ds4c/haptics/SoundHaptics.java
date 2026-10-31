@@ -41,7 +41,7 @@ public final class SoundHaptics {
                 && (!overlay.requiresLocalSource() || isLocalSource(instance, player))) {
             float gain = falloff(overlay.maxDistance(), near, far, instance, player) * Ds4cSettings.synthesisIntensity();
             HapticWaveform wave = overlay.waveform().get();
-            if (wave != null && gain > 0.001f) Haptics.play(wave, gain);
+            if (wave != null && gain > 0.001f) Haptics.play(overlay.category(), wave, gain);
         }
 
         HapticProfile profile = HapticSoundRegistry.get(id);
@@ -56,7 +56,7 @@ public final class SoundHaptics {
 
         Minecraft minecraft = Minecraft.getInstance();
         SoundPcmCache.get(sound.getPath()).thenAccept(pcm -> pcm.ifPresent(
-                data -> minecraft.execute(() -> Haptics.play(data.data(), data.format(), gain))));
+                data -> minecraft.execute(() -> Haptics.playSound(profile.category(), data.data(), data.format(), gain))));
     }
 
     static void tick() {

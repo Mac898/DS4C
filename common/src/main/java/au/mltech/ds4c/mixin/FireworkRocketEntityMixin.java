@@ -27,7 +27,7 @@ public class FireworkRocketEntityMixin {
         OptionalInt attached = self.getEntityData().get(DATA_ATTACHED_TO_TARGET);
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null && attached.isPresent() && attached.getAsInt() == player.getId() && player.isFallFlying()) {
-            Ds4cEvents.onFireworkBoost();
+            Ds4cEvents.onFireworkBoost(self.getId());
         }
     }
 }

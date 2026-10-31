@@ -1,6 +1,5 @@
 package au.mltech.ds4c.mixin;
 
-import au.mltech.ds4c.events.Ds4cEvents;
 import au.mltech.ds4c.haptics.HapticEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -27,21 +26,15 @@ public class LivingEntityMixin {
 
     @Inject(method = "handleDamageEvent", at = @At("HEAD"))
     private void ds4c$onDamage(DamageSource source, CallbackInfo ci) {
-        if (ds4c$asLocalPlayer() != null) {
-            Ds4cEvents.onLocalPlayerDamaged(source);
-            HapticEvents.onLocalPlayerDamaged(source);
+        LocalPlayer player = ds4c$asLocalPlayer();
+        if (player != null) {
+            HapticEvents.onLocalPlayerDamaged(player, source);
         }
     }
 
     @Inject(method = "jumpFromGround", at = @At("HEAD"))
     private void ds4c$onJump(CallbackInfo ci) {
         LocalPlayer player = ds4c$asLocalPlayer();
-        if (player != null) Ds4cEvents.onJump(player);
-    }
-
-    @Inject(method = "completeUsingItem", at = @At("HEAD"))
-    private void ds4c$onCompleteUsingItem(CallbackInfo ci) {
-        LocalPlayer player = ds4c$asLocalPlayer();
-        if (player != null) Ds4cEvents.onCompleteUsingItem(player);
+        if (player != null) HapticEvents.onJump(player);
     }
 }

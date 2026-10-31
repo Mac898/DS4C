@@ -32,12 +32,12 @@ public class FishingHookMixin {
 
         // Fish approaching: the particle trail starts.
         if (this.ds4c$lastTimeUntilHooked == 0 && this.timeUntilHooked > 0) {
-            HapticEvents.onFishingCue(0.18f, 35f, 70);
+            HapticEvents.onFishingCue(0.18f, 110f, 80);
         }
         this.ds4c$lastTimeUntilHooked = this.timeUntilHooked;
 
         if (this.nibble > 0 && !this.biting && this.ds4c$nibbleCooldown == 0) {
-            HapticEvents.onFishingCue(0.22f, 28f, 60);
+            HapticEvents.onFishingCue(0.24f, 130f, 60);
             this.ds4c$nibbleCooldown = 8;
         }
 
@@ -48,7 +48,7 @@ public class FishingHookMixin {
                     && (Math.abs(this.ds4c$prevDy) > 0.005 || Math.abs(dy) > 0.005);
             if (reversed && this.ds4c$bobCooldown == 0) {
                 double magnitude = Math.max(Math.abs(this.ds4c$prevDy), Math.abs(dy));
-                HapticEvents.onFishingCue((float) Math.min(0.40, 0.10 + magnitude * 6.0), 50f, 50);
+                HapticEvents.onFishingCue((float) Math.min(0.40, 0.10 + magnitude * 6.0), 160f, 50);
                 this.ds4c$bobCooldown = 4;
             }
             this.ds4c$prevDy = dy;

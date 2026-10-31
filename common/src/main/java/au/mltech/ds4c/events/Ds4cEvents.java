@@ -1,16 +1,14 @@
 package au.mltech.ds4c.events;
 
 import au.mltech.ds4c.Constants;
+import au.mltech.ds4c.haptics.HapticEvents;
 import au.mltech.ds4c.mixin.FishingHookAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.CrossbowItem;
@@ -27,10 +25,8 @@ import net.minecraft.world.level.block.state.BlockState;
  */
 public final class Ds4cEvents {
     // Attack swing: a three-stage swoop (heavy start, light middle, hard stop).
-    public static final Identifier SWING_1 = event("swing_1");
-    public static final Identifier SWING_2 = event("swing_2");
-    public static final Identifier SWING_3 = event("swing_3");
-    public static final Identifier CRIT = event("crit");
+    /** One short click on R2 per attack; the swing itself is felt through the grips. */
+    public static final Identifier SWING = event("swing");
     public static final Identifier TOOL_WARNING_ATTACK = event("tool_warning_attack");
     public static final Identifier TOOL_WARNING_USE = event("tool_warning_use");
 
@@ -42,14 +38,13 @@ public final class Ds4cEvents {
     public static final Identifier HIT_WEAK = event("hit_weak");
     public static final Identifier HIT_NO_DAMAGE = event("hit_no_damage");
 
-    public static final Identifier PROJECTILE_HIT = event("projectile_hit");
     public static final Identifier SHIELD_BLOCK = event("shield_block");
+    public static final Identifier SHIELD_BREAK = event("shield_break");
     public static final Identifier CROSSBOW_FIRE = event("crossbow_fire");
     public static final Identifier CROSSBOW_LOADED = event("crossbow_loaded");
     public static final Identifier BOW_RELEASE = event("bow_release");
     public static final Identifier TRIDENT_RELEASE = event("trident_release");
-    public static final Identifier DRINK_FIZZ = event("drink_fizz");
-    public static final Identifier JUMP = event("jump");
+    /** A firework rocket started boosting the fall-flying player: one kick per rocket. */
     public static final Identifier FIREWORK = event("firework");
     public static final Identifier FISHING_CAST = event("fishing_cast");
 
@@ -63,14 +58,15 @@ public final class Ds4cEvents {
 
     // Block breaking.
     public static final Identifier BLOCK_BROKEN = event("block_broken");
-    public static final Identifier BREAK_SIGNATURE = event("break_signature");
     /** {@code ds4c:event/break_pulse/1..8}: decaying pulse at each block-crack stage. */
     public static final String BREAK_PULSE = "event/break_pulse/";
-    /** {@code ds4c:event/mace_land/4..8}: mace ground slam, by fall distance. */
+    /** {@code ds4c:event/explosion/1..3}: a nearby explosion, by how strongly it's felt. */
+    public static final String EXPLOSION = "event/explosion/";
+    /** {@code ds4c:event/mace_land/1..3}: mace ground slam, by fall distance. */
     public static final String MACE_LAND = "event/mace_land/";
 
     private static int lastBreakStage = -1;
-    private static boolean signatureFired = false;
+    private static int lastFireworkRocket = -1;
     private static boolean hadFishingHook = false;
     private static boolean crossbowWasLoaded = false;
 
@@ -93,7 +89,7 @@ public final class Ds4cEvents {
         if (player == null || minecraft.level == null) {
             TimedFacts.clear();
             lastBreakStage = -1;
-            signatureFired = false;
+            lastFireworkRocket = -1;
             hadFishingHook = false;
             crossbowWasLoaded = false;
             return;
@@ -129,20 +125,8 @@ public final class Ds4cEvents {
 
     /** The player started an attack (entity hit, block hit, miss, or spear stab). */
     public static void onAttackSwing(LocalPlayer player) {
-        if (!TimedFacts.isPending(SWING_1) && !TimedFacts.isPending(SWING_2) && !TimedFacts.isPending(SWING_3)) {
-            TimedFacts.schedule(SWING_1, 0, 2);
-            TimedFacts.schedule(SWING_2, 2, 2);
-            TimedFacts.schedule(SWING_3, 4, 1);
-        }
-
-        // Same conditions vanilla uses for crit particles.
-        boolean crit = player.fallDistance > 0f
-                && !player.onGround()
-                && !player.onClimbable()
-                && !player.isInWater()
-                && !player.isPassenger();
-        if (crit) {
-            TimedFacts.pulse(CRIT, 4);
+        if (!TimedFacts.isPending(SWING)) {
+            TimedFacts.pulse(SWING, 1);
         }
 
         if (isNearlyBroken(player.getMainHandItem())) {
@@ -159,21 +143,26 @@ public final class Ds4cEvents {
             if (player.isBlocking()) TimedFacts.pulse(SHIELD_BLOCK, 2);
             return;
         }
+        if (SoundEvents.SHIELD_BREAK.is(id)) {
+            // played at the blocking player: only ours
+            if (player.distanceToSqr(sound.getX(), sound.getY(), sound.getZ()) < 4.0) TimedFacts.pulse(SHIELD_BREAK, 3);
+            return;
+        }
 
         Identifier hit;
         int duration;
         if (id.equals(SoundEvents.PLAYER_ATTACK_STRONG.location())) {
             hit = HIT_STRONG;
-            duration = 4;
+            duration = 3;
         } else if (id.equals(SoundEvents.PLAYER_ATTACK_CRIT.location())) {
             hit = HIT_CRIT;
-            duration = 4;
+            duration = 3;
         } else if (id.equals(SoundEvents.PLAYER_ATTACK_KNOCKBACK.location())) {
             hit = HIT_KNOCKBACK;
-            duration = 5;
+            duration = 3;
         } else if (id.equals(SoundEvents.PLAYER_ATTACK_SWEEP.location())) {
             hit = HIT_SWEEP;
-            duration = 3;
+            duration = 2;
         } else if (id.equals(SoundEvents.PLAYER_ATTACK_WEAK.location())) {
             hit = HIT_WEAK;
             duration = 2;
@@ -192,35 +181,32 @@ public final class Ds4cEvents {
         TimedFacts.pulse(hit, duration);
     }
 
-    public static void onLocalPlayerDamaged(DamageSource source) {
-        if (source.is(DamageTypeTags.IS_PROJECTILE) || source.is(DamageTypes.WIND_CHARGE)) {
-            TimedFacts.pulse(PROJECTILE_HIT, 3);
-        }
-    }
-
     public static void onLanding(LocalPlayer player, double fallDistance) {
         if (fallDistance < 3.0 || !player.getMainHandItem().is(Items.MACE)) return;
-        int strength = Math.min(8, 4 + (int) Math.round(4.0 * Math.min(1.0, fallDistance / 5.0)));
-        TimedFacts.pulse(bucket(MACE_LAND, strength), 4);
+        int level = fallDistance < 4.0 ? 1 : fallDistance < 6.0 ? 2 : 3;
+        TimedFacts.pulse(bucket(MACE_LAND, level), 3);
+    }
+
+    /** A felt explosion (see {@code HapticEvents.explosionMagnitude}): a kick on both triggers when it's close. */
+    public static void onExplosion(float magnitude) {
+        if (magnitude < 0.1f) return;
+        int level = magnitude > 0.6f ? 3 : magnitude > 0.3f ? 2 : 1;
+        TimedFacts.pulse(bucket(EXPLOSION, level), 3);
     }
 
     // --- movement --------------------------------------------------------------------------------
 
-    public static void onJump(LocalPlayer player) {
-        if (player.getVehicle() == null) {
-            TimedFacts.pulse(JUMP, 2);
-        }
-    }
-
-    /** Called every tick a firework is attached to the fall-flying player. */
-    public static void onFireworkBoost() {
+    /** Called every tick a firework rocket is attached to the fall-flying player. */
+    public static void onFireworkBoost(int rocketId) {
+        if (rocketId == lastFireworkRocket) return;
+        lastFireworkRocket = rocketId;
         TimedFacts.pulse(FIREWORK, 2);
     }
 
     // --- using items -----------------------------------------------------------------------------
 
     public static void onCrossbowFired() {
-        TimedFacts.pulse(CROSSBOW_FIRE, 4);
+        TimedFacts.pulse(CROSSBOW_FIRE, 3);
     }
 
     /** Use was released early (bow shot, trident throw). Called before the use state is cleared. */
@@ -230,13 +216,6 @@ public final class Ds4cEvents {
             TimedFacts.pulse(BOW_RELEASE, 2);
         } else if (animation == ItemUseAnimation.TRIDENT) {
             TimedFacts.pulse(TRIDENT_RELEASE, 2);
-        }
-    }
-
-    /** Use ran to completion (finished eating or drinking). Called before the use state is cleared. */
-    public static void onCompleteUsingItem(LocalPlayer player) {
-        if (player.getUseItem().getUseAnimation() == ItemUseAnimation.DRINK) {
-            TimedFacts.pulse(DRINK_FIZZ, 4);
         }
     }
 
@@ -257,7 +236,7 @@ public final class Ds4cEvents {
         if (!onBlock) return;
 
         if (stack.is(ItemTags.HOES)) {
-            TimedFacts.pulse(HOE_TILL, 5);
+            TimedFacts.pulse(HOE_TILL, 3);
         } else if (stack.getItem() instanceof SpawnEggItem) {
             TimedFacts.pulse(SPAWN_EGG, 1);
         } else if (stack.getItem() instanceof BlockItem) {
@@ -276,29 +255,25 @@ public final class Ds4cEvents {
         int stage = Math.max(0, Math.min(9, (int) (destroyProgress * 10f)));
         if (stage == lastBreakStage) return;
         lastBreakStage = stage;
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player != null) HapticEvents.breakPulse(stage, player.getMainHandItem());
 
         // Start hard and get harder; each pulse decays over three ticks.
         int amplitude = Math.min(8, 5 + (stage * 3) / 9);
         TimedFacts.schedule(bucket(BREAK_PULSE, amplitude), 0, 1);
         TimedFacts.schedule(bucket(BREAK_PULSE, Math.max(1, amplitude - 3)), 1, 1);
         TimedFacts.schedule(bucket(BREAK_PULSE, Math.max(1, amplitude - 6)), 2, 1);
-
-        if (stage >= 8 && !signatureFired) {
-            signatureFired = true;
-            TimedFacts.pulse(BREAK_SIGNATURE, 2);
-        }
     }
 
     public static void onBreakReset() {
         lastBreakStage = -1;
-        signatureFired = false;
     }
 
     /** A block was broken (instantly, or at the end of breaking). */
     public static void onBlockBroken(LocalPlayer player, BlockState state) {
         onBreakReset();
         if (state.requiresCorrectToolForDrops() && !player.hasCorrectToolForDrops(state)) return;
-        TimedFacts.pulse(BLOCK_BROKEN, 3);
+        TimedFacts.pulse(BLOCK_BROKEN, 2);
     }
 
     private static boolean isNearlyBroken(ItemStack stack) {

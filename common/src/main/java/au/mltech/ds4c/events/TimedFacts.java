@@ -57,6 +57,10 @@ public final class TimedFacts {
         return window != null && window.end > now;
     }
 
+    public static void remove(Identifier fact) {
+        WINDOWS.remove(fact);
+    }
+
     public static void clear() {
         WINDOWS.clear();
     }

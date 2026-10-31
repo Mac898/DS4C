@@ -243,6 +243,129 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
 		return new HapticWaveform(out, fmt);
 	}
 
+	// --- felt-band voices -------------------------------------------------------------------------
+	// The palm is most sensitive around 80-300 Hz and much less so below 40 Hz, so DS4C's
+	// synthesised effects put their energy in that band and express "heaviness" through envelope
+	// and amplitude rather than very low carriers (docs/haptics-review.md, guideline 7).
+
+	/**
+	 * An impact: a sine at {@code carrierHz} with a 2 ms attack and an exponential decay to about
+	 * -40 dB by the end. Heavier impacts use a lower carrier (80-100 Hz) and a longer decay.
+	 */
+	public static HapticWaveform thump(float carrierHz, int durationMs, float amplitude) {
+		String key = "thump|" + carrierHz + "|" + durationMs + "|" + amplitude;
+		AudioFormat fmt = defaultFormat();
+		byte[] cached = CACHE.get(key);
+		if (cached != null) return new HapticWaveform(cached, fmt);
+
+		float amp = clampAmp(amplitude);
+		int n = samplesForMs(durationMs, fmt);
+		int attack = Math.min(n, samplesForMs(2, fmt));
+		short[] samples = new short[n];
+		double phaseStep = 2.0 * Math.PI * carrierHz / SAMPLE_RATE;
+		for (int i = 0; i < n; i++) {
+			double env = i < attack ? (double) i / Math.max(1, attack) : Math.exp(-4.6 * (i - attack) / Math.max(1.0, n - attack));
+			samples[i] = (short) Math.round(Short.MAX_VALUE * amp * env * Math.sin(phaseStep * i));
+		}
+		byte[] data = writeSamples(samples);
+		CACHE.put(key, data);
+		return new HapticWaveform(data, fmt);
+	}
+
+	/**
+	 * White noise band-passed around {@code centerHz} (a two-pole resonator, Q of about 1.5),
+	 * normalised so its peak is {@code amplitude}. Textures in the felt band: gravel, wind, rain,
+	 * fire, scraping. Fresh noise every call.
+	 */
+	public static HapticWaveform bandNoise(float centerHz, int durationMs, float amplitude) {
+		AudioFormat fmt = defaultFormat();
+		int n = samplesForMs(durationMs, fmt);
+		double[] y = new double[n];
+		// RBJ band-pass (constant skirt gain), Q = 1.5
+		double w0 = 2 * Math.PI * centerHz / SAMPLE_RATE;
+		double alpha = Math.sin(w0) / (2 * 1.5);
+		double a0 = 1 + alpha;
+		double b0 = alpha / a0, b2 = -alpha / a0, a1 = -2 * Math.cos(w0) / a0, a2 = (1 - alpha) / a0;
+		double x1 = 0, x2 = 0, y1 = 0, y2 = 0, peak = 1e-9;
+		var rng = ThreadLocalRandom.current();
+		for (int i = 0; i < n; i++) {
+			double x = rng.nextDouble() * 2.0 - 1.0;
+			double out = b0 * x + b2 * x2 - a1 * y1 - a2 * y2;
+			x2 = x1; x1 = x; y2 = y1; y1 = out;
+			y[i] = out;
+			peak = Math.max(peak, Math.abs(out));
+		}
+		float amp = clampAmp(amplitude);
+		short[] samples = new short[n];
+		for (int i = 0; i < n; i++) {
+			samples[i] = (short) Math.round(Short.MAX_VALUE * amp * y[i] / peak);
+		}
+		return new HapticWaveform(writeSamples(samples), fmt);
+	}
+
+	/**
+	 * A sine carrier whose amplitude swings at {@code modHz}: {@code depth} 0 is a steady tone,
+	 * 1 dips to silence each cycle. Throbs, swells, buzzing.
+	 */
+	public static HapticWaveform amSine(float carrierHz, float modHz, int durationMs, float amplitude, float depth) {
+		String key = "amsine|" + carrierHz + "|" + modHz + "|" + durationMs + "|" + amplitude + "|" + depth;
+		AudioFormat fmt = defaultFormat();
+		byte[] cached = CACHE.get(key);
+		if (cached != null) return new HapticWaveform(cached, fmt);
+
+		float amp = clampAmp(amplitude);
+		float d = Math.max(0f, Math.min(1f, depth));
+		int n = samplesForMs(durationMs, fmt);
+		short[] samples = new short[n];
+		double c = 2.0 * Math.PI * carrierHz / SAMPLE_RATE;
+		double m = 2.0 * Math.PI * modHz / SAMPLE_RATE;
+		for (int i = 0; i < n; i++) {
+			double env = 1.0 - d * 0.5 * (1.0 - Math.cos(m * i));
+			samples[i] = (short) Math.round(Short.MAX_VALUE * amp * env * Math.sin(c * i));
+		}
+		byte[] data = writeSamples(samples);
+		CACHE.put(key, data);
+		return new HapticWaveform(data, fmt);
+	}
+
+	public static HapticWaveform silence(int durationMs) {
+		return new HapticWaveform(new byte[samplesForMs(durationMs, defaultFormat()) * 2], defaultFormat());
+	}
+
+	/** A copy scaled by {@code gain} (0..1). */
+	public HapticWaveform scaled(float gain) {
+		return new HapticWaveform(scaleSamples(pcm, gain), format);
+	}
+
+	/** Shifts this waveform later by {@code ms} of silence. */
+	public HapticWaveform delayed(int ms) {
+		return concat(silence(ms), this);
+	}
+
+	// --- stereo ------------------------------------------------------------------------------------
+
+	static AudioFormat stereoFormat(AudioFormat mono) {
+		return new AudioFormat(mono.getSampleRate(), mono.getSampleSizeInBits(), 2, true, mono.isBigEndian());
+	}
+
+	/**
+	 * Mono 16-bit LE PCM to stereo, scaled by {@code gain} and panned: -1 is the left grip only,
+	 * 0 both at full strength, 1 the right grip only.
+	 */
+	static byte[] panToStereo(byte[] mono, float gain, float pan) {
+		float p = Math.max(-1f, Math.min(1f, pan));
+		float g = Math.max(0f, Math.min(1f, gain));
+		float left = g * Math.min(1f, 1f - p);
+		float right = g * Math.min(1f, 1f + p);
+		short[] in = readSamples(mono);
+		short[] out = new short[in.length * 2];
+		for (int i = 0; i < in.length; i++) {
+			out[2 * i] = (short) Math.round(in[i] * left);
+			out[2 * i + 1] = (short) Math.round(in[i] * right);
+		}
+		return writeSamples(out);
+	}
+
 	private static float clampAmp(float a) {
 		return Math.max(0f, Math.min(1f, a));
 	}
