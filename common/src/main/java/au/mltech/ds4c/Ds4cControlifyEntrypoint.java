@@ -1,5 +1,6 @@
 package au.mltech.ds4c;
 
+import au.mltech.ds4c.config.Ds4cConfig;
 import au.mltech.ds4c.facts.Ds4cFacts;
 import au.mltech.ds4c.haptics.HapticSoundDefaults;
 import dev.isxander.controlify.api.ControlifyApi;
@@ -15,6 +16,7 @@ import dev.isxander.controlify.api.entrypoint.PreInitContext;
 public final class Ds4cControlifyEntrypoint implements ControlifyEntrypoint {
     @Override
     public void onControlifyPreInit(PreInitContext context) {
+        Ds4cConfig.load();
         context.contextualDomains().inGame().registerContributor(Ds4cFacts::contributeInGame);
         Constants.LOG.info("Registered DS4C contextual fact contributors");
     }

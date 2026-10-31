@@ -5,13 +5,17 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.neoforged.api.distmarker.Dist;
+import au.mltech.ds4c.config.Ds4cConfigScreen;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 
 @Mod(value = Constants.MOD_ID, dist = Dist.CLIENT)
 public class Ds4c {
-    public Ds4c(IEventBus modBus) {
+    public Ds4c(IEventBus modBus, ModContainer container) {
+        container.registerExtensionPoint(IConfigScreenFactory.class, (mod, parent) -> Ds4cConfigScreen.create(parent));
         modBus.addListener(AddPackFindersEvent.class, event -> event.addPackFinders(
                 Constants.EFFECTS_PACK_ID.withPrefix("resourcepacks/"),
                 PackType.CLIENT_RESOURCES,
