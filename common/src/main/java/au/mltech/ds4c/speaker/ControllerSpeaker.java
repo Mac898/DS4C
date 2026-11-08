@@ -1,5 +1,6 @@
 package au.mltech.ds4c.speaker;
 
+import au.mltech.ds4c.api.SpeakerRouting;
 import au.mltech.ds4c.Ds4cSettings;
 import au.mltech.ds4c.haptics.SoundPcmCache;
 import dev.isxander.controlify.api.ControlifyApi;
@@ -70,6 +71,7 @@ public final class ControllerSpeaker {
     public static Set<Identifier> routedSounds() {
         Set<Identifier> all = new HashSet<>(MOVED);
         all.addAll(ECHOED);
+        all.addAll(SpeakerRouting.sounds());
         return all;
     }
 
@@ -83,10 +85,13 @@ public final class ControllerSpeaker {
         Identifier id = instance.getIdentifier();
         boolean moved = MOVED.contains(id);
         boolean echoed = ECHOED.contains(id);
-        if (!moved && !echoed) return false;
+        // another mod's rule (api/SpeakerRouting) does its own check of whose sound it is
+        boolean routed = !moved && !echoed && SpeakerRouting.isPersonal(instance);
+        if (!moved && !echoed && !routed) return false;
 
         LocalPlayer player = Minecraft.getInstance().player;
-        if (player == null || !isFromPlayer(instance, player, moved ? 0.25 : 9.0)) return false;
+        if (player == null) return false;
+        if (!routed && !isFromPlayer(instance, player, moved ? 0.25 : 9.0)) return false;
 
         SoundPcmCache.Pcm pcm = SoundPcmCache.getNow(sound.getPath());
         if (pcm == null) return false; // still decoding: play it normally rather than late
@@ -94,7 +99,7 @@ public final class ControllerSpeaker {
         float volume = Math.min(1f, instance.getVolume())
                 * Minecraft.getInstance().options.getFinalSoundSourceVolume(instance.getSource())
                 * Ds4cSettings.speakerVolume();
-        if (moved) {
+        if (moved || routed) {
             play(pcm, volume, instance.getPitch(), 0);
             return true;
         }
