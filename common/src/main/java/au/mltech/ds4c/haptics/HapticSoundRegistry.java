@@ -27,6 +27,9 @@ public final class HapticSoundRegistry {
 	private static final Map<Identifier, HapticProfile> EXACT = new HashMap<>();
 	private static final List<RuleEntry> RULES = new ArrayList<>();
 	private static final Map<Identifier, OverlayEntry> OVERLAYS = new HashMap<>();
+	private static final List<OverlayRule> OVERLAY_RULES = new ArrayList<>();
+
+	private record OverlayRule(String pathSuffix, OverlayEntry overlay) {}
 
 	private record RuleEntry(Predicate<Identifier> matcher, HapticProfile profile) {}
 
@@ -97,8 +100,19 @@ public final class HapticSoundRegistry {
 		OVERLAYS.put(event.location(), new OverlayEntry(overlay, category, false, maxDistance));
 	}
 
+	/** A spatially-gated overlay for every {@code minecraft} sound whose path ends with {@code pathSuffix}. */
+	public static void registerSuffixOverlay(String pathSuffix, FeedbackCategory category, float maxDistance,
+											 Supplier<HapticWaveform> overlay) {
+		OVERLAY_RULES.add(new OverlayRule(pathSuffix, new OverlayEntry(overlay, category, false, maxDistance)));
+	}
+
 	public static @Nullable OverlayEntry getOverlay(Identifier soundLocation) {
-		return OVERLAYS.get(soundLocation);
+		OverlayEntry exact = OVERLAYS.get(soundLocation);
+		if (exact != null || !"minecraft".equals(soundLocation.getNamespace())) return exact;
+		for (OverlayRule rule : OVERLAY_RULES) {
+			if (soundLocation.getPath().endsWith(rule.pathSuffix())) return rule.overlay();
+		}
+		return null;
 	}
 
 	public static @Nullable HapticProfile get(Identifier soundLocation) {

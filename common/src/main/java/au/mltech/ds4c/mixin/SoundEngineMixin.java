@@ -2,6 +2,7 @@ package au.mltech.ds4c.mixin;
 
 import au.mltech.ds4c.events.Ds4cEvents;
 import au.mltech.ds4c.haptics.SoundHaptics;
+import au.mltech.ds4c.speaker.ControllerSpeaker;
 import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundEngine;
@@ -24,5 +25,18 @@ public class SoundEngineMixin {
         Ds4cEvents.onSoundPlayed(instance);
         Sound sound = instance.getSound();
         if (sound != null) SoundHaptics.onSoundPlayed(instance, sound);
+    }
+
+    /** After subtitles are notified: sounds moved to the controller speaker skip the main mix. */
+    @Inject(
+            method = "play",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sounds/SoundEngine;calculateVolume(FLnet/minecraft/sounds/SoundSource;)F"),
+            cancellable = true
+    )
+    private void ds4c$routeToSpeaker(SoundInstance instance, CallbackInfoReturnable<SoundEngine.PlayResult> cir) {
+        Sound sound = instance.getSound();
+        if (sound != null && ControllerSpeaker.onSoundPlayed(instance, sound)) {
+            cir.setReturnValue(SoundEngine.PlayResult.STARTED);
+        }
     }
 }

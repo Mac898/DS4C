@@ -62,8 +62,10 @@ public final class Ds4cFacts {
     public static final String USE_ANIM = "use_anim/";
     /** {@code ds4c:draw/0..3}: draw or charge progress of the bow, crossbow or trident being used. */
     public static final String DRAW = "draw/";
-    /** {@code ds4c:horse_jump/0..3}: mount jump charge. */
-    public static final String HORSE_JUMP = "horse_jump/";
+    /** The "pull through to shoot" setting is on: bow and trident draws give way at the end. */
+    public static final Identifier PULL_THROUGH = Constants.id("pull_through");
+    /** Holding a crossbow that is loaded. */
+    public static final Identifier HOLDING_LOADED_CROSSBOW = Constants.id("holding_loaded_crossbow");
     /** {@code ds4c:tool/<class>}: main-hand tool class, for block-break pulse frequency. */
     public static final String TOOL = "tool/";
 
@@ -114,7 +116,9 @@ public final class Ds4cFacts {
         contributeAim(sink, player, level, context.hitResult());
 
         contributeItemUse(sink, player);
-        contributeHorseJump(sink, player);
+        sink.contributeFact(PULL_THROUGH, Ds4cSettings.pullThroughToShoot());
+        ItemStack mainHand = player.getMainHandItem();
+        sink.contributeFact(HOLDING_LOADED_CROSSBOW, mainHand.getItem() instanceof CrossbowItem && CrossbowItem.isCharged(mainHand));
         sink.contributeFact(FISHING_BITING, Ds4cEvents.isFishingHookBiting(player));
         sink.contributeFact(toolClass(player.getMainHandItem()));
 
@@ -144,12 +148,6 @@ public final class Ds4cFacts {
         sink.contributeFact(CROSSBOW_LOADED, Ds4cEvents.isCrossbowLoaded(player));
         boolean consuming = animation == ItemUseAnimation.EAT || animation == ItemUseAnimation.DRINK;
         sink.contributeFact(CHEW, consuming && ticks > 0 && ticks % 4 < 2);
-    }
-
-    private static void contributeHorseJump(ContextualStateSink sink, LocalPlayer player) {
-        float charge = player.getJumpRidingScale();
-        if (charge <= 0f || player.jumpableVehicle() == null) return;
-        sink.contributeFact(bucket(HORSE_JUMP, Math.round(Math.min(1f, charge) * 3f)));
     }
 
     private static Identifier toolClass(ItemStack stack) {

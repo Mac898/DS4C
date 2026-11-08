@@ -15,7 +15,7 @@
     "effect": {
       "type": "vibration",
       "position": 0,
-      "amplitude": 7,
+      "amplitude": 8,
       "frequency": 18
     }
   },
@@ -25,8 +25,8 @@
     "effect": {
       "type": "vibration",
       "position": 0,
-      "amplitude": 6,
-      "frequency": 25
+      "amplitude": 7,
+      "frequency": 22
     }
   },
   {
@@ -35,8 +35,8 @@
     "effect": {
       "type": "vibration",
       "position": 0,
-      "amplitude": 5,
-      "frequency": 30
+      "amplitude": 6,
+      "frequency": 25
     }
   },
   {
@@ -45,7 +45,7 @@
     "effect": {
       "type": "vibration",
       "position": 0,
-      "amplitude": 3,
+      "amplitude": 4,
       "frequency": 30
     }
   },
@@ -55,7 +55,7 @@
     "effect": {
       "type": "vibration",
       "position": 0,
-      "amplitude": 2,
+      "amplitude": 3,
       "frequency": 30
     }
   },
@@ -235,7 +235,7 @@
     "effect": {
       "type": "vibration",
       "position": 4,
-      "amplitude": 4,
+      "amplitude": 3,
       "frequency": 25
     }
   },
@@ -255,17 +255,27 @@
     "effect": {
       "type": "vibration",
       "position": 2,
-      "amplitude": 6,
+      "amplitude": 4,
       "frequency": 25
     }
   },
   {
-    "name": "r2_swing",
+    "name": "r2_swing_full",
     "trigger": "R2",
     "effect": {
       "type": "vibration",
       "position": 0,
-      "amplitude": 4,
+      "amplitude": 7,
+      "frequency": 18
+    }
+  },
+  {
+    "name": "r2_swing_weak",
+    "trigger": "R2",
+    "effect": {
+      "type": "vibration",
+      "position": 0,
+      "amplitude": 2,
       "frequency": 30
     }
   },
@@ -275,568 +285,71 @@
     "effect": {
       "type": "vibration",
       "position": 0,
-      "amplitude": 8,
-      "frequency": 30
-    }
-  },
-  {
-    "name": "r2_break_pulse_8_tool_pickaxe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 8,
-      "frequency": 30
-    }
-  },
-  {
-    "name": "r2_break_pulse_8_tool_shovel",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 8,
-      "frequency": 20
-    }
-  },
-  {
-    "name": "r2_break_pulse_8_tool_axe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 8,
-      "frequency": 24
-    }
-  },
-  {
-    "name": "r2_break_pulse_8_tool_hoe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 8,
-      "frequency": 16
-    }
-  },
-  {
-    "name": "r2_break_pulse_8_tool_shears",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 8,
-      "frequency": 35
-    }
-  },
-  {
-    "name": "r2_break_pulse_8_tool_mace",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 8,
-      "frequency": 22
-    }
-  },
-  {
-    "name": "r2_break_pulse_8_tool_other",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 8,
-      "frequency": 26
-    }
-  },
-  {
-    "name": "r2_break_pulse_7_tool_pickaxe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 7,
-      "frequency": 30
-    }
-  },
-  {
-    "name": "r2_break_pulse_7_tool_shovel",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 7,
-      "frequency": 20
-    }
-  },
-  {
-    "name": "r2_break_pulse_7_tool_axe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 7,
-      "frequency": 24
-    }
-  },
-  {
-    "name": "r2_break_pulse_7_tool_hoe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 7,
-      "frequency": 16
-    }
-  },
-  {
-    "name": "r2_break_pulse_7_tool_shears",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 7,
-      "frequency": 35
-    }
-  },
-  {
-    "name": "r2_break_pulse_7_tool_mace",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 7,
-      "frequency": 22
-    }
-  },
-  {
-    "name": "r2_break_pulse_7_tool_other",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 7,
-      "frequency": 26
-    }
-  },
-  {
-    "name": "r2_break_pulse_6_tool_pickaxe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 6,
-      "frequency": 30
-    }
-  },
-  {
-    "name": "r2_break_pulse_6_tool_shovel",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 6,
-      "frequency": 20
-    }
-  },
-  {
-    "name": "r2_break_pulse_6_tool_axe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 6,
-      "frequency": 24
-    }
-  },
-  {
-    "name": "r2_break_pulse_6_tool_hoe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 6,
-      "frequency": 16
-    }
-  },
-  {
-    "name": "r2_break_pulse_6_tool_shears",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 6,
-      "frequency": 35
-    }
-  },
-  {
-    "name": "r2_break_pulse_6_tool_mace",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 6,
-      "frequency": 22
-    }
-  },
-  {
-    "name": "r2_break_pulse_6_tool_other",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 6,
-      "frequency": 26
-    }
-  },
-  {
-    "name": "r2_break_pulse_5_tool_pickaxe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 5,
-      "frequency": 30
-    }
-  },
-  {
-    "name": "r2_break_pulse_5_tool_shovel",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 5,
-      "frequency": 20
-    }
-  },
-  {
-    "name": "r2_break_pulse_5_tool_axe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 5,
-      "frequency": 24
-    }
-  },
-  {
-    "name": "r2_break_pulse_5_tool_hoe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 5,
-      "frequency": 16
-    }
-  },
-  {
-    "name": "r2_break_pulse_5_tool_shears",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 5,
-      "frequency": 35
-    }
-  },
-  {
-    "name": "r2_break_pulse_5_tool_mace",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 5,
-      "frequency": 22
-    }
-  },
-  {
-    "name": "r2_break_pulse_5_tool_other",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 5,
-      "frequency": 26
-    }
-  },
-  {
-    "name": "r2_break_pulse_4_tool_pickaxe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 4,
-      "frequency": 30
-    }
-  },
-  {
-    "name": "r2_break_pulse_4_tool_shovel",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
       "amplitude": 4,
       "frequency": 20
     }
   },
   {
-    "name": "r2_break_pulse_4_tool_axe",
+    "name": "r2_break_pulse_tool_pickaxe",
     "trigger": "R2",
     "effect": {
-      "type": "vibration",
+      "type": "feedback",
       "position": 0,
-      "amplitude": 4,
-      "frequency": 24
+      "strength": 6
     }
   },
   {
-    "name": "r2_break_pulse_4_tool_hoe",
+    "name": "r2_break_pulse_tool_shovel",
     "trigger": "R2",
     "effect": {
-      "type": "vibration",
+      "type": "feedback",
       "position": 0,
-      "amplitude": 4,
-      "frequency": 16
+      "strength": 5
     }
   },
   {
-    "name": "r2_break_pulse_4_tool_shears",
+    "name": "r2_break_pulse_tool_axe",
     "trigger": "R2",
     "effect": {
-      "type": "vibration",
+      "type": "feedback",
       "position": 0,
-      "amplitude": 4,
-      "frequency": 35
+      "strength": 7
     }
   },
   {
-    "name": "r2_break_pulse_4_tool_mace",
+    "name": "r2_break_pulse_tool_hoe",
     "trigger": "R2",
     "effect": {
-      "type": "vibration",
+      "type": "feedback",
       "position": 0,
-      "amplitude": 4,
-      "frequency": 22
+      "strength": 4
     }
   },
   {
-    "name": "r2_break_pulse_4_tool_other",
+    "name": "r2_break_pulse_tool_shears",
     "trigger": "R2",
     "effect": {
-      "type": "vibration",
+      "type": "feedback",
       "position": 0,
-      "amplitude": 4,
-      "frequency": 26
+      "strength": 4
     }
   },
   {
-    "name": "r2_break_pulse_3_tool_pickaxe",
+    "name": "r2_break_pulse_tool_mace",
     "trigger": "R2",
     "effect": {
-      "type": "vibration",
+      "type": "feedback",
       "position": 0,
-      "amplitude": 3,
-      "frequency": 30
+      "strength": 6
     }
   },
   {
-    "name": "r2_break_pulse_3_tool_shovel",
+    "name": "r2_break_pulse_tool_other",
     "trigger": "R2",
     "effect": {
-      "type": "vibration",
+      "type": "feedback",
       "position": 0,
-      "amplitude": 3,
-      "frequency": 20
-    }
-  },
-  {
-    "name": "r2_break_pulse_3_tool_axe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 3,
-      "frequency": 24
-    }
-  },
-  {
-    "name": "r2_break_pulse_3_tool_hoe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 3,
-      "frequency": 16
-    }
-  },
-  {
-    "name": "r2_break_pulse_3_tool_shears",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 3,
-      "frequency": 35
-    }
-  },
-  {
-    "name": "r2_break_pulse_3_tool_mace",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 3,
-      "frequency": 22
-    }
-  },
-  {
-    "name": "r2_break_pulse_3_tool_other",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 3,
-      "frequency": 26
-    }
-  },
-  {
-    "name": "r2_break_pulse_2_tool_pickaxe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 2,
-      "frequency": 30
-    }
-  },
-  {
-    "name": "r2_break_pulse_2_tool_shovel",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 2,
-      "frequency": 20
-    }
-  },
-  {
-    "name": "r2_break_pulse_2_tool_axe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 2,
-      "frequency": 24
-    }
-  },
-  {
-    "name": "r2_break_pulse_2_tool_hoe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 2,
-      "frequency": 16
-    }
-  },
-  {
-    "name": "r2_break_pulse_2_tool_shears",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 2,
-      "frequency": 35
-    }
-  },
-  {
-    "name": "r2_break_pulse_2_tool_mace",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 2,
-      "frequency": 22
-    }
-  },
-  {
-    "name": "r2_break_pulse_2_tool_other",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 2,
-      "frequency": 26
-    }
-  },
-  {
-    "name": "r2_break_pulse_1_tool_pickaxe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 1,
-      "frequency": 30
-    }
-  },
-  {
-    "name": "r2_break_pulse_1_tool_shovel",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 1,
-      "frequency": 20
-    }
-  },
-  {
-    "name": "r2_break_pulse_1_tool_axe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 1,
-      "frequency": 24
-    }
-  },
-  {
-    "name": "r2_break_pulse_1_tool_hoe",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 1,
-      "frequency": 16
-    }
-  },
-  {
-    "name": "r2_break_pulse_1_tool_shears",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 1,
-      "frequency": 35
-    }
-  },
-  {
-    "name": "r2_break_pulse_1_tool_mace",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 1,
-      "frequency": 22
-    }
-  },
-  {
-    "name": "r2_break_pulse_1_tool_other",
-    "trigger": "R2",
-    "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 1,
-      "frequency": 26
+      "strength": 5
     }
   },
   {
@@ -845,7 +358,7 @@
     "effect": {
       "type": "feedback",
       "position": 4,
-      "strength": 5
+      "strength": 3
     }
   },
   {
@@ -854,7 +367,7 @@
     "effect": {
       "type": "vibration",
       "position": 3,
-      "amplitude": 5,
+      "amplitude": 3,
       "frequency": 18
     }
   },
@@ -864,18 +377,8 @@
     "effect": {
       "type": "weapon",
       "start_position": 3,
-      "end_position": 4,
-      "strength": 2
-    }
-  },
-  {
-    "name": "l2_block_place",
-    "trigger": "L2",
-    "effect": {
-      "type": "weapon",
-      "start_position": 3,
-      "end_position": 4,
-      "strength": 3
+      "end_position": 5,
+      "strength": 4
     }
   },
   {
@@ -899,21 +402,33 @@
     }
   },
   {
-    "name": "l2_firework",
+    "name": "l2_pull_through_use_anim_bow_draw_3",
     "trigger": "L2",
     "effect": {
-      "type": "vibration",
-      "position": 0,
-      "amplitude": 7,
-      "frequency": 30
+      "type": "bow",
+      "start_position": 4,
+      "end_position": 8,
+      "strength": 8,
+      "snap_force": 8
     }
   },
   {
     "name": "l2_use_anim_bow_draw_3",
     "trigger": "L2",
     "effect": {
-      "type": "bow",
+      "type": "feedback_slope",
       "start_position": 2,
+      "end_position": 9,
+      "start_strength": 4,
+      "end_strength": 8
+    }
+  },
+  {
+    "name": "l2_pull_through_use_anim_trident_draw_3",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 4,
       "end_position": 8,
       "strength": 8,
       "snap_force": 8
@@ -923,11 +438,11 @@
     "name": "l2_use_anim_trident_draw_3",
     "trigger": "L2",
     "effect": {
-      "type": "bow",
+      "type": "feedback_slope",
       "start_position": 2,
-      "end_position": 8,
-      "strength": 8,
-      "snap_force": 8
+      "end_position": 9,
+      "start_strength": 4,
+      "end_strength": 8
     }
   },
   {
@@ -942,11 +457,33 @@
     }
   },
   {
-    "name": "l2_use_anim_bow_draw_2",
+    "name": "l2_pull_through_use_anim_bow_draw_2",
     "trigger": "L2",
     "effect": {
       "type": "bow",
-      "start_position": 4,
+      "start_position": 5,
+      "end_position": 8,
+      "strength": 6,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_bow_draw_2",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback_slope",
+      "start_position": 3,
+      "end_position": 9,
+      "start_strength": 3,
+      "end_strength": 6
+    }
+  },
+  {
+    "name": "l2_pull_through_use_anim_trident_draw_2",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 5,
       "end_position": 8,
       "strength": 6,
       "snap_force": 8
@@ -956,11 +493,11 @@
     "name": "l2_use_anim_trident_draw_2",
     "trigger": "L2",
     "effect": {
-      "type": "bow",
-      "start_position": 4,
-      "end_position": 8,
-      "strength": 6,
-      "snap_force": 6
+      "type": "feedback_slope",
+      "start_position": 3,
+      "end_position": 9,
+      "start_strength": 3,
+      "end_strength": 6
     }
   },
   {
@@ -975,11 +512,33 @@
     }
   },
   {
-    "name": "l2_use_anim_bow_draw_1",
+    "name": "l2_pull_through_use_anim_bow_draw_1",
     "trigger": "L2",
     "effect": {
       "type": "bow",
-      "start_position": 5,
+      "start_position": 6,
+      "end_position": 8,
+      "strength": 4,
+      "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_use_anim_bow_draw_1",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback_slope",
+      "start_position": 4,
+      "end_position": 9,
+      "start_strength": 2,
+      "end_strength": 4
+    }
+  },
+  {
+    "name": "l2_pull_through_use_anim_trident_draw_1",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 6,
       "end_position": 8,
       "strength": 4,
       "snap_force": 8
@@ -989,11 +548,11 @@
     "name": "l2_use_anim_trident_draw_1",
     "trigger": "L2",
     "effect": {
-      "type": "bow",
-      "start_position": 5,
-      "end_position": 8,
-      "strength": 4,
-      "snap_force": 4
+      "type": "feedback_slope",
+      "start_position": 4,
+      "end_position": 9,
+      "start_strength": 2,
+      "end_strength": 4
     }
   },
   {
@@ -1008,7 +567,29 @@
     }
   },
   {
+    "name": "l2_pull_through_use_anim_bow_draw_0",
+    "trigger": "L2",
+    "effect": {
+      "type": "bow",
+      "start_position": 7,
+      "end_position": 8,
+      "strength": 2,
+      "snap_force": 8
+    }
+  },
+  {
     "name": "l2_use_anim_bow_draw_0",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback_slope",
+      "start_position": 5,
+      "end_position": 9,
+      "start_strength": 1,
+      "end_strength": 2
+    }
+  },
+  {
+    "name": "l2_pull_through_use_anim_trident_draw_0",
     "trigger": "L2",
     "effect": {
       "type": "bow",
@@ -1022,11 +603,11 @@
     "name": "l2_use_anim_trident_draw_0",
     "trigger": "L2",
     "effect": {
-      "type": "bow",
-      "start_position": 7,
-      "end_position": 8,
-      "strength": 2,
-      "snap_force": 2
+      "type": "feedback_slope",
+      "start_position": 5,
+      "end_position": 9,
+      "start_strength": 1,
+      "end_strength": 2
     }
   },
   {
@@ -1057,64 +638,11 @@
     "effect": {
       "type": "feedback",
       "position": 6,
-      "strength": 5
+      "strength": 6
     }
   },
   {
-    "name": "l2_horse_jump_3",
-    "trigger": "L2",
-    "effect": {
-      "type": "bow",
-      "start_position": 2,
-      "end_position": 8,
-      "strength": 8,
-      "snap_force": 8
-    }
-  },
-  {
-    "name": "l2_horse_jump_2",
-    "trigger": "L2",
-    "effect": {
-      "type": "bow",
-      "start_position": 4,
-      "end_position": 8,
-      "strength": 6,
-      "snap_force": 8
-    }
-  },
-  {
-    "name": "l2_horse_jump_1",
-    "trigger": "L2",
-    "effect": {
-      "type": "bow",
-      "start_position": 5,
-      "end_position": 8,
-      "strength": 4,
-      "snap_force": 8
-    }
-  },
-  {
-    "name": "l2_horse_jump_0",
-    "trigger": "L2",
-    "effect": {
-      "type": "bow",
-      "start_position": 7,
-      "end_position": 8,
-      "strength": 2,
-      "snap_force": 8
-    }
-  },
-  {
-    "name": "l2_main_hand_crossbow_uncharged",
-    "trigger": "L2",
-    "effect": {
-      "type": "feedback",
-      "position": 4,
-      "strength": 2
-    }
-  },
-  {
-    "name": "l2_main_hand_crossbow",
+    "name": "l2_holding_loaded_crossbow",
     "trigger": "L2",
     "effect": {
       "type": "feedback",
@@ -1123,7 +651,16 @@
     }
   },
   {
-    "name": "l2_main_hand_bow",
+    "name": "l2_main_hand_crossbow",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback",
+      "position": 4,
+      "strength": 2
+    }
+  },
+  {
+    "name": "l2_pull_through_main_hand_bow",
     "trigger": "L2",
     "effect": {
       "type": "bow",
@@ -1131,6 +668,17 @@
       "end_position": 8,
       "strength": 2,
       "snap_force": 8
+    }
+  },
+  {
+    "name": "l2_main_hand_bow",
+    "trigger": "L2",
+    "effect": {
+      "type": "feedback_slope",
+      "start_position": 5,
+      "end_position": 9,
+      "start_strength": 1,
+      "end_strength": 2
     }
   },
   {
@@ -1149,15 +697,6 @@
       "type": "feedback",
       "position": 5,
       "strength": 3
-    }
-  },
-  {
-    "name": "l2_place_ready",
-    "trigger": "L2",
-    "effect": {
-      "type": "feedback",
-      "position": 4,
-      "strength": 1
     }
   },
   {

@@ -11,9 +11,9 @@ If DS4C can't find HD haptics while a DualSense is connected, it says so once in
 
 - Connect the DualSense with a USB cable. HD haptics don't work over Bluetooth.
 - Turn on **HD Haptics** in Controlify's controller settings.
-- Turn off **Allow Vibrations** in Controlify's controller settings. The DualSense mutes HD haptics
-  whenever its legacy rumble runs. DS4C plays its own versions of the events Controlify rumbles
-  for, such as damage, explosions and mining.
+- Turn off **Allow Vibrations** in Controlify's controller settings. DS4C plays its own versions of
+  the events Controlify rumbles for (damage, explosions, mining...), so with both on you feel each
+  of them twice.
 
 ## 1. The card profile
 

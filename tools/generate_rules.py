@@ -87,8 +87,6 @@ def use_anim(name):
 FACTS = {
     "ds4c:holding_mace": main_hand({"items": "minecraft:mace"}),
     "ds4c:holding_weapon": main_hand({"predicates": {"minecraft:weapon": {}}}),
-    # ds4c:aiming_at_block is looking_at_block held through brief changes, so it doesn't flicker.
-    "ds4c:place_ready": {"all_of": ["controlify:main_hand_is_block_item", "ds4c:aiming_at_block"]},
 }
 
 
@@ -129,23 +127,44 @@ def draw_strength(level):
     return 2 + 2 * level
 
 
-def draw_curve(level, snap_force=None):
-    """Bow tension for draw level 0..3: the tension zone widens and stiffens as the draw builds,
-    then snaps back on release. Level 0 matches the held-bow baseline. snap_force defaults to full."""
-    start = round(7 - 5 * level / (DRAW_LEVELS - 1))
-    return bow(start, 8, draw_strength(level), 8 if snap_force is None else snap_force)
+def draw_curve(level):
+    """Draw tension for level 0..3 when shooting on release: resistance that starts earlier and
+    ramps harder as the draw builds, all the way to the bottom of the pull, so there is no point
+    to push through. Level 0 matches the held-bow baseline."""
+    start = 5 - level
+    return feedback_slope(start, 9, 1 + level, draw_strength(level))
 
 
-# Block-break pulse frequency by main-hand tool class (ds4c:tool/*), all at or below 35 Hz.
-TOOL_FREQUENCIES = {"pickaxe": 30, "shovel": 20, "axe": 24, "hoe": 16, "shears": 35, "mace": 22, "other": 26}
+def pull_through_curve(level):
+    """Draw tension for level 0..3 with "pull through to shoot" on: the firmware Bow effect, whose
+    resistance zone widens and stiffens as the draw builds and then gives way at its end, where
+    pressing on to the bottom looses the shot (input/PullThrough). Level 0 matches the held-bow
+    baseline.
+
+    The zone never starts above PULL_THROUGH_MIN_START. The resistance pushes a lightly resting finger
+    back to the start of the zone; a zone starting near the top (it reached zone 2 at full draw)
+    pushed it out past the let-out point (PullThrough.RESET, about a quarter), which looses the shot,
+    and the next touch drew again: the light-press rapid fire from the second test pass."""
+    start = max(PULL_THROUGH_MIN_START, 7 - level)
+    return bow(start, 8, draw_strength(level), 8)
+
+
+# Highest start zone (0..9) for the pull-through draw resistance: 0.4 of the travel, clear of the
+# 0.25 let-out point in input/PullThrough.
+PULL_THROUGH_MIN_START = 4
+
+
+# Mining knock strength on R2 by main-hand tool class (ds4c:tool/*): a resistance push three times per block.
+TOOL_KNOCK = {"pickaxe": 6, "shovel": 5, "axe": 7, "hoe": 4, "shears": 4, "mace": 6, "other": 5}
 
 
 def bursts():
     """Short event windows (at most 150 ms). Highest priority: they cut through everything else."""
     # Hits: one short burst, strength by hit type.
-    for name, effect in [("hit_crit", vibration(0, 8, 30)), ("hit_knockback", vibration(0, 7, 18)),
-                         ("hit_strong", vibration(0, 6, 25)), ("hit_sweep", vibration(0, 5, 30)),
-                         ("hit_weak", vibration(0, 3, 30)), ("hit_no_damage", vibration(0, 2, 30))]:
+    # (Standard hits were lost under the held-weapon weight in testing, so the floor is higher.)
+    for name, effect in [("hit_crit", vibration(0, 8, 30)), ("hit_knockback", vibration(0, 8, 18)),
+                         ("hit_strong", vibration(0, 7, 22)), ("hit_sweep", vibration(0, 6, 25)),
+                         ("hit_weak", vibration(0, 4, 30)), ("hit_no_damage", vibration(0, 3, 30))]:
         rule(ATTACK, "combat", event(name), effect)
     # Mace slam: a short kick on the trigger that swung it; the grips carry the impact.
     for level, amplitude in [(3, 8), (2, 6), (1, 4)]:
@@ -164,63 +183,61 @@ def bursts():
 
     rule(ATTACK, "combat", event("tool_warning_attack"), vibration(4, 3, 6))
     rule(USE, "environment", event("tool_warning_use"), vibration(4, 3, 6))
-    rule(USE, "environment", event("bucket_lava"), vibration(4, 4, 25))
+    rule(USE, "environment", event("bucket_lava"), vibration(4, 3, 25))
 
     rule(USE, "items", "ds4c:chew", vibration(4, 3, 8))
-    rule(USE, "items", "ds4c:fishing_biting", vibration(2, 6, 25))
+    rule(USE, "items", "ds4c:fishing_biting", vibration(2, 4, 25))
 
 
 def actions():
     """The action in progress."""
     # Attack: one click; the swing itself belongs to the grips.
-    rule(ATTACK, "combat", event("swing"), vibration(0, 4, 30))
+    # Swing: a full-charge swing is solid and low; one before the attack has recharged is a weak flick.
+    rule(ATTACK, "combat", event("swing_full"), vibration(0, 7, 18))
+    rule(ATTACK, "combat", event("swing_weak"), vibration(0, 2, 30))
 
-    # Block breaking: per-crack-stage pulses tuned to the tool, then one click as the block gives way.
-    rule(ATTACK, "environment", event("block_broken"), vibration(0, 8, 30))
-    for amplitude in range(8, 0, -1):
-        for tool, frequency in TOOL_FREQUENCIES.items():
-            rule(ATTACK, "environment", [bucket("event/break_pulse", amplitude), f"ds4c:tool/{tool}"],
-                 vibration(0, amplitude, frequency))
+    # Block breaking: three knocks per block by tool, then a low thunk as it gives way. (Vibration
+    # pulses at every crack stage were felt as buzzing.)
+    rule(ATTACK, "environment", event("block_broken"), vibration(0, 4, 20))
+    for tool, strength in TOOL_KNOCK.items():
+        rule(ATTACK, "environment", [event("break_pulse"), f"ds4c:tool/{tool}"], feedback(0, strength))
 
     # Using items on blocks and entities.
-    rule(USE, "environment", event("bucket"), feedback(4, 5))
-    rule(USE, "environment", event("hoe_till"), vibration(3, 5, 18))
-    rule(USE, "environment", event("spawn_egg"), weapon(3, 4, 2))
-    rule(USE, "environment", event("block_place"), weapon(3, 4, 3))
+    rule(USE, "environment", event("bucket"), feedback(4, 3))
+    rule(USE, "environment", event("hoe_till"), vibration(3, 3, 18))
+    rule(USE, "environment", event("spawn_egg"), weapon(3, 5, 4))
     rule(USE, "environment", event("shears_clip"), weapon(4, 6, 7))
+    # Placing blocks has no trigger effect: it's very frequent and testing found any resistance unwelcome.
 
     rule(USE, "items", event("fishing_cast"), weapon(3, 5, 4))
 
-    # One kick per rocket; the boost itself is felt on the grips.
-    rule(USE, "movement", event("firework"), vibration(0, 7, 30))
+    # Rockets have no trigger effect (testing: the kicks felt like the trigger spasming); the grips carry them.
 
     # Items in use. These replace Controlify's defaults for the same animations.
     rule(USE, "combat", "ds4c:crossbow_loaded", OFF)
     for level in range(DRAW_LEVELS - 1, -1, -1):
-        rule(USE, "combat", [use_anim("bow"), bucket("draw", level)], draw_curve(level))
-        rule(USE, "combat", [use_anim("trident"), bucket("draw", level)], draw_curve(level, draw_strength(level)))
+        for anim in ("bow", "trident"):
+            rule(USE, "combat", ["ds4c:pull_through", use_anim(anim), bucket("draw", level)], pull_through_curve(level))
+            rule(USE, "combat", [use_anim(anim), bucket("draw", level)], draw_curve(level))
         rule(USE, "combat", [use_anim("crossbow"), bucket("draw", level)],
              feedback_slope(2, 9, draw_strength(level), 8))
     rule(USE, "items", {"any_of": [use_anim("eat"), use_anim("drink")]}, feedback_slope(0, 9, 2, 6))
     # Shield raised: a firm stop, but not a wall, since it's often held for a long time.
-    rule(USE, "combat", use_anim("block"), feedback(6, 5))
+    rule(USE, "combat", use_anim("block"), feedback(6, 6))
 
-    for level in range(DRAW_LEVELS - 1, -1, -1):
-        rule(USE, "movement", bucket("horse_jump", level), draw_curve(level))
+    # No horse-jump effect: the jump is charged with the jump button, not a trigger.
 
 
 def held_item_baselines():
     """Main-hand baselines so the trigger already feels like the item before it's used."""
-    # Crossbow: uncharged first (empty charged_projectiles), then any crossbow = charged (a rare wall).
-    rule(USE, "combat", main_hand({"items": "#c:tools/crossbow", "components": {"minecraft:charged_projectiles": []}}),
-         feedback(4, 2), idle_only=True)
-    rule(USE, "combat", main_hand({"items": "#c:tools/crossbow"}), feedback(4, 8), idle_only=True)
+    # Crossbow: loaded is a wall (rare, deliberate), empty is light.
+    rule(USE, "combat", "ds4c:holding_loaded_crossbow", feedback(4, 8), idle_only=True)
+    rule(USE, "combat", main_hand({"items": "#c:tools/crossbow"}), feedback(4, 2), idle_only=True)
     # Bow: the start of a draw, so there's no jump in feel when the draw begins.
+    rule(USE, "combat", ["ds4c:pull_through", main_hand({"items": "#c:tools/bow"})], pull_through_curve(0), idle_only=True)
     rule(USE, "combat", main_hand({"items": "#c:tools/bow"}), draw_curve(0), idle_only=True)
     rule(USE, "combat", main_hand({"items": "#c:tools/trident"}), feedback(3, 3), idle_only=True)
     rule(USE, "items", main_hand({"items": "minecraft:spyglass"}), feedback(5, 3), idle_only=True)
-    # Placing is very frequent: barely there.
-    rule(USE, "environment", "ds4c:place_ready", feedback(4, 1), idle_only=True)
 
 
 def attack_baselines():

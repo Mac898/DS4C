@@ -39,7 +39,7 @@ public final class HapticSoundDefaults {
 		// ---- Environment (block actions) ----
 		// Block break / place — at the block position, attenuated by distance.
 		HapticSoundRegistry.registerSuffix(".break", HapticProfile.spatial(FeedbackCategory.ENVIRONMENT, 0.7f, 6f));
-		HapticSoundRegistry.registerSuffix(".place", HapticProfile.spatial(FeedbackCategory.ENVIRONMENT, 0.5f, 6f));
+		HapticSoundRegistry.registerSuffix(".place", HapticProfile.spatial(FeedbackCategory.ENVIRONMENT, 0.3f, 6f));
 
 		// ---- Items / Instruments ----
 		// Goat horn — full passthrough, the haptic actuator literally renders the note. All 8 variants.
@@ -62,6 +62,14 @@ public final class HapticSoundDefaults {
 
 		// ---- Movement / Firework boost (the trigger only gets one kick per rocket) ----
 		HapticSoundRegistry.register(SoundEvents.FIREWORK_ROCKET_LAUNCH, HapticProfile.spatial(FeedbackCategory.MOVEMENT, 0.8f, 4f));
+		// The launch sound is mostly a high whoosh, so on its own the boost barely reaches the grips.
+		// A synthesised boost on top: a low kick as the rocket lights, then a thrust that surges and
+		// tails off over about a second, with a little hiss.
+		HapticSoundRegistry.registerSpatialOverlay(SoundEvents.FIREWORK_ROCKET_LAUNCH, FeedbackCategory.MOVEMENT, 4f, () ->
+				HapticWaveform.mix(
+						HapticWaveform.thump(70f, 90, 0.8f),
+						HapticWaveform.withASR(HapticWaveform.amSine(95f, 14f, 1100, 0.5f, 0.45f), 60, 300, 740).delayed(40),
+						HapticWaveform.withASR(HapticWaveform.bandNoise(150f, 700, 0.18f), 30, 200, 470).delayed(40)));
 
 		// ---- Items / Inventory feedback ----
 		HapticSoundRegistry.register(SoundEvents.ITEM_PICKUP, HapticProfile.spatial(FeedbackCategory.UI, 0.3f, 4f));
@@ -158,8 +166,6 @@ public final class HapticSoundDefaults {
 		HapticSoundRegistry.register(SoundEvents.HORSE_LAND, HapticProfile.localOnly(FeedbackCategory.MOVEMENT, 0.9f));
 		// Minecarts — ambient ride loop felt while the player rides; clamps to local listener.
 		// Boats — paddle stroke is felt per-stroke, on land or in water.
-		HapticSoundRegistry.register(SoundEvents.BOAT_PADDLE_LAND, HapticProfile.spatial(FeedbackCategory.MOVEMENT, 0.5f, 6f));
-		HapticSoundRegistry.register(SoundEvents.BOAT_PADDLE_WATER, HapticProfile.spatial(FeedbackCategory.MOVEMENT, 0.4f, 6f));
 
 		// ---- Items / Note-block instrument-specific tuning (synth-only) ----
 		// Each instrument gets a distinct timbre and is amplitude-balanced perceptually — the
@@ -243,23 +249,46 @@ public final class HapticSoundDefaults {
 		// Swim stroke: a soft push through the water.
 		HapticSoundRegistry.registerLocalOverlay(SoundEvents.PLAYER_SWIM, FeedbackCategory.MOVEMENT, () ->
 				HapticWaveform.mix(
-						HapticWaveform.withASR(HapticWaveform.amSine(100f, 5f, 200, 0.45f, 0.4f), 30, 80, 90),
-						HapticWaveform.withASR(HapticWaveform.bandNoise(120f, 180, 0.25f), 20, 60, 100)));
+						HapticWaveform.withASR(HapticWaveform.amSine(100f, 5f, 200, 0.22f, 0.4f), 30, 80, 90),
+						HapticWaveform.withASR(HapticWaveform.bandNoise(120f, 180, 0.12f), 20, 60, 100)));
 		HapticSoundRegistry.registerLocalOverlay(SoundEvents.GENERIC_SWIM, FeedbackCategory.MOVEMENT, () ->
-				HapticWaveform.withASR(HapticWaveform.amSine(100f, 5f, 180, 0.35f, 0.4f), 30, 60, 90));
+				HapticWaveform.withASR(HapticWaveform.amSine(100f, 5f, 180, 0.18f, 0.4f), 30, 60, 90));
 		// Splash: the body slap, then the spray. Covers Controlify's water-landing rumble.
 		HapticSoundRegistry.registerLocalOverlay(SoundEvents.PLAYER_SPLASH, FeedbackCategory.MOVEMENT, () ->
 				HapticWaveform.mix(
-						HapticWaveform.thump(90f, 140, 0.75f),
-						HapticWaveform.withASR(HapticWaveform.bandNoise(150f, 240, 0.45f), 5, 80, 155).delayed(30)));
+						HapticWaveform.thump(90f, 140, 0.6f),
+						HapticWaveform.withASR(HapticWaveform.bandNoise(150f, 240, 0.36f), 5, 80, 155).delayed(30)));
 		HapticSoundRegistry.registerLocalOverlay(SoundEvents.PLAYER_SPLASH_HIGH_SPEED, FeedbackCategory.MOVEMENT, () ->
 				HapticWaveform.mix(
-						HapticWaveform.thump(85f, 200, 1.0f),
-						HapticWaveform.withASR(HapticWaveform.bandNoise(150f, 340, 0.6f), 5, 110, 225).delayed(30)));
+						HapticWaveform.thump(85f, 200, 0.8f),
+						HapticWaveform.withASR(HapticWaveform.bandNoise(150f, 340, 0.48f), 5, 110, 225).delayed(30)));
 		HapticSoundRegistry.registerLocalOverlay(SoundEvents.GENERIC_SPLASH, FeedbackCategory.MOVEMENT, () ->
 				HapticWaveform.mix(
-						HapticWaveform.thump(95f, 110, 0.6f),
-						HapticWaveform.withASR(HapticWaveform.bandNoise(150f, 180, 0.35f), 5, 60, 115).delayed(25)));
+						HapticWaveform.thump(95f, 110, 0.48f),
+						HapticWaveform.withASR(HapticWaveform.bandNoise(150f, 180, 0.28f), 5, 60, 115).delayed(25)));
+
+		// Boat paddle strokes: a soft synthesised pull, fired with the sound (no decoding delay).
+		for (SoundEvent paddle : new SoundEvent[]{SoundEvents.BOAT_PADDLE_WATER, SoundEvents.BOAT_PADDLE_LAND}) {
+			HapticSoundRegistry.registerSpatialOverlay(paddle, FeedbackCategory.MOVEMENT, 4f, () ->
+					HapticWaveform.withASR(HapticWaveform.bandNoise(110f, 160, 0.15f), 20, 60, 80));
+		}
+		// Thunder: a low roll felt from any distance (vanilla plays it world-wide), built from two or
+		// three overlapping rumbles so no two peals feel alike. Near strikes add the crack and the
+		// passed-through thunder on top (within 30 blocks), so nearer is still stronger.
+		HapticSoundRegistry.registerOverlay(SoundEvents.LIGHTNING_BOLT_THUNDER, FeedbackCategory.AMBIENT, () -> {
+			var rng = java.util.concurrent.ThreadLocalRandom.current();
+			int rolls = 2 + rng.nextInt(2);
+			HapticWaveform[] parts = new HapticWaveform[rolls];
+			for (int i = 0; i < rolls; i++) {
+				int ms = 900 + rng.nextInt(900);
+				float amp = (i == 0 ? 0.8f : 0.5f + 0.3f * rng.nextFloat());
+				parts[i] = HapticWaveform.withASR(
+						HapticWaveform.amSine(70f + rng.nextInt(25), 2f + 3f * rng.nextFloat(), ms, amp, 0.6f),
+						120 + rng.nextInt(200), ms / 3, ms - ms / 3 - 320)
+						.delayed(i == 0 ? 0 : 250 + rng.nextInt(900));
+			}
+			return HapticWaveform.mix(parts);
+		});
 
 		// ---- Gaps and Controlify's rumble events (DS4C expects Controlify's vibration off) ----
 		// Your own item breaking: a sharp crack and a rattle.
@@ -290,10 +319,10 @@ public final class HapticSoundDefaults {
 		// Global boss events (played near the camera for every player).
 		HapticSoundRegistry.registerOverlay(SoundEvents.WITHER_SPAWN, FeedbackCategory.AMBIENT, () ->
 				HapticWaveform.mix(
-						HapticWaveform.thump(80f, 900, 1.0f),
-						HapticWaveform.withASR(HapticWaveform.amSine(120f, 3f, 3000, 0.5f, 0.6f), 100, 1500, 1400)));
+						HapticWaveform.thump(80f, 700, 1.0f),
+						HapticWaveform.withASR(HapticWaveform.amSine(110f, 3f, 1800, 0.75f, 0.6f), 80, 900, 820)));
 		HapticSoundRegistry.registerOverlay(SoundEvents.ENDER_DRAGON_DEATH, FeedbackCategory.AMBIENT, () ->
-				HapticWaveform.withASR(HapticWaveform.amSine(85f, 3f, 6000, 0.7f, 0.5f), 500, 3500, 2000));
+				HapticWaveform.withASR(HapticWaveform.amSine(90f, 3f, 3000, 0.9f, 0.5f), 200, 1600, 1200));
 		// Crossbow loading: the ratchet clicks of the draw.
 		HapticSoundRegistry.register(SoundEvents.CROSSBOW_LOADING_START.value(), HapticProfile.localOnly(FeedbackCategory.COMBAT, 0.5f));
 		HapticSoundRegistry.register(SoundEvents.CROSSBOW_LOADING_MIDDLE.value(), HapticProfile.localOnly(FeedbackCategory.COMBAT, 0.5f));
@@ -303,7 +332,24 @@ public final class HapticSoundDefaults {
 		for (String suffix : new String[]{"door.open", "door.close", "fence_gate.open", "fence_gate.close",
 				"chest.open", "chest.close", "barrel.open", "barrel.close", "button.click_on",
 				"lever.click", "pressure_plate.click_on", "shulker_box.open", "shulker_box.close"}) {
-			HapticSoundRegistry.registerSuffix(suffix, HapticProfile.spatial(FeedbackCategory.ENVIRONMENT, 0.35f, 3f));
+			HapticSoundRegistry.registerSuffix(suffix, HapticProfile.spatial(FeedbackCategory.ENVIRONMENT, 0.7f, 6f));
+		}
+		// Button and pressure-plate clicks are short, quiet and high, so their passthrough barely
+		// reaches the grips. A synthesised click on top: a crisp snap for a button, a lower press
+		// for a plate (stone and wood alike, and the weighted plates).
+		for (String suffix : new String[]{"button.click_on", "button.click_off"}) {
+			boolean on = suffix.endsWith("on");
+			HapticSoundRegistry.registerSuffixOverlay(suffix, FeedbackCategory.ENVIRONMENT, 6f, () ->
+					HapticWaveform.mix(
+							HapticWaveform.thump(on ? 170f : 150f, 30, on ? 0.55f : 0.35f),
+							HapticWaveform.withASR(HapticWaveform.bandNoise(230f, 18, on ? 0.25f : 0.15f), 1, 6, 11)));
+		}
+		for (String suffix : new String[]{"pressure_plate.click_on", "pressure_plate.click_off"}) {
+			boolean on = suffix.endsWith("on");
+			HapticSoundRegistry.registerSuffixOverlay(suffix, FeedbackCategory.ENVIRONMENT, 6f, () ->
+					HapticWaveform.mix(
+							HapticWaveform.thump(on ? 110f : 125f, 50, on ? 0.55f : 0.3f),
+							HapticWaveform.withASR(HapticWaveform.bandNoise(160f, 25, on ? 0.18f : 0.1f), 1, 8, 16)));
 		}
 	}
 

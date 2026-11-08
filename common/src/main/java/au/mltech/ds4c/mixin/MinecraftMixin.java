@@ -2,6 +2,7 @@ package au.mltech.ds4c.mixin;
 
 import au.mltech.ds4c.events.Ds4cEvents;
 import au.mltech.ds4c.haptics.Haptics;
+import au.mltech.ds4c.input.PullThrough;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import org.jspecify.annotations.Nullable;
@@ -22,6 +23,13 @@ public class MinecraftMixin {
         Minecraft minecraft = (Minecraft) (Object) this;
         Ds4cEvents.clientTick(minecraft);
         Haptics.clientTick(minecraft);
+        PullThrough.clientTick(minecraft);
+    }
+
+    /** After a pull-through shot, don't start a new draw until the trigger has been let out. */
+    @Inject(method = "startUseItem", at = @At("HEAD"), cancellable = true)
+    private void ds4c$blockUseAfterPullThrough(CallbackInfo ci) {
+        if (PullThrough.blocksUse()) ci.cancel();
     }
 
     /**

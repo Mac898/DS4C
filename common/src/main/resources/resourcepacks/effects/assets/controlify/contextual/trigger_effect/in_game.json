@@ -16,7 +16,7 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 7,
+        "amplitude": 8,
         "frequency": 18
       }
     },
@@ -26,8 +26,8 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 6,
-        "frequency": 25
+        "amplitude": 7,
+        "frequency": 22
       }
     },
     {
@@ -36,8 +36,8 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 5,
-        "frequency": 30
+        "amplitude": 6,
+        "frequency": 25
       }
     },
     {
@@ -46,7 +46,7 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 3,
+        "amplitude": 4,
         "frequency": 30
       }
     },
@@ -56,7 +56,7 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 2,
+        "amplitude": 3,
         "frequency": 30
       }
     },
@@ -236,7 +236,7 @@
       "then": {
         "type": "vibration",
         "position": 4,
-        "amplitude": 4,
+        "amplitude": 3,
         "frequency": 25
       }
     },
@@ -256,17 +256,27 @@
       "then": {
         "type": "vibration",
         "position": 2,
-        "amplitude": 6,
+        "amplitude": 4,
         "frequency": 25
       }
     },
     {
       "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_swing",
+      "if": "ds4c:gallery/r2_swing_full",
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 4,
+        "amplitude": 7,
+        "frequency": 18
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": "ds4c:gallery/r2_swing_weak",
+      "then": {
+        "type": "vibration",
+        "position": 0,
+        "amplitude": 2,
         "frequency": 30
       }
     },
@@ -276,568 +286,71 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 8,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_8_tool_pickaxe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_8_tool_shovel",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_8_tool_axe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_8_tool_hoe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_8_tool_shears",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_8_tool_mace",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_8_tool_other",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_7_tool_pickaxe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_7_tool_shovel",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_7_tool_axe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_7_tool_hoe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_7_tool_shears",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_7_tool_mace",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_7_tool_other",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_6_tool_pickaxe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_6_tool_shovel",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_6_tool_axe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_6_tool_hoe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_6_tool_shears",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_6_tool_mace",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_6_tool_other",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_5_tool_pickaxe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_5_tool_shovel",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_5_tool_axe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_5_tool_hoe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_5_tool_shears",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_5_tool_mace",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_5_tool_other",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_4_tool_pickaxe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_4_tool_shovel",
-      "then": {
-        "type": "vibration",
-        "position": 0,
         "amplitude": 4,
         "frequency": 20
       }
     },
     {
       "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_4_tool_axe",
+      "if": "ds4c:gallery/r2_break_pulse_tool_pickaxe",
       "then": {
-        "type": "vibration",
+        "type": "feedback",
         "position": 0,
-        "amplitude": 4,
-        "frequency": 24
+        "strength": 6
       }
     },
     {
       "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_4_tool_hoe",
+      "if": "ds4c:gallery/r2_break_pulse_tool_shovel",
       "then": {
-        "type": "vibration",
+        "type": "feedback",
         "position": 0,
-        "amplitude": 4,
-        "frequency": 16
+        "strength": 5
       }
     },
     {
       "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_4_tool_shears",
+      "if": "ds4c:gallery/r2_break_pulse_tool_axe",
       "then": {
-        "type": "vibration",
+        "type": "feedback",
         "position": 0,
-        "amplitude": 4,
-        "frequency": 35
+        "strength": 7
       }
     },
     {
       "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_4_tool_mace",
+      "if": "ds4c:gallery/r2_break_pulse_tool_hoe",
       "then": {
-        "type": "vibration",
+        "type": "feedback",
         "position": 0,
-        "amplitude": 4,
-        "frequency": 22
+        "strength": 4
       }
     },
     {
       "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_4_tool_other",
+      "if": "ds4c:gallery/r2_break_pulse_tool_shears",
       "then": {
-        "type": "vibration",
+        "type": "feedback",
         "position": 0,
-        "amplitude": 4,
-        "frequency": 26
+        "strength": 4
       }
     },
     {
       "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_3_tool_pickaxe",
+      "if": "ds4c:gallery/r2_break_pulse_tool_mace",
       "then": {
-        "type": "vibration",
+        "type": "feedback",
         "position": 0,
-        "amplitude": 3,
-        "frequency": 30
+        "strength": 6
       }
     },
     {
       "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_3_tool_shovel",
+      "if": "ds4c:gallery/r2_break_pulse_tool_other",
       "then": {
-        "type": "vibration",
+        "type": "feedback",
         "position": 0,
-        "amplitude": 3,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_3_tool_axe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_3_tool_hoe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_3_tool_shears",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_3_tool_mace",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_3_tool_other",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_2_tool_pickaxe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_2_tool_shovel",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_2_tool_axe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_2_tool_hoe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_2_tool_shears",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_2_tool_mace",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_2_tool_other",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_1_tool_pickaxe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_1_tool_shovel",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_1_tool_axe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_1_tool_hoe",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_1_tool_shears",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_1_tool_mace",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": "ds4c:gallery/r2_break_pulse_1_tool_other",
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 26
+        "strength": 5
       }
     },
     {
@@ -846,7 +359,7 @@
       "then": {
         "type": "feedback",
         "position": 4,
-        "strength": 5
+        "strength": 3
       }
     },
     {
@@ -855,7 +368,7 @@
       "then": {
         "type": "vibration",
         "position": 3,
-        "amplitude": 5,
+        "amplitude": 3,
         "frequency": 18
       }
     },
@@ -865,18 +378,8 @@
       "then": {
         "type": "weapon",
         "start_position": 3,
-        "end_position": 4,
-        "strength": 2
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": "ds4c:gallery/l2_block_place",
-      "then": {
-        "type": "weapon",
-        "start_position": 3,
-        "end_position": 4,
-        "strength": 3
+        "end_position": 5,
+        "strength": 4
       }
     },
     {
@@ -901,20 +404,32 @@
     },
     {
       "for": "controlify:use",
-      "if": "ds4c:gallery/l2_firework",
+      "if": "ds4c:gallery/l2_pull_through_use_anim_bow_draw_3",
       "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 30
+        "type": "bow",
+        "start_position": 4,
+        "end_position": 8,
+        "strength": 8,
+        "snap_force": 8
       }
     },
     {
       "for": "controlify:use",
       "if": "ds4c:gallery/l2_use_anim_bow_draw_3",
       "then": {
-        "type": "bow",
+        "type": "feedback_slope",
         "start_position": 2,
+        "end_position": 9,
+        "start_strength": 4,
+        "end_strength": 8
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": "ds4c:gallery/l2_pull_through_use_anim_trident_draw_3",
+      "then": {
+        "type": "bow",
+        "start_position": 4,
         "end_position": 8,
         "strength": 8,
         "snap_force": 8
@@ -924,11 +439,11 @@
       "for": "controlify:use",
       "if": "ds4c:gallery/l2_use_anim_trident_draw_3",
       "then": {
-        "type": "bow",
+        "type": "feedback_slope",
         "start_position": 2,
-        "end_position": 8,
-        "strength": 8,
-        "snap_force": 8
+        "end_position": 9,
+        "start_strength": 4,
+        "end_strength": 8
       }
     },
     {
@@ -944,10 +459,32 @@
     },
     {
       "for": "controlify:use",
-      "if": "ds4c:gallery/l2_use_anim_bow_draw_2",
+      "if": "ds4c:gallery/l2_pull_through_use_anim_bow_draw_2",
       "then": {
         "type": "bow",
-        "start_position": 4,
+        "start_position": 5,
+        "end_position": 8,
+        "strength": 6,
+        "snap_force": 8
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": "ds4c:gallery/l2_use_anim_bow_draw_2",
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 3,
+        "end_position": 9,
+        "start_strength": 3,
+        "end_strength": 6
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": "ds4c:gallery/l2_pull_through_use_anim_trident_draw_2",
+      "then": {
+        "type": "bow",
+        "start_position": 5,
         "end_position": 8,
         "strength": 6,
         "snap_force": 8
@@ -957,11 +494,11 @@
       "for": "controlify:use",
       "if": "ds4c:gallery/l2_use_anim_trident_draw_2",
       "then": {
-        "type": "bow",
-        "start_position": 4,
-        "end_position": 8,
-        "strength": 6,
-        "snap_force": 6
+        "type": "feedback_slope",
+        "start_position": 3,
+        "end_position": 9,
+        "start_strength": 3,
+        "end_strength": 6
       }
     },
     {
@@ -977,10 +514,32 @@
     },
     {
       "for": "controlify:use",
-      "if": "ds4c:gallery/l2_use_anim_bow_draw_1",
+      "if": "ds4c:gallery/l2_pull_through_use_anim_bow_draw_1",
       "then": {
         "type": "bow",
-        "start_position": 5,
+        "start_position": 6,
+        "end_position": 8,
+        "strength": 4,
+        "snap_force": 8
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": "ds4c:gallery/l2_use_anim_bow_draw_1",
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 4,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 4
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": "ds4c:gallery/l2_pull_through_use_anim_trident_draw_1",
+      "then": {
+        "type": "bow",
+        "start_position": 6,
         "end_position": 8,
         "strength": 4,
         "snap_force": 8
@@ -990,11 +549,11 @@
       "for": "controlify:use",
       "if": "ds4c:gallery/l2_use_anim_trident_draw_1",
       "then": {
-        "type": "bow",
-        "start_position": 5,
-        "end_position": 8,
-        "strength": 4,
-        "snap_force": 4
+        "type": "feedback_slope",
+        "start_position": 4,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 4
       }
     },
     {
@@ -1010,7 +569,29 @@
     },
     {
       "for": "controlify:use",
+      "if": "ds4c:gallery/l2_pull_through_use_anim_bow_draw_0",
+      "then": {
+        "type": "bow",
+        "start_position": 7,
+        "end_position": 8,
+        "strength": 2,
+        "snap_force": 8
+      }
+    },
+    {
+      "for": "controlify:use",
       "if": "ds4c:gallery/l2_use_anim_bow_draw_0",
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": "ds4c:gallery/l2_pull_through_use_anim_trident_draw_0",
       "then": {
         "type": "bow",
         "start_position": 7,
@@ -1023,11 +604,11 @@
       "for": "controlify:use",
       "if": "ds4c:gallery/l2_use_anim_trident_draw_0",
       "then": {
-        "type": "bow",
-        "start_position": 7,
-        "end_position": 8,
-        "strength": 2,
-        "snap_force": 2
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
       }
     },
     {
@@ -1058,65 +639,12 @@
       "then": {
         "type": "feedback",
         "position": 6,
-        "strength": 5
+        "strength": 6
       }
     },
     {
       "for": "controlify:use",
-      "if": "ds4c:gallery/l2_horse_jump_3",
-      "then": {
-        "type": "bow",
-        "start_position": 2,
-        "end_position": 8,
-        "strength": 8,
-        "snap_force": 8
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": "ds4c:gallery/l2_horse_jump_2",
-      "then": {
-        "type": "bow",
-        "start_position": 4,
-        "end_position": 8,
-        "strength": 6,
-        "snap_force": 8
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": "ds4c:gallery/l2_horse_jump_1",
-      "then": {
-        "type": "bow",
-        "start_position": 5,
-        "end_position": 8,
-        "strength": 4,
-        "snap_force": 8
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": "ds4c:gallery/l2_horse_jump_0",
-      "then": {
-        "type": "bow",
-        "start_position": 7,
-        "end_position": 8,
-        "strength": 2,
-        "snap_force": 8
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": "ds4c:gallery/l2_main_hand_crossbow_uncharged",
-      "then": {
-        "type": "feedback",
-        "position": 4,
-        "strength": 2
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": "ds4c:gallery/l2_main_hand_crossbow",
+      "if": "ds4c:gallery/l2_holding_loaded_crossbow",
       "then": {
         "type": "feedback",
         "position": 4,
@@ -1125,13 +653,33 @@
     },
     {
       "for": "controlify:use",
-      "if": "ds4c:gallery/l2_main_hand_bow",
+      "if": "ds4c:gallery/l2_main_hand_crossbow",
+      "then": {
+        "type": "feedback",
+        "position": 4,
+        "strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": "ds4c:gallery/l2_pull_through_main_hand_bow",
       "then": {
         "type": "bow",
         "start_position": 7,
         "end_position": 8,
         "strength": 2,
         "snap_force": 8
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": "ds4c:gallery/l2_main_hand_bow",
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
       }
     },
     {
@@ -1150,15 +698,6 @@
         "type": "feedback",
         "position": 5,
         "strength": 3
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": "ds4c:gallery/l2_place_ready",
-      "then": {
-        "type": "feedback",
-        "position": 4,
-        "strength": 1
       }
     },
     {
@@ -1304,7 +843,7 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 5,
+        "amplitude": 6,
         "frequency": 18
       }
     },
@@ -1320,7 +859,7 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 7,
+        "amplitude": 8,
         "frequency": 18
       }
     },
@@ -1337,8 +876,8 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 3,
-        "frequency": 25
+        "amplitude": 4,
+        "frequency": 22
       }
     },
     {
@@ -1354,6 +893,56 @@
       "then": {
         "type": "vibration",
         "position": 0,
+        "amplitude": 5,
+        "frequency": 22
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:event/hit_strong"
+        ]
+      },
+      "then": {
+        "type": "vibration",
+        "position": 0,
+        "amplitude": 7,
+        "frequency": 22
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:event/hit_sweep"
+        ]
+      },
+      "then": {
+        "type": "vibration",
+        "position": 0,
+        "amplitude": 3,
+        "frequency": 25
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:event/hit_sweep"
+        ]
+      },
+      "then": {
+        "type": "vibration",
+        "position": 0,
         "amplitude": 4,
         "frequency": 25
       }
@@ -1364,7 +953,7 @@
         "all_of": [
           "ds4c:enabled",
           "ds4c:category/combat",
-          "ds4c:event/hit_strong"
+          "ds4c:event/hit_sweep"
         ]
       },
       "then": {
@@ -1381,56 +970,6 @@
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/combat",
-          "ds4c:event/hit_sweep"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/combat",
-          "ds4c:event/hit_sweep"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/combat",
-          "ds4c:event/hit_sweep"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/combat",
           "ds4c:event/hit_weak"
         ]
       },
@@ -1446,22 +985,6 @@
       "if": {
         "all_of": [
           "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/combat",
-          "ds4c:event/hit_weak"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
           "ds4c:enabled",
           "ds4c:category/combat",
           "ds4c:event/hit_weak"
@@ -1478,6 +1001,22 @@
       "for": "controlify:attack",
       "if": {
         "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:event/hit_weak"
+        ]
+      },
+      "then": {
+        "type": "vibration",
+        "position": 0,
+        "amplitude": 4,
+        "frequency": 30
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/combat",
@@ -1487,7 +1026,7 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 1,
+        "amplitude": 2,
         "frequency": 30
       }
     },
@@ -1520,7 +1059,7 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 2,
+        "amplitude": 3,
         "frequency": 30
       }
     },
@@ -2404,7 +1943,7 @@
       "then": {
         "type": "vibration",
         "position": 4,
-        "amplitude": 3,
+        "amplitude": 2,
         "frequency": 25
       }
     },
@@ -2420,7 +1959,7 @@
       "then": {
         "type": "vibration",
         "position": 4,
-        "amplitude": 4,
+        "amplitude": 3,
         "frequency": 25
       }
     },
@@ -2487,7 +2026,7 @@
       "then": {
         "type": "vibration",
         "position": 2,
-        "amplitude": 3,
+        "amplitude": 2,
         "frequency": 25
       }
     },
@@ -2504,7 +2043,7 @@
       "then": {
         "type": "vibration",
         "position": 2,
-        "amplitude": 4,
+        "amplitude": 3,
         "frequency": 25
       }
     },
@@ -2520,7 +2059,7 @@
       "then": {
         "type": "vibration",
         "position": 2,
-        "amplitude": 6,
+        "amplitude": 4,
         "frequency": 25
       }
     },
@@ -2531,13 +2070,63 @@
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/combat",
-          "ds4c:event/swing"
+          "ds4c:event/swing_full"
         ]
       },
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 2,
+        "amplitude": 4,
+        "frequency": 18
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:event/swing_full"
+        ]
+      },
+      "then": {
+        "type": "vibration",
+        "position": 0,
+        "amplitude": 5,
+        "frequency": 18
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:event/swing_full"
+        ]
+      },
+      "then": {
+        "type": "vibration",
+        "position": 0,
+        "amplitude": 7,
+        "frequency": 18
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:event/swing_weak"
+        ]
+      },
+      "then": {
+        "type": "vibration",
+        "position": 0,
+        "amplitude": 1,
         "frequency": 30
       }
     },
@@ -2548,13 +2137,13 @@
           "ds4c:trigger_strength/75",
           "ds4c:enabled",
           "ds4c:category/combat",
-          "ds4c:event/swing"
+          "ds4c:event/swing_weak"
         ]
       },
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 3,
+        "amplitude": 2,
         "frequency": 30
       }
     },
@@ -2564,13 +2153,13 @@
         "all_of": [
           "ds4c:enabled",
           "ds4c:category/combat",
-          "ds4c:event/swing"
+          "ds4c:event/swing_weak"
         ]
       },
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 4,
+        "amplitude": 2,
         "frequency": 30
       }
     },
@@ -2587,8 +2176,8 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 4,
-        "frequency": 30
+        "amplitude": 2,
+        "frequency": 20
       }
     },
     {
@@ -2604,8 +2193,8 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 6,
-        "frequency": 30
+        "amplitude": 3,
+        "frequency": 20
       }
     },
     {
@@ -2620,1596 +2209,6 @@
       "then": {
         "type": "vibration",
         "position": 0,
-        "amplitude": 8,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/8",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 8,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/7",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/6",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 6,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/5",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
         "amplitude": 4,
         "frequency": 20
       }
@@ -4221,1421 +2220,346 @@
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/4",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
+          "ds4c:event/break_pulse",
           "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/3",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 3,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/2",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 2,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/pickaxe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/shovel"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 20
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/axe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 24
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/hoe"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 16
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/shears"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 35
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/mace"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 22
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:attack",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/break_pulse/1",
-          "ds4c:tool/other"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 1,
-        "frequency": 26
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/bucket"
         ]
       },
       "then": {
         "type": "feedback",
-        "position": 4,
+        "position": 0,
+        "strength": 3
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/pickaxe"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 4
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/pickaxe"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 6
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/shovel"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
         "strength": 2
       }
     },
     {
-      "for": "controlify:use",
+      "for": "controlify:attack",
       "if": {
         "all_of": [
           "ds4c:trigger_strength/75",
           "ds4c:enabled",
           "ds4c:category/environment",
-          "ds4c:event/bucket"
+          "ds4c:event/break_pulse",
+          "ds4c:tool/shovel"
         ]
       },
       "then": {
         "type": "feedback",
-        "position": 4,
+        "position": 0,
         "strength": 4
       }
     },
     {
-      "for": "controlify:use",
+      "for": "controlify:attack",
       "if": {
         "all_of": [
           "ds4c:enabled",
           "ds4c:category/environment",
-          "ds4c:event/bucket"
+          "ds4c:event/break_pulse",
+          "ds4c:tool/shovel"
         ]
       },
       "then": {
         "type": "feedback",
-        "position": 4,
+        "position": 0,
+        "strength": 5
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/axe"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 4
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/axe"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 5
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/axe"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 7
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/hoe"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 2
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/hoe"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 3
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/hoe"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 4
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/shears"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 2
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/shears"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 3
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/shears"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 4
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/mace"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 3
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/mace"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 4
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/mace"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 6
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/other"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 2
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/other"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
+        "strength": 4
+      }
+    },
+    {
+      "for": "controlify:attack",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/break_pulse",
+          "ds4c:tool/other"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 0,
         "strength": 5
       }
     },
@@ -5646,6 +2570,53 @@
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/environment",
+          "ds4c:event/bucket"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 4,
+        "strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/bucket"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 4,
+        "strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/bucket"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 4,
+        "strength": 3
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/environment",
           "ds4c:event/hoe_till"
         ]
       },
@@ -5669,7 +2640,7 @@
       "then": {
         "type": "vibration",
         "position": 3,
-        "amplitude": 4,
+        "amplitude": 2,
         "frequency": 18
       }
     },
@@ -5685,7 +2656,7 @@
       "then": {
         "type": "vibration",
         "position": 3,
-        "amplitude": 5,
+        "amplitude": 3,
         "frequency": 18
       }
     },
@@ -5702,8 +2673,8 @@
       "then": {
         "type": "weapon",
         "start_position": 3,
-        "end_position": 4,
-        "strength": 1
+        "end_position": 5,
+        "strength": 2
       }
     },
     {
@@ -5719,74 +2690,24 @@
       "then": {
         "type": "weapon",
         "start_position": 3,
-        "end_position": 4,
-        "strength": 2
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/spawn_egg"
-        ]
-      },
-      "then": {
-        "type": "weapon",
-        "start_position": 3,
-        "end_position": 4,
-        "strength": 2
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/block_place"
-        ]
-      },
-      "then": {
-        "type": "weapon",
-        "start_position": 3,
-        "end_position": 4,
-        "strength": 2
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/block_place"
-        ]
-      },
-      "then": {
-        "type": "weapon",
-        "start_position": 3,
-        "end_position": 4,
-        "strength": 2
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:event/block_place"
-        ]
-      },
-      "then": {
-        "type": "weapon",
-        "start_position": 3,
-        "end_position": 4,
+        "end_position": 5,
         "strength": 3
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/environment",
+          "ds4c:event/spawn_egg"
+        ]
+      },
+      "then": {
+        "type": "weapon",
+        "start_position": 3,
+        "end_position": 5,
+        "strength": 4
       }
     },
     {
@@ -5893,56 +2814,6 @@
       "for": "controlify:use",
       "if": {
         "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:event/firework"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 4,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:event/firework"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 5,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:event/firework"
-        ]
-      },
-      "then": {
-        "type": "vibration",
-        "position": 0,
-        "amplitude": 7,
-        "frequency": 30
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
           "ds4c:enabled",
           "ds4c:category/combat",
           "ds4c:crossbow_loaded"
@@ -5959,16 +2830,75 @@
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/combat",
+          "ds4c:pull_through",
           "ds4c:use_anim/bow",
           "ds4c:draw/3"
         ]
       },
       "then": {
         "type": "bow",
-        "start_position": 2,
+        "start_position": 4,
         "end_position": 8,
         "strength": 4,
         "snap_force": 4
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/3"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 4,
+        "end_position": 8,
+        "strength": 6,
+        "snap_force": 6
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/3"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 4,
+        "end_position": 8,
+        "strength": 8,
+        "snap_force": 8
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/3"
+        ]
+      },
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 2,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 4
       }
     },
     {
@@ -5983,11 +2913,11 @@
         ]
       },
       "then": {
-        "type": "bow",
+        "type": "feedback_slope",
         "start_position": 2,
-        "end_position": 8,
-        "strength": 6,
-        "snap_force": 6
+        "end_position": 9,
+        "start_strength": 3,
+        "end_strength": 6
       }
     },
     {
@@ -6001,8 +2931,67 @@
         ]
       },
       "then": {
-        "type": "bow",
+        "type": "feedback_slope",
         "start_position": 2,
+        "end_position": 9,
+        "start_strength": 4,
+        "end_strength": 8
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/3"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 4,
+        "end_position": 8,
+        "strength": 4,
+        "snap_force": 4
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/3"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 4,
+        "end_position": 8,
+        "strength": 6,
+        "snap_force": 6
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/3"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 4,
         "end_position": 8,
         "strength": 8,
         "snap_force": 8
@@ -6020,11 +3009,11 @@
         ]
       },
       "then": {
-        "type": "bow",
+        "type": "feedback_slope",
         "start_position": 2,
-        "end_position": 8,
-        "strength": 4,
-        "snap_force": 4
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 4
       }
     },
     {
@@ -6039,11 +3028,11 @@
         ]
       },
       "then": {
-        "type": "bow",
+        "type": "feedback_slope",
         "start_position": 2,
-        "end_position": 8,
-        "strength": 6,
-        "snap_force": 6
+        "end_position": 9,
+        "start_strength": 3,
+        "end_strength": 6
       }
     },
     {
@@ -6057,11 +3046,11 @@
         ]
       },
       "then": {
-        "type": "bow",
+        "type": "feedback_slope",
         "start_position": 2,
-        "end_position": 8,
-        "strength": 8,
-        "snap_force": 8
+        "end_position": 9,
+        "start_strength": 4,
+        "end_strength": 8
       }
     },
     {
@@ -6127,16 +3116,75 @@
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/combat",
+          "ds4c:pull_through",
           "ds4c:use_anim/bow",
           "ds4c:draw/2"
         ]
       },
       "then": {
         "type": "bow",
-        "start_position": 4,
+        "start_position": 5,
         "end_position": 8,
         "strength": 3,
         "snap_force": 4
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/2"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 5,
+        "end_position": 8,
+        "strength": 4,
+        "snap_force": 6
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/2"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 5,
+        "end_position": 8,
+        "strength": 6,
+        "snap_force": 8
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/2"
+        ]
+      },
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 3,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 3
       }
     },
     {
@@ -6151,11 +3199,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 4,
-        "end_position": 8,
-        "strength": 4,
-        "snap_force": 6
+        "type": "feedback_slope",
+        "start_position": 3,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 4
       }
     },
     {
@@ -6169,8 +3217,67 @@
         ]
       },
       "then": {
+        "type": "feedback_slope",
+        "start_position": 3,
+        "end_position": 9,
+        "start_strength": 3,
+        "end_strength": 6
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/2"
+        ]
+      },
+      "then": {
         "type": "bow",
-        "start_position": 4,
+        "start_position": 5,
+        "end_position": 8,
+        "strength": 3,
+        "snap_force": 4
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/2"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 5,
+        "end_position": 8,
+        "strength": 4,
+        "snap_force": 6
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/2"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 5,
         "end_position": 8,
         "strength": 6,
         "snap_force": 8
@@ -6188,11 +3295,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 4,
-        "end_position": 8,
-        "strength": 3,
-        "snap_force": 3
+        "type": "feedback_slope",
+        "start_position": 3,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 3
       }
     },
     {
@@ -6207,11 +3314,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 4,
-        "end_position": 8,
-        "strength": 4,
-        "snap_force": 4
+        "type": "feedback_slope",
+        "start_position": 3,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 4
       }
     },
     {
@@ -6225,11 +3332,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 4,
-        "end_position": 8,
-        "strength": 6,
-        "snap_force": 6
+        "type": "feedback_slope",
+        "start_position": 3,
+        "end_position": 9,
+        "start_strength": 3,
+        "end_strength": 6
       }
     },
     {
@@ -6295,16 +3402,75 @@
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/combat",
+          "ds4c:pull_through",
           "ds4c:use_anim/bow",
           "ds4c:draw/1"
         ]
       },
       "then": {
         "type": "bow",
-        "start_position": 5,
+        "start_position": 6,
         "end_position": 8,
         "strength": 2,
         "snap_force": 4
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/1"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 6,
+        "end_position": 8,
+        "strength": 3,
+        "snap_force": 6
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/1"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 6,
+        "end_position": 8,
+        "strength": 4,
+        "snap_force": 8
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/1"
+        ]
+      },
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 4,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
       }
     },
     {
@@ -6319,11 +3485,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 5,
-        "end_position": 8,
-        "strength": 3,
-        "snap_force": 6
+        "type": "feedback_slope",
+        "start_position": 4,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 3
       }
     },
     {
@@ -6337,8 +3503,67 @@
         ]
       },
       "then": {
+        "type": "feedback_slope",
+        "start_position": 4,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 4
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/1"
+        ]
+      },
+      "then": {
         "type": "bow",
-        "start_position": 5,
+        "start_position": 6,
+        "end_position": 8,
+        "strength": 2,
+        "snap_force": 4
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/1"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 6,
+        "end_position": 8,
+        "strength": 3,
+        "snap_force": 6
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/1"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 6,
         "end_position": 8,
         "strength": 4,
         "snap_force": 8
@@ -6356,11 +3581,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 5,
-        "end_position": 8,
-        "strength": 2,
-        "snap_force": 2
+        "type": "feedback_slope",
+        "start_position": 4,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
       }
     },
     {
@@ -6375,11 +3600,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 5,
-        "end_position": 8,
-        "strength": 3,
-        "snap_force": 3
+        "type": "feedback_slope",
+        "start_position": 4,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 3
       }
     },
     {
@@ -6393,11 +3618,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 5,
-        "end_position": 8,
-        "strength": 4,
-        "snap_force": 4
+        "type": "feedback_slope",
+        "start_position": 4,
+        "end_position": 9,
+        "start_strength": 2,
+        "end_strength": 4
       }
     },
     {
@@ -6463,6 +3688,7 @@
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/combat",
+          "ds4c:pull_through",
           "ds4c:use_anim/bow",
           "ds4c:draw/0"
         ]
@@ -6482,6 +3708,7 @@
           "ds4c:trigger_strength/75",
           "ds4c:enabled",
           "ds4c:category/combat",
+          "ds4c:pull_through",
           "ds4c:use_anim/bow",
           "ds4c:draw/0"
         ]
@@ -6500,7 +3727,123 @@
         "all_of": [
           "ds4c:enabled",
           "ds4c:category/combat",
+          "ds4c:pull_through",
           "ds4c:use_anim/bow",
+          "ds4c:draw/0"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 7,
+        "end_position": 8,
+        "strength": 2,
+        "snap_force": 8
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/0"
+        ]
+      },
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 1
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/0"
+        ]
+      },
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:use_anim/bow",
+          "ds4c:draw/0"
+        ]
+      },
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/0"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 7,
+        "end_position": 8,
+        "strength": 1,
+        "snap_force": 4
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
+          "ds4c:draw/0"
+        ]
+      },
+      "then": {
+        "type": "bow",
+        "start_position": 7,
+        "end_position": 8,
+        "strength": 2,
+        "snap_force": 6
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          "ds4c:use_anim/trident",
           "ds4c:draw/0"
         ]
       },
@@ -6524,11 +3867,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 7,
-        "end_position": 8,
-        "strength": 1,
-        "snap_force": 1
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 1
       }
     },
     {
@@ -6543,11 +3886,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 7,
-        "end_position": 8,
-        "strength": 2,
-        "snap_force": 2
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
       }
     },
     {
@@ -6561,11 +3904,11 @@
         ]
       },
       "then": {
-        "type": "bow",
-        "start_position": 7,
-        "end_position": 8,
-        "strength": 2,
-        "snap_force": 2
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
       }
     },
     {
@@ -6705,7 +4048,7 @@
       "then": {
         "type": "feedback",
         "position": 6,
-        "strength": 2
+        "strength": 3
       }
     },
     {
@@ -6736,219 +4079,7 @@
       "then": {
         "type": "feedback",
         "position": 6,
-        "strength": 5
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/3"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 2,
-        "end_position": 8,
-        "strength": 4,
-        "snap_force": 4
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/3"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 2,
-        "end_position": 8,
-        "strength": 6,
-        "snap_force": 6
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/3"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 2,
-        "end_position": 8,
-        "strength": 8,
-        "snap_force": 8
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/2"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 4,
-        "end_position": 8,
-        "strength": 3,
-        "snap_force": 4
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/2"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 4,
-        "end_position": 8,
-        "strength": 4,
-        "snap_force": 6
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/2"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 4,
-        "end_position": 8,
-        "strength": 6,
-        "snap_force": 8
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/1"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 5,
-        "end_position": 8,
-        "strength": 2,
-        "snap_force": 4
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/1"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 5,
-        "end_position": 8,
-        "strength": 3,
-        "snap_force": 6
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/1"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 5,
-        "end_position": 8,
-        "strength": 4,
-        "snap_force": 8
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/0"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 7,
-        "end_position": 8,
-        "strength": 1,
-        "snap_force": 4
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/0"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 7,
-        "end_position": 8,
-        "strength": 2,
-        "snap_force": 6
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/movement",
-          "ds4c:horse_jump/0"
-        ]
-      },
-      "then": {
-        "type": "bow",
-        "start_position": 7,
-        "end_position": 8,
-        "strength": 2,
-        "snap_force": 8
+        "strength": 6
       }
     },
     {
@@ -6958,92 +4089,7 @@
           "ds4c:trigger_strength/50",
           "ds4c:enabled",
           "ds4c:category/combat",
-          {
-            "slot": "controlify:main_hand",
-            "item": {
-              "items": "#c:tools/crossbow",
-              "components": {
-                "minecraft:charged_projectiles": []
-              }
-            }
-          }
-        ],
-        "none_of": [
-          "ds4c:using_item"
-        ]
-      },
-      "then": {
-        "type": "feedback",
-        "position": 4,
-        "strength": 1
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/combat",
-          {
-            "slot": "controlify:main_hand",
-            "item": {
-              "items": "#c:tools/crossbow",
-              "components": {
-                "minecraft:charged_projectiles": []
-              }
-            }
-          }
-        ],
-        "none_of": [
-          "ds4c:using_item"
-        ]
-      },
-      "then": {
-        "type": "feedback",
-        "position": 4,
-        "strength": 2
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/combat",
-          {
-            "slot": "controlify:main_hand",
-            "item": {
-              "items": "#c:tools/crossbow",
-              "components": {
-                "minecraft:charged_projectiles": []
-              }
-            }
-          }
-        ],
-        "none_of": [
-          "ds4c:using_item"
-        ]
-      },
-      "then": {
-        "type": "feedback",
-        "position": 4,
-        "strength": 2
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/combat",
-          {
-            "slot": "controlify:main_hand",
-            "item": {
-              "items": "#c:tools/crossbow"
-            }
-          }
+          "ds4c:holding_loaded_crossbow"
         ],
         "none_of": [
           "ds4c:using_item"
@@ -7062,12 +4108,7 @@
           "ds4c:trigger_strength/75",
           "ds4c:enabled",
           "ds4c:category/combat",
-          {
-            "slot": "controlify:main_hand",
-            "item": {
-              "items": "#c:tools/crossbow"
-            }
-          }
+          "ds4c:holding_loaded_crossbow"
         ],
         "none_of": [
           "ds4c:using_item"
@@ -7085,12 +4126,7 @@
         "all_of": [
           "ds4c:enabled",
           "ds4c:category/combat",
-          {
-            "slot": "controlify:main_hand",
-            "item": {
-              "items": "#c:tools/crossbow"
-            }
-          }
+          "ds4c:holding_loaded_crossbow"
         ],
         "none_of": [
           "ds4c:using_item"
@@ -7112,6 +4148,78 @@
           {
             "slot": "controlify:main_hand",
             "item": {
+              "items": "#c:tools/crossbow"
+            }
+          }
+        ],
+        "none_of": [
+          "ds4c:using_item"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 4,
+        "strength": 1
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          {
+            "slot": "controlify:main_hand",
+            "item": {
+              "items": "#c:tools/crossbow"
+            }
+          }
+        ],
+        "none_of": [
+          "ds4c:using_item"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 4,
+        "strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          {
+            "slot": "controlify:main_hand",
+            "item": {
+              "items": "#c:tools/crossbow"
+            }
+          }
+        ],
+        "none_of": [
+          "ds4c:using_item"
+        ]
+      },
+      "then": {
+        "type": "feedback",
+        "position": 4,
+        "strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          "ds4c:pull_through",
+          {
+            "slot": "controlify:main_hand",
+            "item": {
               "items": "#c:tools/bow"
             }
           }
@@ -7135,6 +4243,7 @@
           "ds4c:trigger_strength/75",
           "ds4c:enabled",
           "ds4c:category/combat",
+          "ds4c:pull_through",
           {
             "slot": "controlify:main_hand",
             "item": {
@@ -7160,6 +4269,7 @@
         "all_of": [
           "ds4c:enabled",
           "ds4c:category/combat",
+          "ds4c:pull_through",
           {
             "slot": "controlify:main_hand",
             "item": {
@@ -7189,6 +4299,83 @@
           {
             "slot": "controlify:main_hand",
             "item": {
+              "items": "#c:tools/bow"
+            }
+          }
+        ],
+        "none_of": [
+          "ds4c:using_item"
+        ]
+      },
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 1
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/75",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          {
+            "slot": "controlify:main_hand",
+            "item": {
+              "items": "#c:tools/bow"
+            }
+          }
+        ],
+        "none_of": [
+          "ds4c:using_item"
+        ]
+      },
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          {
+            "slot": "controlify:main_hand",
+            "item": {
+              "items": "#c:tools/bow"
+            }
+          }
+        ],
+        "none_of": [
+          "ds4c:using_item"
+        ]
+      },
+      "then": {
+        "type": "feedback_slope",
+        "start_position": 5,
+        "end_position": 9,
+        "start_strength": 1,
+        "end_strength": 2
+      }
+    },
+    {
+      "for": "controlify:use",
+      "if": {
+        "all_of": [
+          "ds4c:trigger_strength/50",
+          "ds4c:enabled",
+          "ds4c:category/combat",
+          {
+            "slot": "controlify:main_hand",
+            "item": {
               "items": "#c:tools/trident"
             }
           }
@@ -7319,62 +4506,6 @@
         "type": "feedback",
         "position": 5,
         "strength": 3
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/50",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:place_ready"
-        ],
-        "none_of": [
-          "ds4c:using_item"
-        ]
-      },
-      "then": {
-        "type": "feedback",
-        "position": 4,
-        "strength": 1
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:trigger_strength/75",
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:place_ready"
-        ],
-        "none_of": [
-          "ds4c:using_item"
-        ]
-      },
-      "then": {
-        "type": "feedback",
-        "position": 4,
-        "strength": 1
-      }
-    },
-    {
-      "for": "controlify:use",
-      "if": {
-        "all_of": [
-          "ds4c:enabled",
-          "ds4c:category/environment",
-          "ds4c:place_ready"
-        ],
-        "none_of": [
-          "ds4c:using_item"
-        ]
-      },
-      "then": {
-        "type": "feedback",
-        "position": 4,
-        "strength": 1
       }
     },
     {

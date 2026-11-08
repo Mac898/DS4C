@@ -12,11 +12,5 @@
         "minecraft:weapon": {}
       }
     }
-  },
-  "ds4c:place_ready": {
-    "all_of": [
-      "controlify:main_hand_is_block_item",
-      "ds4c:aiming_at_block"
-    ]
   }
 }

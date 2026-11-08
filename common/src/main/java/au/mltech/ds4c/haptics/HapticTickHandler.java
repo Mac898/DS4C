@@ -111,7 +111,7 @@ public final class HapticTickHandler {
     // --- helpers -----------------------------------------------------------------------------------
 
     private static float intensity() {
-        return Ds4cSettings.synthesisIntensity();
+        return Ds4cSettings.synthesisIntensity() * Haptics.SYNTH_GAIN;
     }
 
     private static boolean on(FeedbackCategory category) {
@@ -240,7 +240,7 @@ public final class HapticTickHandler {
         boolean active = player.isFallFlying() && speed > 0.8f;
         float level = Math.min(1f, (speed - 0.8f) / 3f);
         HapticLoop loop = bed(ELYTRA_WIND, active, FeedbackCategory.MOVEMENT,
-                () -> HapticWaveform.bandNoise(130f, 100, 1f), 0.15f + 0.6f * level);
+                () -> HapticWaveform.bandNoise(130f, 100, 1f), 0.1f + 0.45f * level);
         if (loop != null && ThreadLocalRandom.current().nextFloat() < 0.08f) loop.accent();
     }
 
@@ -254,7 +254,7 @@ public final class HapticTickHandler {
         Block block = null;
         if (feet.is(Blocks.COBWEB) || feet.is(Blocks.POWDER_SNOW) || feet.is(Blocks.SWEET_BERRY_BUSH)) {
             block = feet.getBlock();
-        } else if (player.onGround() && below.getBlock().getSpeedFactor() < 1f) {
+        } else if (player.onGround() && (below.getBlock().getSpeedFactor() < 1f || below.is(Blocks.SLIME_BLOCK))) {
             block = below.getBlock();
         }
         float push = player.input.getMoveVector().length();
@@ -267,7 +267,7 @@ public final class HapticTickHandler {
         }
 
         Supplier<HapticWaveform> texture;
-        if (block == Blocks.HONEY_BLOCK) {
+        if (block == Blocks.HONEY_BLOCK || block == Blocks.SLIME_BLOCK) {
             texture = () -> HapticWaveform.amSine(85f, 4f, CHUNK_MS, 1f, 0.8f); // sticky pull
         } else if (block == Blocks.COBWEB) {
             texture = () -> HapticWaveform.bandNoise(180f, CHUNK_MS, 0.7f); // fine strands
@@ -276,7 +276,8 @@ public final class HapticTickHandler {
         } else {
             texture = () -> HapticWaveform.bandNoise(110f, CHUNK_MS, 1f); // soul sand, berries
         }
-        bed(DRAG, true, FeedbackCategory.MOVEMENT, texture, 0.35f * Math.min(1f, push));
+        float level = block == Blocks.SLIME_BLOCK ? 0.22f : 0.35f;
+        bed(DRAG, true, FeedbackCategory.MOVEMENT, texture, level * Math.min(1f, push));
     }
 
     /** A low rolling bed by speed, plus a click at every rail join (each block travelled). */
@@ -314,7 +315,7 @@ public final class HapticTickHandler {
         float speed = horizontalSpeed(player.getVehicle());
         float swell = 0.5f + 0.5f * Mth.sin(player.tickCount * 0.25f);
         bed(BOAT, true, FeedbackCategory.MOVEMENT,
-                () -> HapticWaveform.sine(90f, CHUNK_MS, 1f), (0.08f + Math.min(0.25f, speed * 0.6f)) * swell);
+                () -> HapticWaveform.sine(90f, CHUNK_MS, 1f), (0.03f + Math.min(0.09f, speed * 0.2f)) * swell);
     }
 
     /** Hoof beats at the horse's stride rate (a three-beat canter when fast) and a landing thump. */
@@ -365,39 +366,70 @@ public final class HapticTickHandler {
             waterDepth = depth;
         }
         float swell = 0.75f + 0.25f * Mth.sin(player.tickCount * 0.08f);
+        // Swimming has its own strokes; the pressure hum is for hanging still in the water.
+        float stillness = player.getDeltaMovement().length() < 0.08 ? 1f : 0.3f;
         bed(UNDERWATER, active, FeedbackCategory.AMBIENT,
                 () -> HapticWaveform.sine(90f, CHUNK_MS, 1f),
-                (0.12f + 0.25f * Math.min(1f, waterDepth / 16f)) * swell);
+                (0.08f + 0.17f * Math.min(1f, waterDepth / 16f)) * swell * stillness);
     }
 
-    /** Raindrops: random taps whose density follows the rain (and storm) strength, never the same twice. */
+    /**
+     * Raindrops: random taps whose density follows the rain (and storm) strength, never the same
+     * twice. Fades further than other beds when nothing changes, since rain goes on for minutes.
+     */
     private void tickRain(LocalPlayer player) {
         Level level = player.level();
         rainStrength = level.getRainLevel(1f) * (level.isThundering() ? 1f : 0.7f);
         boolean active = rainStrength > 0.05f && level.canSeeSky(player.blockPosition().above())
                 && level.getBiome(player.blockPosition()).value()
                         .getPrecipitationAt(player.blockPosition(), level.getSeaLevel()) == Biome.Precipitation.RAIN;
-        HapticLoop loop = bed(RAIN, active, FeedbackCategory.AMBIENT, () -> raindrops(rainStrength), 0.55f);
-        if (loop != null) loop.setPan((ThreadLocalRandom.current().nextFloat() - 0.5f) * 0.5f);
+        HapticLoop loop = bed(RAIN, active, FeedbackCategory.AMBIENT, () -> raindrops(rainStrength), 0.3f);
+        if (loop != null) {
+            loop.setHabituationFloor(RAIN_HABITUATION_FLOOR);
+            loop.setPan((ThreadLocalRandom.current().nextFloat() - 0.5f) * 0.8f);
+        }
     }
 
+    private static final float RAIN_HABITUATION_FLOOR = 0.2f;
+    /** Slow random walk of the shower's density, so the rain ebbs and flows between chunks. */
+    private static float rainSurge = 1f;
+
+    /**
+     * One chunk of rain, layered: a faint wash, mostly small light drops, some fuller ones, the
+     * odd heavy drop (lower and longer), and drops that splash off into a smaller second tap.
+     */
     private static HapticWaveform raindrops(float strength) {
         var rng = ThreadLocalRandom.current();
-        int drops = Math.round(strength * 9 + rng.nextFloat() * 2);
-        HapticWaveform[] parts = new HapticWaveform[drops + 1];
-        parts[0] = HapticWaveform.bandNoise(140f, CHUNK_MS, 0.1f);
-        for (int i = 1; i <= drops; i++) {
-            parts[i] = HapticWaveform.thump(170f + rng.nextInt(60), 15, 0.4f + 0.6f * rng.nextFloat())
-                    .delayed(rng.nextInt(CHUNK_MS - 20));
+        rainSurge = Mth.clamp(rainSurge + (rng.nextFloat() - 0.5f) * 0.5f, 0.35f, 1.4f);
+        int drops = Math.round(strength * 9 * rainSurge + rng.nextFloat() * 3);
+        java.util.List<HapticWaveform> parts = new java.util.ArrayList<>(drops * 2 + 1);
+        parts.add(HapticWaveform.bandNoise(130f + rng.nextInt(30), CHUNK_MS, (0.05f + 0.08f * rng.nextFloat()) * rainSurge));
+        for (int i = 0; i < drops; i++) {
+            float kind = rng.nextFloat();
+            float hz, amp;
+            int ms;
+            if (kind < 0.65f) { // small
+                hz = 200 + rng.nextInt(70); ms = 8 + rng.nextInt(8); amp = 0.2f + 0.4f * rng.nextFloat();
+            } else if (kind < 0.94f) { // full
+                hz = 160 + rng.nextInt(40); ms = 15 + rng.nextInt(12); amp = 0.45f + 0.45f * rng.nextFloat();
+            } else { // heavy
+                hz = 110 + rng.nextInt(35); ms = 30 + rng.nextInt(15); amp = 0.8f + 0.2f * rng.nextFloat();
+            }
+            int at = rng.nextInt(CHUNK_MS - ms - 45);
+            parts.add(HapticWaveform.thump(hz, ms, amp).delayed(at));
+            if (rng.nextFloat() < 0.2f) {
+                parts.add(HapticWaveform.thump(hz + 40, 8, amp * 0.35f).delayed(at + ms + 10 + rng.nextInt(25)));
+            }
         }
-        return HapticWaveform.mix(parts);
+        return HapticWaveform.mix(parts.toArray(HapticWaveform[]::new));
     }
 
-    /** Searing heat: a 4 Hz throb while standing on magma without sneaking (sneaking is safe). */
+    /** Searing heat: a slow 2 Hz throb while standing on magma without sneaking (sneaking is safe). */
     private void tickMagma(LocalPlayer player) {
         boolean active = player.onGround() && !player.isShiftKeyDown()
                 && player.level().getBlockState(player.getOnPos()).is(Blocks.MAGMA_BLOCK);
-        bed(MAGMA, active, FeedbackCategory.AMBIENT, () -> HapticWaveform.amSine(110f, 4f, CHUNK_MS, 1f, 0.8f), 0.45f);
+        // 500 ms chunks hold one whole 2 Hz cycle, so the seams line up with the throb
+        bed(MAGMA, active, FeedbackCategory.AMBIENT, () -> HapticWaveform.amSine(110f, 2f, 500, 1f, 0.8f), 0.25f);
     }
 
     /** Wind on high ground under open sky, by altitude, with gusts. */
@@ -472,10 +504,10 @@ public final class HapticTickHandler {
         portalTicks = active ? Math.min(80, portalTicks + 1) : 0;
 
         float ramp = portalTicks / 80f;
-        // whole cycles per 250 ms chunk keep the pulse seamless: 4, 8, 12 Hz
-        portalRate = ramp < 0.4f ? 4f : ramp < 0.75f ? 8f : 12f;
+        // whole cycles per 500 ms chunk keep the pulse seamless: 2, 4, 6 Hz
+        portalRate = ramp < 0.4f ? 2f : ramp < 0.75f ? 4f : 6f;
         HapticLoop loop = bed(PORTAL, active, FeedbackCategory.AMBIENT,
-                () -> HapticWaveform.amSine(100f, portalRate, CHUNK_MS, 1f, 0.7f), 0.15f + 0.75f * ramp * ramp);
+                () -> HapticWaveform.amSine(100f, portalRate, 500, 1f, 0.7f), 0.15f + 0.75f * ramp * ramp);
         if (loop != null && portalTicks % 20 == 0) loop.accent();
     }
 

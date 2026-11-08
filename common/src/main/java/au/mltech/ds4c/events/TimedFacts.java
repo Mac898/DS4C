@@ -18,6 +18,12 @@ import java.util.Map;
 public final class TimedFacts {
     private static final Map<Identifier, Window> WINDOWS = new HashMap<>();
     private static long now = 0;
+    /**
+     * Whether facts were already read this tick. Most events (attacks, item use, block placing)
+     * happen after Controlify has evaluated the trigger rules for the tick, so a window starting
+     * "now" would lose its first tick, and a one-tick pulse would never be seen at all.
+     */
+    private static boolean contributedThisTick = false;
 
     private TimedFacts() {
     }
@@ -34,6 +40,7 @@ public final class TimedFacts {
 
     public static void tick() {
         now++;
+        contributedThisTick = false;
         Iterator<Window> it = WINDOWS.values().iterator();
         while (it.hasNext()) {
             if (it.next().end <= now) it.remove();
@@ -45,9 +52,12 @@ public final class TimedFacts {
         schedule(fact, 0, durationTicks);
     }
 
-    /** Fact is true from {@code delayTicks} after this tick, for {@code durationTicks} ticks. */
+    /**
+     * Fact is true for {@code durationTicks} evaluations, starting {@code delayTicks} after the
+     * next one.
+     */
     public static void schedule(Identifier fact, int delayTicks, int durationTicks) {
-        long start = now + Math.max(0, delayTicks);
+        long start = (contributedThisTick ? now + 1 : now) + Math.max(0, delayTicks);
         WINDOWS.put(fact, new Window(start, start + Math.max(1, durationTicks)));
     }
 
@@ -66,6 +76,7 @@ public final class TimedFacts {
     }
 
     public static void contribute(ContextualStateSink sink) {
+        contributedThisTick = true;
         for (Map.Entry<Identifier, Window> entry : WINDOWS.entrySet()) {
             if (entry.getValue().contains(now)) {
                 sink.contributeFact(entry.getKey());

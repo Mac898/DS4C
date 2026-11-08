@@ -8,7 +8,6 @@
     "ClientPacketListenerMixin",
     "CrossbowItemMixin",
     "EntityMixin",
-    "FireworkRocketEntityMixin",
     "FishingHookAccessor",
     "FishingHookMixin",
     "LightningBoltMixin",

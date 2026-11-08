@@ -2,6 +2,7 @@ package au.mltech.ds4c.mixin;
 
 import au.mltech.ds4c.events.Ds4cEvents;
 import au.mltech.ds4c.haptics.HapticEvents;
+import au.mltech.ds4c.input.PullThrough;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
@@ -28,6 +29,12 @@ public class MultiPlayerGameModeMixin {
     @Shadow @Final private Minecraft minecraft;
     @Shadow private float destroyProgress;
     @Shadow private boolean isDestroying;
+
+    /** Pull through to shoot: a trigger dipping under the press threshold isn't a release. */
+    @Inject(method = "releaseUsingItem", at = @At("HEAD"), cancellable = true)
+    private void ds4c$holdDrawUntilLetOut(Player player, CallbackInfo ci) {
+        if (player instanceof LocalPlayer local && PullThrough.holdsDraw(local)) ci.cancel();
+    }
 
     @Inject(method = "startDestroyBlock", at = @At("HEAD"))
     private void ds4c$onStartDestroyBlock(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {

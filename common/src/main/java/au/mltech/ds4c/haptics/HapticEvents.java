@@ -27,7 +27,7 @@ import net.minecraft.world.phys.Vec3;
  * textures are {@link HapticWaveform#bandNoise band-passed noise}. Frequent events are subtle,
  * rare ones get the headroom. Effects with a direction lean towards that grip.
  * <p>
- * DS4C expects Controlify's own vibration to be off (legacy rumble mutes HD haptics), so this
+ * DS4C expects Controlify's own vibration to be off (otherwise those events would be felt twice), so this
  * also covers the events Controlify rumbles for: damage, explosions, lightning, mining, landings
  * in water, slowing blocks and item breaks.
  */
@@ -41,7 +41,7 @@ public final class HapticEvents {
     }
 
     private static float intensity(FeedbackCategory category) {
-        return Haptics.isAvailable(category) ? Ds4cSettings.synthesisIntensity() : 0f;
+        return Haptics.isAvailable(category) ? Ds4cSettings.synthesisIntensity() * Haptics.SYNTH_GAIN : 0f;
     }
 
     /**
@@ -75,7 +75,7 @@ public final class HapticEvents {
         float intensity = intensity(FeedbackCategory.MOVEMENT);
         if (intensity <= 0.001f) return;
         leftFoot = !leftFoot;
-        float gain = intensity * (sprinting ? 1.25f : 1f) * boost;
+        float gain = intensity * Ds4cSettings.footstepIntensity() * (sprinting ? 1.25f : 1f) * boost;
         Haptics.play(FeedbackCategory.MOVEMENT, surfaceTap(state, 1f), Math.min(1f, gain), leftFoot ? -0.3f : 0.3f);
     }
 
@@ -137,7 +137,8 @@ public final class HapticEvents {
             if (fallDistance < 2.0) {
                 if (Ds4cSettings.footstepsEnabled()) {
                     float weight = 1.2f + 0.5f * (float) ((fallDistance - 0.6) / 1.4) + (sprinting ? 0.3f : 0f);
-                    Haptics.play(FeedbackCategory.MOVEMENT, surfaceTap(state, weight), intensity);
+                    Haptics.play(FeedbackCategory.MOVEMENT, surfaceTap(state, weight),
+                            intensity * Ds4cSettings.footstepIntensity());
                 }
             } else {
                 float amp = 0.35f + 0.6f * (float) Math.min(1.0, (fallDistance - 2.0) / 10.0);
@@ -230,15 +231,27 @@ public final class HapticEvents {
     public static void breakPulse(int stage, ItemStack tool) {
         float intensity = intensity(FeedbackCategory.ENVIRONMENT);
         if (intensity <= 0.001f) return;
-        float a = 0.2f + 0.03f * Math.max(0, Math.min(9, stage));
+        float a = 0.45f + 0.035f * Math.max(0, Math.min(9, stage));
         HapticWaveform pulse;
-        if (tool.is(ItemTags.PICKAXES)) pulse = HapticWaveform.thump(180f, 40, a);
-        else if (tool.is(ItemTags.SHOVELS)) pulse = HapticWaveform.withASR(HapticWaveform.bandNoise(120f, 60, a), 3, 25, 32);
-        else if (tool.is(ItemTags.AXES)) pulse = HapticWaveform.thump(110f, 70, a * 1.1f);
-        else if (tool.is(ItemTags.HOES)) pulse = HapticWaveform.thump(140f, 45, a);
-        else if (tool.getItem() instanceof ShearsItem) pulse = HapticWaveform.withASR(HapticWaveform.bandNoise(220f, 35, a), 1, 15, 19);
-        else pulse = HapticWaveform.thump(120f, 50, a * 0.8f);
+        if (tool.is(ItemTags.PICKAXES)) pulse = HapticWaveform.thump(150f, 60, a);
+        else if (tool.is(ItemTags.SHOVELS)) pulse = HapticWaveform.withASR(HapticWaveform.bandNoise(120f, 80, a), 3, 35, 42);
+        else if (tool.is(ItemTags.AXES)) pulse = HapticWaveform.thump(110f, 80, a);
+        else if (tool.is(ItemTags.HOES)) pulse = HapticWaveform.thump(130f, 60, a);
+        else if (tool.getItem() instanceof ShearsItem) pulse = HapticWaveform.withASR(HapticWaveform.bandNoise(200f, 50, a), 1, 20, 29);
+        else pulse = HapticWaveform.thump(120f, 60, a * 0.85f);
         Haptics.play(FeedbackCategory.ENVIRONMENT, pulse, intensity);
+    }
+
+    /**
+     * You placed a block: the block seating, a low thunk of its weight, under a tap voiced by its
+     * own material (stone clicks, wood knocks, wool is soft).
+     */
+    public static void blockPlaced(BlockState state) {
+        float intensity = intensity(FeedbackCategory.ENVIRONMENT);
+        if (intensity <= 0.001f) return;
+        Haptics.play(FeedbackCategory.ENVIRONMENT, HapticWaveform.mix(
+                HapticWaveform.thump(75f, 60, 0.30f),
+                surfaceTap(state, 2.2f)), intensity);
     }
 
     /** Started mining a block the held item can't harvest: a dull scrape instead of progress. */

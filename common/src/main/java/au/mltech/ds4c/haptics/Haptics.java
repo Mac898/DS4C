@@ -14,6 +14,9 @@ import javax.sound.sampled.AudioFormat;
  * between the two grip actuators. Client thread only.
  */
 public final class Haptics {
+    /** Base gain for DS4C's synthesised effects (tuned in testing: +20%), times the synthesis intensity setting. */
+    static final float SYNTH_GAIN = 1.2f;
+
     private static HapticTickHandler tickHandler = new HapticTickHandler();
     private static boolean wasActive = false;
 
@@ -60,7 +63,7 @@ public final class Haptics {
     private static void submit(FeedbackCategory category, HapticTier tier, byte[] pcm, AudioFormat format,
                                float gain, float pan, boolean sustained) {
         if (!isAvailable(category) || pcm.length == 0) return;
-        float total = gain * Ds4cSettings.masterIntensity();
+        float total = gain * Ds4cSettings.masterIntensity() * Ds4cSettings.categoryIntensity(category);
         if (total <= 0.001f) return;
 
         int frameBytes = Math.max(1, format.getFrameSize());

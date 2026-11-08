@@ -26,15 +26,23 @@ public final class Ds4cConfig {
 
     /** Serialised form. Field names are the JSON keys. */
     static final class Data {
-        boolean triggerEffects = true;
-        boolean hdHaptics = true;
-        boolean footsteps = true;
         int triggerStrength = 100;
+        boolean pullThroughToShoot = true;
         float masterIntensity = 1.0f;
         float synthesisIntensity = 1.0f;
         float falloffNearBlocks = 0.0f;
         float falloffFarBlocks = 64.0f;
-        Map<String, Boolean> categories = new LinkedHashMap<>();
+        float footstepIntensity = 1.0f;
+        float speakerVolume = 1.0f;
+        int speakerLatencyMs = 0;
+        Map<String, Float> categoryIntensity = new LinkedHashMap<>();
+
+        // Read only, from configs saved before the on/off tickboxes became strength 0. Left null
+        // when saving, so Gson drops them.
+        Boolean triggerEffects;
+        Boolean hdHaptics;
+        Boolean footsteps;
+        Map<String, Boolean> categories;
     }
 
     private Ds4cConfig() {
@@ -72,33 +80,41 @@ public final class Ds4cConfig {
     }
 
     private static void apply(Data data) {
-        Ds4cSettings.setTriggerEffectsEnabled(data.triggerEffects);
-        Ds4cSettings.setHapticsEnabled(data.hdHaptics);
-        Ds4cSettings.setFootstepsEnabled(data.footsteps);
-        Ds4cSettings.setTriggerStrength(data.triggerStrength);
-        Ds4cSettings.setMasterIntensity(data.masterIntensity);
+        Ds4cSettings.setTriggerStrength(isOff(data.triggerEffects) ? 0 : data.triggerStrength);
+        Ds4cSettings.setPullThroughToShoot(data.pullThroughToShoot);
+        Ds4cSettings.setMasterIntensity(isOff(data.hdHaptics) ? 0f : data.masterIntensity);
         Ds4cSettings.setSynthesisIntensity(data.synthesisIntensity);
         Ds4cSettings.setFalloff(data.falloffNearBlocks, data.falloffFarBlocks);
+        Ds4cSettings.setFootstepIntensity(isOff(data.footsteps) ? 0f : data.footstepIntensity);
+        Ds4cSettings.setSpeakerVolume(data.speakerVolume);
+        Ds4cSettings.setSpeakerLatencyMs(data.speakerLatencyMs);
         for (FeedbackCategory category : FeedbackCategory.values()) {
             Boolean enabled = data.categories == null ? null : data.categories.get(key(category));
-            Ds4cSettings.setCategoryEnabled(category, enabled == null || enabled);
+            Float intensity = data.categoryIntensity == null ? null : data.categoryIntensity.get(key(category));
+            Ds4cSettings.setCategoryIntensity(category, isOff(enabled) ? 0f : intensity == null ? 1.0f : intensity);
         }
     }
 
     private static Data capture() {
         Data data = new Data();
-        data.triggerEffects = Ds4cSettings.triggerEffectsEnabled();
-        data.hdHaptics = Ds4cSettings.hapticsEnabled();
-        data.footsteps = Ds4cSettings.footstepsEnabled();
         data.triggerStrength = Ds4cSettings.triggerStrength();
+        data.pullThroughToShoot = Ds4cSettings.pullThroughToShoot();
         data.masterIntensity = Ds4cSettings.masterIntensity();
         data.synthesisIntensity = Ds4cSettings.synthesisIntensity();
         data.falloffNearBlocks = Ds4cSettings.falloffNearBlocks();
         data.falloffFarBlocks = Ds4cSettings.falloffFarBlocks();
+        data.footstepIntensity = Ds4cSettings.footstepIntensity();
+        data.speakerVolume = Ds4cSettings.speakerVolume();
+        data.speakerLatencyMs = Ds4cSettings.speakerLatencyMs();
         for (FeedbackCategory category : FeedbackCategory.values()) {
-            data.categories.put(key(category), Ds4cSettings.isCategoryEnabled(category));
+            data.categoryIntensity.put(key(category), Ds4cSettings.categoryIntensity(category));
         }
         return data;
+    }
+
+    /** A legacy tickbox that was saved as off. */
+    private static boolean isOff(Boolean legacy) {
+        return legacy != null && !legacy;
     }
 
     static String key(FeedbackCategory category) {

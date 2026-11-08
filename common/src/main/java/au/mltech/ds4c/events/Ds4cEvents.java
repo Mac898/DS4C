@@ -25,8 +25,10 @@ import net.minecraft.world.level.block.state.BlockState;
  */
 public final class Ds4cEvents {
     // Attack swing: a three-stage swoop (heavy start, light middle, hard stop).
-    /** One short click on R2 per attack; the swing itself is felt through the grips. */
-    public static final Identifier SWING = event("swing");
+    /** A swing at (nearly) full attack charge: solid. */
+    public static final Identifier SWING_FULL = event("swing_full");
+    /** A swing before the attack has recharged: a weak flick. */
+    public static final Identifier SWING_WEAK = event("swing_weak");
     public static final Identifier TOOL_WARNING_ATTACK = event("tool_warning_attack");
     public static final Identifier TOOL_WARNING_USE = event("tool_warning_use");
 
@@ -44,12 +46,9 @@ public final class Ds4cEvents {
     public static final Identifier CROSSBOW_LOADED = event("crossbow_loaded");
     public static final Identifier BOW_RELEASE = event("bow_release");
     public static final Identifier TRIDENT_RELEASE = event("trident_release");
-    /** A firework rocket started boosting the fall-flying player: one kick per rocket. */
-    public static final Identifier FIREWORK = event("firework");
     public static final Identifier FISHING_CAST = event("fishing_cast");
 
     // Using items on blocks and entities.
-    public static final Identifier BLOCK_PLACE = event("block_place");
     public static final Identifier BUCKET = event("bucket");
     public static final Identifier BUCKET_LAVA = event("bucket_lava");
     public static final Identifier HOE_TILL = event("hoe_till");
@@ -58,15 +57,14 @@ public final class Ds4cEvents {
 
     // Block breaking.
     public static final Identifier BLOCK_BROKEN = event("block_broken");
-    /** {@code ds4c:event/break_pulse/1..8}: decaying pulse at each block-crack stage. */
-    public static final String BREAK_PULSE = "event/break_pulse/";
+    /** A knock on R2 at every third crack stage while mining. */
+    public static final Identifier BREAK_PULSE = event("break_pulse");
     /** {@code ds4c:event/explosion/1..3}: a nearby explosion, by how strongly it's felt. */
     public static final String EXPLOSION = "event/explosion/";
     /** {@code ds4c:event/mace_land/1..3}: mace ground slam, by fall distance. */
     public static final String MACE_LAND = "event/mace_land/";
 
     private static int lastBreakStage = -1;
-    private static int lastFireworkRocket = -1;
     private static boolean hadFishingHook = false;
     private static boolean crossbowWasLoaded = false;
 
@@ -89,7 +87,6 @@ public final class Ds4cEvents {
         if (player == null || minecraft.level == null) {
             TimedFacts.clear();
             lastBreakStage = -1;
-            lastFireworkRocket = -1;
             hadFishingHook = false;
             crossbowWasLoaded = false;
             return;
@@ -125,8 +122,10 @@ public final class Ds4cEvents {
 
     /** The player started an attack (entity hit, block hit, miss, or spear stab). */
     public static void onAttackSwing(LocalPlayer player) {
-        if (!TimedFacts.isPending(SWING)) {
-            TimedFacts.pulse(SWING, 1);
+        // Read before vanilla resets the attack timer for this swing.
+        boolean full = player.getAttackStrengthScale(0.5f) >= 0.9f;
+        if (!TimedFacts.isPending(SWING_FULL) && !TimedFacts.isPending(SWING_WEAK)) {
+            TimedFacts.pulse(full ? SWING_FULL : SWING_WEAK, 2);
         }
 
         if (isNearlyBroken(player.getMainHandItem())) {
@@ -196,12 +195,6 @@ public final class Ds4cEvents {
 
     // --- movement --------------------------------------------------------------------------------
 
-    /** Called every tick a firework rocket is attached to the fall-flying player. */
-    public static void onFireworkBoost(int rocketId) {
-        if (rocketId == lastFireworkRocket) return;
-        lastFireworkRocket = rocketId;
-        TimedFacts.pulse(FIREWORK, 2);
-    }
 
     // --- using items -----------------------------------------------------------------------------
 
@@ -229,8 +222,8 @@ public final class Ds4cEvents {
         }
 
         if (stack.getItem() instanceof BucketItem) {
-            TimedFacts.pulse(BUCKET, 4);
-            if (stack.is(Items.LAVA_BUCKET)) TimedFacts.pulse(BUCKET_LAVA, 4);
+            TimedFacts.pulse(BUCKET, 3);
+            if (stack.is(Items.LAVA_BUCKET)) TimedFacts.pulse(BUCKET_LAVA, 3);
             return;
         }
         if (!onBlock) return;
@@ -238,14 +231,15 @@ public final class Ds4cEvents {
         if (stack.is(ItemTags.HOES)) {
             TimedFacts.pulse(HOE_TILL, 3);
         } else if (stack.getItem() instanceof SpawnEggItem) {
-            TimedFacts.pulse(SPAWN_EGG, 1);
-        } else if (stack.getItem() instanceof BlockItem) {
-            TimedFacts.pulse(BLOCK_PLACE, 1);
+            TimedFacts.pulse(SPAWN_EGG, 2);
+        } else if (stack.getItem() instanceof BlockItem blockItem) {
+            // Placing is very frequent: the grips carry it (a tap in the placed block's material), not L2.
+            HapticEvents.blockPlaced(blockItem.getBlock().defaultBlockState());
         }
     }
 
     public static void onShearsUsedOnEntity() {
-        TimedFacts.pulse(SHEARS_CLIP, 2);
+        TimedFacts.pulse(SHEARS_CLIP, 3);
     }
 
     // --- block breaking --------------------------------------------------------------------------
@@ -258,11 +252,8 @@ public final class Ds4cEvents {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) HapticEvents.breakPulse(stage, player.getMainHandItem());
 
-        // Start hard and get harder; each pulse decays over three ticks.
-        int amplitude = Math.min(8, 5 + (stage * 3) / 9);
-        TimedFacts.schedule(bucket(BREAK_PULSE, amplitude), 0, 1);
-        TimedFacts.schedule(bucket(BREAK_PULSE, Math.max(1, amplitude - 3)), 1, 1);
-        TimedFacts.schedule(bucket(BREAK_PULSE, Math.max(1, amplitude - 6)), 2, 1);
+        // Three knocks per block (stages 3, 6, 9): pulses every stage were felt as buzzing.
+        if (stage > 0 && stage % 3 == 0) TimedFacts.pulse(BREAK_PULSE, 2);
     }
 
     public static void onBreakReset() {

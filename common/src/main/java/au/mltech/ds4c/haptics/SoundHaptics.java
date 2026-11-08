@@ -39,7 +39,7 @@ public final class SoundHaptics {
         HapticSoundRegistry.OverlayEntry overlay = HapticSoundRegistry.getOverlay(id);
         if (overlay != null && Ds4cSettings.isCategoryEnabled(overlay.category())
                 && (!overlay.requiresLocalSource() || isLocalSource(instance, player))) {
-            float gain = falloff(overlay.maxDistance(), near, far, instance, player) * Ds4cSettings.synthesisIntensity();
+            float gain = falloff(overlay.maxDistance(), near, far, instance, player) * Ds4cSettings.synthesisIntensity() * Haptics.SYNTH_GAIN;
             HapticWaveform wave = overlay.waveform().get();
             if (wave != null && gain > 0.001f) Haptics.play(overlay.category(), wave, gain);
         }

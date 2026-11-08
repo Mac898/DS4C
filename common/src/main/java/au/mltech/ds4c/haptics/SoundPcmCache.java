@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * buffers to OpenAL and drops the data, so we decode the .ogg ourselves (16-bit LE PCM) and keep it.
  */
 public final class SoundPcmCache {
-    record Pcm(byte[] data, AudioFormat format) {
+    public record Pcm(byte[] data, AudioFormat format) {
     }
 
     private static final Map<Identifier, CompletableFuture<Optional<Pcm>>> CACHE = new ConcurrentHashMap<>();
@@ -37,6 +37,12 @@ public final class SoundPcmCache {
         return CACHE.computeIfAbsent(path, p -> CompletableFuture.supplyAsync(() -> decode(p), Util.nonCriticalIoPool()));
     }
 
+    /** The decoded sound if it's ready now, else null (and decoding starts, if it hadn't). */
+    public static @org.jspecify.annotations.Nullable Pcm getNow(Identifier path) {
+        CompletableFuture<Optional<Pcm>> future = get(path);
+        return future.isDone() && !future.isCompletedExceptionally() ? future.join().orElse(null) : null;
+    }
+
     /**
      * Decodes every variant of the sounds with an exact passthrough mapping in the background, so
      * their first play isn't late (haptics trailing the sound are noticed sooner than haptics
@@ -44,7 +50,9 @@ public final class SoundPcmCache {
      */
     public static void preloadMapped(SoundManager soundManager) {
         int count = 0;
-        for (Identifier id : HapticSoundRegistry.view().keySet()) {
+        java.util.Set<Identifier> ids = new java.util.HashSet<>(HapticSoundRegistry.view().keySet());
+        ids.addAll(au.mltech.ds4c.speaker.ControllerSpeaker.routedSounds());
+        for (Identifier id : ids) {
             WeighedSoundEvents event = soundManager.getSoundEvent(id);
             if (event != null) count += preload(event, 0);
         }
