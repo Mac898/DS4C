@@ -39,7 +39,8 @@ final class HapticsSetupCheck {
         warned = true;
         String reason;
         if (controller.bluetooth().isPresent()) {
-            reason = "ds4c.setup.no_haptics.bluetooth";
+            reason = Util.getPlatform() == Util.OS.LINUX
+                    ? "ds4c.setup.no_haptics.bluetooth_linux" : "ds4c.setup.no_haptics.bluetooth";
         } else if (Util.getPlatform() == Util.OS.LINUX) {
             reason = "ds4c.setup.no_haptics.linux";
         } else {

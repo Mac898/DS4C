@@ -9,7 +9,7 @@
   "ds4c.config.footsteps": "Footsteps",
   "ds4c.config.footsteps.tooltip": "A light tap for each footstep and small landing, shaped by the ground underfoot. 0 turns them off; bigger falls still thump.",
   "ds4c.config.master_intensity": "Master intensity",
-  "ds4c.config.master_intensity.tooltip": "Scales every DS4C grip haptic; 0 turns them off. They need a USB connection and Controlify's HD haptics setting on. Turn Controlify's \"Allow Vibrations\" off: DS4C plays its own versions of those events, so with both on you feel them twice.",
+  "ds4c.config.master_intensity.tooltip": "Scales every DS4C grip haptic; 0 turns them off. They need Controlify's HD haptics setting on, and a USB connection (or, on Linux, Bluetooth with the DS4L daemon). Turn Controlify's \"Allow Vibrations\" off: DS4C plays its own versions of those events, so with both on you feel them twice.",
   "ds4c.config.synthesis_intensity": "Synthesised effect intensity",
   "ds4c.config.synthesis_intensity.tooltip": "Scales DS4C's generated effects (footsteps, heartbeat, ambient loops) without changing haptics taken from game sounds.",
   "ds4c.config.falloff_near": "Full-strength range",
@@ -31,6 +31,7 @@
   "ds4c.config.category.ui": "Interface",
   "ds4c.config.category.ui.tooltip": "Haptics for pickups, level-ups, toasts and workstation results.",
   "ds4c.setup.no_haptics.bluetooth": "[DS4C] Your DualSense is on Bluetooth, so its HD haptics can't play. Connect it with a USB cable to feel DS4C's grip haptics.",
+  "ds4c.setup.no_haptics.bluetooth_linux": "[DS4C] Your DualSense is on Bluetooth and no HD haptics device was found for it. Connect it with a USB cable, or install the DS4L daemon to get HD haptics over Bluetooth. See DS4C's linux-hd-haptics guide.",
   "ds4c.setup.no_haptics.linux": "[DS4C] HD haptics aren't available for your DualSense. Check Controlify's HD Haptics option is on and, on Linux, that the controller's audio uses the Pro Audio (or Direct) profile. See DS4C's linux-hd-haptics guide.",
   "ds4c.setup.no_haptics.generic": "[DS4C] HD haptics aren't available for your DualSense. Check it's connected by USB and Controlify's HD Haptics option is on.",
   "ds4c.config.pull_through": "Pull through to shoot",
@@ -41,5 +42,5 @@
   "ds4c.config.speaker_volume": "Speaker volume",
   "ds4c.config.speaker_volume.tooltip": "How loud the controller speaker plays, on top of the game's own volume settings. 0 keeps every sound on your main speakers or headphones.",
   "ds4c.config.speaker_latency": "Speaker delay",
-  "ds4c.config.speaker_latency.tooltip": "How much later the controller speaker plays than your main audio. Leave at 0 over USB. Raise it if you use a Bluetooth audio bridge, so the pickup echo still lands just after the pickup sound."
+  "ds4c.config.speaker_latency.tooltip": "How much later the controller speaker plays than your main audio. Leave at 0 over USB. Raise it if the speaker plays over Bluetooth, so the pickup echo still lands just after the pickup sound."
 }
