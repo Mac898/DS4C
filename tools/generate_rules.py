@@ -5,6 +5,10 @@ Writes, inside the built-in "effects" resource pack:
   assets/controlify/contextual/facts/in_game.json
   assets/controlify/contextual/trigger_effect/in_game.json
 
+and the same into "effects_no_bow", with every bow effect swapped for the weapon effect. Controlify
+fails a whole rule file on one effect type it can't decode, and 3.5.3 has no bow, so DS4C picks
+the pack at runtime.
+
 Run from the repository root:  python3 tools/generate_rules.py
 Commit the generated JSON alongside changes to this script.
 
@@ -23,7 +27,10 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PACK = ROOT / "common/src/main/resources/resourcepacks/effects/assets/controlify/contextual"
+PACKS = ROOT / "common/src/main/resources/resourcepacks"
+PACK = PACKS / "effects"
+NO_BOW_PACK = PACKS / "effects_no_bow"
+CONTEXTUAL = "assets/controlify/contextual"
 # Index of effect-gallery entries, read by the /ds4c gallery command.
 GALLERY_INDEX = ROOT / "common/src/main/resources/assets/ds4c/gallery_triggers.json"
 
@@ -52,9 +59,18 @@ def feedback_slope(start, end, start_strength, end_strength):
 
 
 def bow(start, end, strength, snap_force):
-    # Unofficial firmware effect; needs Controlify 3.5.4+ (unsigned, corrected encoding).
+    # Unofficial firmware effect; not in Controlify 3.5.3 (see without_bow).
     return {"type": "bow", "start_position": start, "end_position": end,
             "strength": strength, "snap_force": snap_force}
+
+
+def without_bow(effect):
+    """The closest effect Controlify 3.5.3 has: weapon gives way at the end of its zone like bow,
+    just without the snap back. Weapon zones start at 2 at the earliest."""
+    if effect["type"] != "bow":
+        return effect
+    start = max(2, effect["start_position"])
+    return weapon(start, max(start + 1, effect["end_position"]), effect["strength"])
 
 
 OFF = {"type": "off"}
@@ -350,7 +366,12 @@ if __name__ == "__main__":
     build()
     gallery_rules, gallery_entries = gallery()
     add_strength_variants()
-    write(PACK / "facts/in_game.json", FACTS)
-    write(PACK / "trigger_effect/in_game.json", {"rules": gallery_rules + RULES})
+    rules = gallery_rules + RULES
+    write(PACK / CONTEXTUAL / "facts/in_game.json", FACTS)
+    write(PACK / CONTEXTUAL / "trigger_effect/in_game.json", {"rules": rules})
+    write(NO_BOW_PACK / CONTEXTUAL / "facts/in_game.json", FACTS)
+    write(NO_BOW_PACK / CONTEXTUAL / "trigger_effect/in_game.json",
+          {"rules": [dict(r, then=without_bow(r["then"])) for r in rules]})
+    (NO_BOW_PACK / "pack.mcmeta").write_text((PACK / "pack.mcmeta").read_text())
     write(GALLERY_INDEX, gallery_entries)
     print(f"{len(FACTS)} facts, {len(RULES)} rules, {len(gallery_rules)} gallery entries")

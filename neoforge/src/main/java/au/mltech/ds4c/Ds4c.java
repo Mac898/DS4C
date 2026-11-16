@@ -23,7 +23,7 @@ public class Ds4c {
         NeoForge.EVENT_BUS.addListener(RegisterClientCommandsEvent.class,
                 event -> event.getDispatcher().register(Ds4cCommands.<CommandSourceStack>build()));
         modBus.addListener(AddPackFindersEvent.class, event -> event.addPackFinders(
-                Constants.EFFECTS_PACK_ID.withPrefix("resourcepacks/"),
+                Constants.effectsPackId().withPrefix("resourcepacks/"),
                 PackType.CLIENT_RESOURCES,
                 Component.translatable(Constants.EFFECTS_PACK_NAME_KEY),
                 PackSource.BUILT_IN,

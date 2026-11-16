@@ -2,8 +2,8 @@ package au.mltech.ds4c.haptics;
 
 import au.mltech.ds4c.Constants;
 import au.mltech.ds4c.Ds4cSettings;
+import au.mltech.ds4c.controlify.HdHaptics;
 import dev.isxander.controlify.api.ControlifyApi;
-import dev.isxander.controlify.api.haptic.HDHapticsApi;
 import dev.isxander.controlify.controller.ControllerEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -29,7 +29,8 @@ final class HapticsSetupCheck {
             return;
         }
         if (++ticksInWorld < DELAY_TICKS) return;
-        if (!Ds4cSettings.hapticsEnabled() || HDHapticsApi.isAvailable()) {
+        // unsupported: the startup check has already said why
+        if (!Ds4cSettings.hapticsEnabled() || !HdHaptics.INSTANCE.isSupported() || HdHaptics.INSTANCE.isAvailable()) {
             warned = true; // fine (or deliberately off): nothing to say this session
             return;
         }

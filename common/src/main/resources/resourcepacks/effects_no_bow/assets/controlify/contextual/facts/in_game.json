@@ -1,0 +1,16 @@
+{
+  "ds4c:holding_mace": {
+    "slot": "controlify:main_hand",
+    "item": {
+      "items": "minecraft:mace"
+    }
+  },
+  "ds4c:holding_weapon": {
+    "slot": "controlify:main_hand",
+    "item": {
+      "predicates": {
+        "minecraft:weapon": {}
+      }
+    }
+  }
+}

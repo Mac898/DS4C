@@ -22,9 +22,15 @@ top of [Controlify](https://github.com/isXander/Controlify):
 
 - Minecraft 26.3
 - Fabric (with Fabric API) or NeoForge
-- Controlify 3.5.3 or newer
+- Controlify 3.5.x, from 3.5.3
 - A DualSense controller
 - Optional on Fabric: Mod Menu, to open the settings screen
+
+DS4C hooks into a few Controlify internals for HD haptics, the speaker and per-controller audio
+streams, so each Controlify minor version needs a matching DS4C. If a hook doesn't fit, that
+feature turns off and the log says which. Pull through to shoot feels best with a Controlify that
+has the bow trigger effect (which gives way and then pushes back); on 3.5.3 DS4C uses the weapon
+effect instead, which gives way without the push back.
 
 ## USB and Bluetooth
 
@@ -72,9 +78,9 @@ Other mods can route more of their own sounds to the controller speaker through
 
 The jars are written to `fabric/build/libs` and `neoforge/build/libs`. Java 25 is required.
 
-The trigger rules in `common/src/main/resources/resourcepacks/effects` are generated: edit
-`tools/generate_rules.py`, run `python3 tools/generate_rules.py` from the repository root, and
-commit the generated JSON with it.
+The trigger rules in `common/src/main/resources/resourcepacks/effects` and `effects_no_bow` are
+generated: edit `tools/generate_rules.py`, run `python3 tools/generate_rules.py` from the
+repository root, and commit the generated JSON with it.
 
 ## Licence
 

@@ -2,16 +2,16 @@ package au.mltech.ds4c.haptics;
 
 import au.mltech.ds4c.Ds4cSettings;
 import au.mltech.ds4c.FeedbackCategory;
-import dev.isxander.controlify.api.haptic.HDHapticsApi;
+import au.mltech.ds4c.controlify.HdHaptics;
 import net.minecraft.client.Minecraft;
 
 import javax.sound.sampled.AudioFormat;
 
 /**
- * DS4C's single path to the DualSense HD haptics output, through Controlify's
- * {@link HDHapticsApi}. Every play goes through here, which gates on the category, runs the
- * {@link HapticBudget} (priority, ducking, layer cap), applies the master intensity once and pans
- * between the two grip actuators. Client thread only.
+ * DS4C's single path to the DualSense HD haptics output ({@link HdHaptics}). Every play goes
+ * through here, which gates on the category, runs the {@link HapticBudget} (priority, ducking,
+ * layer cap), applies the master intensity once and pans between the two grip actuators. Client
+ * thread only.
  */
 public final class Haptics {
     /** Base gain for DS4C's synthesised effects (tuned in testing: +20%), times the synthesis intensity setting. */
@@ -25,7 +25,7 @@ public final class Haptics {
 
     /** True when the current controller can play DS4C haptics right now. */
     public static boolean isAvailable() {
-        return Ds4cSettings.hapticsEnabled() && HDHapticsApi.isAvailable();
+        return Ds4cSettings.hapticsEnabled() && HdHaptics.INSTANCE.isAvailable();
     }
 
     public static boolean isAvailable(FeedbackCategory category) {
@@ -72,9 +72,9 @@ public final class Haptics {
         if (total <= 0.001f) return;
 
         if (format.getChannels() == 1 && Math.abs(pan) > 0.01f) {
-            HDHapticsApi.playPcm(HapticWaveform.panToStereo(pcm, total, pan), HapticWaveform.stereoFormat(format));
+            HdHaptics.INSTANCE.playPcm(HapticWaveform.panToStereo(pcm, total, pan), HapticWaveform.stereoFormat(format));
         } else {
-            HDHapticsApi.playPcm(HapticWaveform.scaleSamples(pcm, total), format);
+            HdHaptics.INSTANCE.playPcm(HapticWaveform.scaleSamples(pcm, total), format);
         }
     }
 

@@ -8,18 +8,20 @@ import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 
 public class Ds4c implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        Identifier packId = Constants.effectsPackId();
         boolean registered = ResourceLoader.registerBuiltinPack(
-                Constants.EFFECTS_PACK_ID,
+                packId,
                 FabricLoader.getInstance().getModContainer(Constants.MOD_ID).orElseThrow(),
                 Component.translatable(Constants.EFFECTS_PACK_NAME_KEY),
                 PackActivationType.ALWAYS_ENABLED
         );
         if (!registered) {
-            Constants.LOG.error("Failed to register built-in pack {}", Constants.EFFECTS_PACK_ID);
+            Constants.LOG.error("Failed to register built-in pack {}", packId);
         }
 
         ClientCommandRegistrationCallback.EVENT.register(

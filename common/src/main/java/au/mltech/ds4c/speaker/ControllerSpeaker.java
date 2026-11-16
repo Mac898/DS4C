@@ -2,9 +2,9 @@ package au.mltech.ds4c.speaker;
 
 import au.mltech.ds4c.api.SpeakerRouting;
 import au.mltech.ds4c.Ds4cSettings;
+import au.mltech.ds4c.controlify.SpeakerOutput;
 import au.mltech.ds4c.haptics.SoundPcmCache;
 import dev.isxander.controlify.api.ControlifyApi;
-import dev.isxander.controlify.api.haptic.ControllerSpeakerApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.Sound;
@@ -111,7 +111,7 @@ public final class ControllerSpeaker {
     private static boolean isActive() {
         return Ds4cSettings.speakerVolume() > 0.001f
                 && ControlifyApi.get().currentInputMode().isController()
-                && ControllerSpeakerApi.isAvailable();
+                && SpeakerOutput.isAvailable();
     }
 
     private static boolean isFromPlayer(SoundInstance instance, LocalPlayer player, double maxDistanceSqr) {
@@ -126,13 +126,12 @@ public final class ControllerSpeaker {
         if (gain <= 0.001f) return;
         byte[] mono = render(pcm, gain);
         if (mono == null) return;
-        // Pitch by playing at a different rate; the driver resamples to the device rate.
-        AudioFormat format = new AudioFormat(pcm.format().getSampleRate() * Math.max(0.5f, Math.min(2f, pitch)),
-                16, 1, true, false);
+        // Pitch by playing at a different rate; SDL resamples to the device rate.
+        float rate = pcm.format().getSampleRate() * Math.max(0.5f, Math.min(2f, pitch));
         if (delayMs <= 0) {
-            ControllerSpeakerApi.playPcm(mono, format);
+            SpeakerOutput.playPcm(mono, rate);
         } else {
-            CompletableFuture.runAsync(() -> ControllerSpeakerApi.playPcm(mono, format),
+            CompletableFuture.runAsync(() -> SpeakerOutput.playPcm(mono, rate),
                     CompletableFuture.delayedExecutor(delayMs, TimeUnit.MILLISECONDS, Minecraft.getInstance()));
         }
     }

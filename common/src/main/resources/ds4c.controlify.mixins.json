@@ -1,0 +1,16 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "au.mltech.ds4c.controlify.mixin",
+  "plugin": "au.mltech.ds4c.controlify.ControlifyMixinPlugin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "HDHapticComponentMixin",
+    "SDLCommonDriverClipLengthMixin",
+    "SDLCommonDriverSpeakerMixin",
+    "SDLCommonDriverStreamNameMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

@@ -1,6 +1,7 @@
 package au.mltech.ds4c;
 
 import au.mltech.ds4c.config.Ds4cConfig;
+import au.mltech.ds4c.controlify.ControlifyCompat;
 import au.mltech.ds4c.facts.Ds4cFacts;
 import au.mltech.ds4c.haptics.HapticSoundDefaults;
 import dev.isxander.controlify.api.ControlifyApi;
@@ -24,6 +25,7 @@ public final class Ds4cControlifyEntrypoint implements ControlifyEntrypoint {
     @Override
     public void onControlifyInit(InitContext context) {
         HapticSoundDefaults.registerAll();
+        ControlifyCompat.selfCheck();
     }
 
     @Override

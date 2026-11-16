@@ -9,20 +9,13 @@ base {
 
 repositories {
     mavenCentral()
-    // dev.isxander comes from Maven Local first (Controlify builds published with
-    // ./gradlew :26.3:publishToMavenLocal), then the release repository.
-    def xanderLocal = mavenLocal {
-        name = 'XanderLocal'
-        content {
-            includeGroupAndSubgroups('dev.isxander')
-        }
-    }
-    def xanderReleases = maven {
-        name = 'XanderReleases'
-        url = uri('https://maven.isxander.dev/releases')
-    }
     exclusiveContent {
-        forRepositories(xanderLocal, xanderReleases)
+        forRepository {
+            maven {
+                name = 'XanderReleases'
+                url = uri('https://maven.isxander.dev/releases')
+            }
+        }
         filter {
             includeGroupAndSubgroups('dev.isxander')
         }
@@ -95,7 +88,8 @@ processResources {
             'neoforge_loader_version_range': neoforge_loader_version_range,
             'credits'                      : credits,
             'java_version'                 : java_version,
-            'controlify_version_range'     : controlify_version_range
+            'controlify_version_range'     : controlify_version_range,
+            'controlify_fabric_version_range': controlify_fabric_version_range
     ]
 
     var jsonExpandProps = expandProps.collectEntries {

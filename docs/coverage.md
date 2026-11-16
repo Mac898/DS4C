@@ -24,6 +24,8 @@ Category strengths (0 is off) and DS4C's switches still apply. Ambient loops and
 
 ## Adaptive triggers
 
+On a Controlify without the bow trigger effect, such as 3.5.3, every `bow` below plays as `weapon` with the same zone and strength, without the snap back.
+
 ### Bursts (highest priority)
 
 | Trigger | Category | When | Effect |
