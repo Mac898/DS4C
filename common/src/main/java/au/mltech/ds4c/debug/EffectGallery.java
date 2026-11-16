@@ -1,6 +1,7 @@
 package au.mltech.ds4c.debug;
 
 import au.mltech.ds4c.Constants;
+import au.mltech.ds4c.Ds4cSettings;
 import au.mltech.ds4c.events.TimedFacts;
 import au.mltech.ds4c.haptics.HapticEvents;
 import au.mltech.ds4c.haptics.HapticSoundRegistry;
@@ -47,7 +48,8 @@ import java.util.function.Consumer;
  *   <li>Grip haptics: the synthesised event haptics, with fixed inputs.</li>
  *   <li>Sounds: plays a game sound at the player, so its passthrough and overlay play as in game.</li>
  * </ul>
- * Effects still respect DS4C's switches and category toggles.
+ * Effects still respect DS4C's switches and category toggles. Off unless the effect gallery option
+ * is on.
  */
 public final class EffectGallery {
     private static final String TRIGGER_INDEX = "/assets/ds4c/gallery_triggers.json";
@@ -145,11 +147,11 @@ public final class EffectGallery {
     }
 
     public static boolean playTrigger(String name, int seconds) {
-        if (!triggerNames().contains(name)) return false;
+        if (!Ds4cSettings.effectGallery() || !triggerNames().contains(name)) return false;
         stopTrigger();
         activeTrigger = Constants.id("gallery/" + name);
         TimedFacts.pulse(activeTrigger, seconds * 20);
-        tell("Playing trigger effect " + name + " for " + seconds + "s. Touch the controller, then press the trigger.");
+        tell("ds4c.gallery.playing_trigger", name, seconds);
         return true;
     }
 
@@ -163,7 +165,7 @@ public final class EffectGallery {
     public static boolean playHaptic(String name) {
         Consumer<LocalPlayer> haptic = HAPTICS.get(name);
         LocalPlayer player = Minecraft.getInstance().player;
-        if (haptic == null || player == null) return false;
+        if (!Ds4cSettings.effectGallery() || haptic == null || player == null) return false;
         haptic.accept(player);
         return true;
     }
@@ -171,15 +173,15 @@ public final class EffectGallery {
     public static boolean playSound(String id) {
         Identifier soundId = Identifier.tryParse(id);
         LocalPlayer player = Minecraft.getInstance().player;
-        if (soundId == null || player == null) return false;
+        if (!Ds4cSettings.effectGallery() || soundId == null || player == null) return false;
         SoundEvent event = SoundEvent.createVariableRangeEvent(soundId);
         Minecraft.getInstance().getSoundManager().play(new SimpleSoundInstance(
                 event, SoundSource.PLAYERS, 1f, 1f, RandomSource.create(), player.getX(), player.getY(), player.getZ()));
         return true;
     }
 
-    static void tell(String message) {
+    static void tell(String key, Object... args) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if (player != null) player.sendSystemMessage(Component.literal("[DS4C] " + message));
+        if (player != null) player.sendSystemMessage(Component.translatable(key, args));
     }
 }

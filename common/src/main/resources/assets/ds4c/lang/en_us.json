@@ -42,5 +42,12 @@
   "ds4c.config.speaker_volume": "Speaker volume",
   "ds4c.config.speaker_volume.tooltip": "How loud the controller speaker plays, on top of the game's own volume settings. 0 keeps every sound on your main speakers or headphones.",
   "ds4c.config.speaker_latency": "Speaker delay",
-  "ds4c.config.speaker_latency.tooltip": "How much later the controller speaker plays than your main audio. Leave at 0 over USB. Raise it if the speaker plays over Bluetooth, so the pickup echo still lands just after the pickup sound."
+  "ds4c.config.speaker_latency.tooltip": "How much later the controller speaker plays than your main audio. Leave at 0 over USB. Raise it if the speaker plays over Bluetooth, so the pickup echo still lands just after the pickup sound.",
+  "ds4c.config.group.debug": "Debug",
+  "ds4c.config.effect_gallery": "Effect gallery",
+  "ds4c.config.effect_gallery.tooltip": "Adds the /ds4c gallery commands, which play one trigger effect, grip haptic or game sound at a time so you can feel each on its own. Rejoin a world if the command doesn't show up.",
+  "ds4c.gallery.playing_trigger": "[DS4C] Playing trigger effect %s for %ss. Touch the controller, then press the trigger.",
+  "ds4c.gallery.unknown_trigger": "[DS4C] Unknown trigger effect. Press Tab to see the list.",
+  "ds4c.gallery.unknown_haptic": "[DS4C] Unknown haptic. Press Tab to see the list.",
+  "ds4c.gallery.invalid_sound": "[DS4C] Not a valid sound id."
 }

@@ -32,6 +32,8 @@ public final class Ds4cSettings {
     private static volatile float falloffNearBlocks = 0.0f;
     /** Sounds fade to silence by this many blocks (each mapping can cap it lower). */
     private static volatile float falloffFarBlocks = 64.0f;
+    /** Enables the {@code /ds4c gallery} commands for trying effects one at a time. */
+    private static volatile boolean effectGallery = false;
 
     private Ds4cSettings() {
     }
@@ -116,6 +118,14 @@ public final class Ds4cSettings {
     public static void setFalloff(float nearBlocks, float farBlocks) {
         falloffNearBlocks = Math.max(0f, nearBlocks);
         falloffFarBlocks = Math.max(0.5f, farBlocks);
+    }
+
+    public static boolean effectGallery() {
+        return effectGallery;
+    }
+
+    public static void setEffectGallery(boolean enabled) {
+        effectGallery = enabled;
     }
 
     public static boolean isCategoryEnabled(FeedbackCategory category) {

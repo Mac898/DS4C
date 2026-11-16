@@ -82,6 +82,13 @@ public final class Ds4cConfigScreen {
                         .build())
                 .build();
 
+        OptionGroup debug = OptionGroup.createBuilder()
+                .name(Component.translatable("ds4c.config.group.debug"))
+                .collapsed(true)
+                .option(toggle("ds4c.config.effect_gallery", false,
+                        Ds4cSettings::effectGallery, Ds4cSettings::setEffectGallery))
+                .build();
+
         return YetAnotherConfigLib.createBuilder()
                 .title(Component.translatable("ds4c.config.title"))
                 .category(ConfigCategory.createBuilder()
@@ -90,6 +97,7 @@ public final class Ds4cConfigScreen {
                         .group(haptics)
                         .group(speaker)
                         .group(categories.build())
+                        .group(debug)
                         .build())
                 .save(Ds4cConfig::save)
                 .build()

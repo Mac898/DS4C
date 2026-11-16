@@ -35,6 +35,7 @@ public final class Ds4cConfig {
         float footstepIntensity = 1.0f;
         float speakerVolume = 1.0f;
         int speakerLatencyMs = 0;
+        boolean effectGallery = false;
         Map<String, Float> categoryIntensity = new LinkedHashMap<>();
 
         // Read only, from configs saved before the on/off tickboxes became strength 0. Left null
@@ -88,6 +89,7 @@ public final class Ds4cConfig {
         Ds4cSettings.setFootstepIntensity(isOff(data.footsteps) ? 0f : data.footstepIntensity);
         Ds4cSettings.setSpeakerVolume(data.speakerVolume);
         Ds4cSettings.setSpeakerLatencyMs(data.speakerLatencyMs);
+        Ds4cSettings.setEffectGallery(data.effectGallery);
         for (FeedbackCategory category : FeedbackCategory.values()) {
             Boolean enabled = data.categories == null ? null : data.categories.get(key(category));
             Float intensity = data.categoryIntensity == null ? null : data.categoryIntensity.get(key(category));
@@ -106,6 +108,7 @@ public final class Ds4cConfig {
         data.footstepIntensity = Ds4cSettings.footstepIntensity();
         data.speakerVolume = Ds4cSettings.speakerVolume();
         data.speakerLatencyMs = Ds4cSettings.speakerLatencyMs();
+        data.effectGallery = Ds4cSettings.effectGallery();
         for (FeedbackCategory category : FeedbackCategory.values()) {
             data.categoryIntensity.put(key(category), Ds4cSettings.categoryIntensity(category));
         }
