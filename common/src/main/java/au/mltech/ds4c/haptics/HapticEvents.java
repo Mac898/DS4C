@@ -22,13 +22,13 @@ import net.minecraft.world.phys.Vec3;
  * Each checks its category and scales by the synthesis intensity; {@link Haptics} applies the
  * master intensity, priority and panning.
  * <p>
- * Voicing (docs/haptics-review.md): energy in the 80-250 Hz band; impacts are decaying
- * {@link HapticWaveform#thump thumps} whose weight comes from amplitude and decay length;
+ * Voicing: energy in the 80-250 Hz band; impacts are decaying {@link HapticWaveform#thump thumps}
+ * whose weight comes from amplitude and decay length;
  * textures are {@link HapticWaveform#bandNoise band-passed noise}. Frequent events are subtle,
  * rare ones get the headroom. Effects with a direction lean towards that grip.
  * <p>
- * DS4C expects Controlify's own vibration to be off (otherwise those events would be felt twice), so this
- * also covers the events Controlify rumbles for: damage, explosions, lightning, mining, landings
+ * DS4C expects Controlify's own vibration to be off (otherwise those events would be felt twice),
+ * so this also covers the events Controlify rumbles for: damage, explosions, lightning, mining, landings
  * in water, slowing blocks and item breaks.
  */
 public final class HapticEvents {

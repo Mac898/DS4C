@@ -40,9 +40,8 @@ import java.util.function.Supplier;
  * slowing blocks, portals), repeating cues (heartbeat, compass, bow at full draw, proximity
  * pulses) and rhythmic accents (rail joins, hoof beats).
  * <p>
- * Voicing follows docs/haptics-review.md: energy in the 80-250 Hz band the palm feels best, beds
- * that change with the game state (speed, depth, rain strength) and carry accents, and repeating
- * cues that never duck other effects.
+ * Voicing: energy in the 80-250 Hz band the palm feels best, beds that change with the game state
+ * (speed, depth, rain strength) and carry accents, and repeating cues that never duck other effects.
  * <p>
  * Owned by {@link Haptics}, which only ticks it while haptics can play and replaces it (after
  * clearing every loop) when they can't, so no loop outlives a world, a pause or a settings change.

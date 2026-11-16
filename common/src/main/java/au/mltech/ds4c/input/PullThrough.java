@@ -12,18 +12,13 @@ import net.minecraft.world.item.ItemUseAnimation;
 import org.jspecify.annotations.Nullable;
 
 /**
- * "Pull through to shoot": with a bow or trident drawn, pushing the Use trigger past the
- * resistance to the bottom of its travel looses the shot, instead of waiting for the trigger to
- * be released. The draw rules use the firmware Bow effect for this, whose resistance gives way at
- * the end of its zone, so you can hold the draw in the resistance and then press through it.
+ * "Pull through to shoot": with a bow or trident drawn, pressing Use through the firmware Bow
+ * effect's resistance to the bottom looses the shot. The next draw waits until the trigger is let
+ * back out.
  * <p>
- * After a shot, Use stays held, so the next draw is blocked until the trigger is let back out.
- * <p>
- * Controlify turns the analogue trigger into a press at a single threshold (0.5 by default) with no
- * hysteresis. A finger resting near that point, with the Bow effect pushing back on it, flickers
- * between pressed and released, and vanilla looses a weak arrow on every flicker and redraws on the
- * next: a rapid-fire loop. So while a bow or trident is drawn, a release only counts once the
- * trigger is clearly out ({@link #RESET}), and vanilla's own release is held off until then.
+ * Controlify's press threshold (0.5) has no hysteresis, so a finger resting there against the Bow
+ * effect flickers and vanilla fires a weak arrow on each flicker. While drawn, a release only counts
+ * below {@link #RESET}.
  */
 public final class PullThrough {
     /** How far the trigger must be pressed to count as "through" (0..1). */

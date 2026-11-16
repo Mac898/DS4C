@@ -79,5 +79,6 @@ pactl list sinks | grep -A30 pro-output | grep "Channel Map"
 
 ## Checking it works
 
-In game, run `/ds4c gallery haptic footstep_stone`. You should feel a tap in the grips and hear
-nothing from the controller speaker.
+Walk on stone: you should feel a light tap in the grips for each step and hear nothing from the
+controller speaker. With **Effect gallery** turned on under Debug in DS4C's settings, you can also
+run `/ds4c gallery haptic footstep_stone` for a single tap.

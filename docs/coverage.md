@@ -1,6 +1,6 @@
 # DS4C feedback coverage
 
-What DS4C does for each game event or state, on the adaptive triggers and the grip HD haptics, and which events have no feedback at all. The reasoning behind each choice is in `haptics-review.md`.
+What DS4C does for each game event or state, on the adaptive triggers and the grip HD haptics, and which events have no feedback at all.
 
 > Trigger tables are generated: `python3 tools/coverage_triggers.py`. Regenerate after changing `tools/generate_rules.py`. The grip haptics and gaps sections are maintained by hand.
 
@@ -13,7 +13,7 @@ What DS4C does for each game event or state, on the adaptive triggers and the gr
 
 ## Trying effects on their own
 
-The effect gallery plays one effect at a time, for tuning and noise checks:
+The effect gallery plays one effect at a time, for tuning and noise checks. Turn on **Effect gallery** under Debug in DS4C's settings to enable the commands:
 
 - `/ds4c gallery trigger <name> [seconds]` holds a trigger effect (default 5 s). Names follow the rule's condition, e.g. `r2_swing`, `l2_use_anim_bow_draw_3`, `r2_explosion_3`; press Tab to list them. Controlify only applies trigger effects in-world with controller input active, so touch the controller after closing chat, then press the trigger.
 - `/ds4c gallery haptic <name>` plays a grip event synth: `footstep_<surface>`, `footstep_sprint_<surface>`, `footstep_sprint_jump_<surface>`, `small_landing_<surface>`, `landing_<blocks>`, `mace_slam`, `damage_<type>`, `explosion_*`, `mining_<tool>`, `wrong_tool`, `shears_snip`, `lightning_near`/`lightning_far`, `fishing_*`.

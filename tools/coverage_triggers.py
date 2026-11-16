@@ -2,7 +2,7 @@
 """Print a markdown table of every DS4C trigger rule, grouped by priority section.
 
 Reuses generate_rules.py so the table always matches what ships. Usage:
-  python3 tools/coverage_triggers.py > /tmp/triggers.md
+  python3 tools/coverage_triggers.py > triggers.md
 """
 import re
 import sys

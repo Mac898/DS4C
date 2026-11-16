@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Decides, as each haptic is about to play, whether it plays and how loud, so overlapping effects
- * stay readable (docs/haptics-review.md, guideline 10):
+ * stay readable:
  * <ul>
  *     <li>At most {@link #MAX_LAYERS} effects play at once. A new effect that ranks no higher than
  *     everything already playing is dropped.</li>

@@ -18,7 +18,7 @@ public final class Ds4cControlifyEntrypoint implements ControlifyEntrypoint {
     public void onControlifyPreInit(PreInitContext context) {
         Ds4cConfig.load();
         context.contextualDomains().inGame().registerContributor(Ds4cFacts::contributeInGame);
-        Constants.LOG.info("Registered DS4C contextual fact contributors");
+        Constants.LOG.info("Registered contextual fact contributors");
     }
 
     @Override

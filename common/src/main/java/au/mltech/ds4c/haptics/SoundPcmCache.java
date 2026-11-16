@@ -56,7 +56,7 @@ public final class SoundPcmCache {
             WeighedSoundEvents event = soundManager.getSoundEvent(id);
             if (event != null) count += preload(event, 0);
         }
-        Constants.LOG.debug("DS4C decoding {} sound variants for haptics", count);
+        Constants.LOG.debug("Decoding {} sound variants for haptics", count);
     }
 
     private static int preload(WeighedSoundEvents event, int depth) {
@@ -85,7 +85,7 @@ public final class SoundPcmCache {
             buffer.get(data);
             return Optional.of(new Pcm(data, stream.getFormat()));
         } catch (Exception e) {
-            Constants.LOG.debug("DS4C could not decode {} for haptics", path, e);
+            Constants.LOG.debug("Could not decode {} for haptics", path, e);
             return Optional.empty();
         }
     }

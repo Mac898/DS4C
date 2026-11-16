@@ -9,10 +9,10 @@ import java.util.function.Supplier;
  * fresh from the generator, so noise and random accents never repeat exactly, and short fades at
  * the chunk ends hide the seams.
  * <p>
- * Steady touch fades from awareness within seconds to minutes (docs/haptics-review.md,
- * guideline 8), so a loop whose level hasn't changed for {@link #HABITUATION_START_TICKS} eases
- * down to {@link #HABITUATION_FLOOR} of its level. Any marked change ({@link #accent()} or a level
- * change of 25% or more) brings it back to full.
+ * Steady touch fades from awareness within seconds to minutes, so a loop whose level hasn't
+ * changed for {@link #HABITUATION_START_TICKS} eases down to {@link #HABITUATION_FLOOR} of its
+ * level. Any marked change ({@link #accent()} or a level change of 25% or more) brings it back to
+ * full.
  */
 public final class HapticLoop {
     static final int HABITUATION_START_TICKS = 20 * 20;

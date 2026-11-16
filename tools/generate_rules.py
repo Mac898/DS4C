@@ -113,7 +113,7 @@ def both(category, condition, effect, idle_only=False):
         rule(binding, category, condition, effect, idle_only)
 
 
-# Design rules these follow (docs/haptics-review.md): trigger vibration only for short events and at
+# Design rules: trigger vibration only for short events and at
 # or below 35 Hz; light resistance (1-3) for frequent actions, walls for rare ones; adjacent levels
 # at least ~25% apart, so ramps use few levels.
 MAX_VIBRATION_HZ = 35
@@ -144,7 +144,7 @@ def pull_through_curve(level):
     The zone never starts above PULL_THROUGH_MIN_START. The resistance pushes a lightly resting finger
     back to the start of the zone; a zone starting near the top (it reached zone 2 at full draw)
     pushed it out past the let-out point (PullThrough.RESET, about a quarter), which looses the shot,
-    and the next touch drew again: the light-press rapid fire from the second test pass."""
+    and the next touch drew again, firing rapidly under a light press."""
     start = max(PULL_THROUGH_MIN_START, 7 - level)
     return bow(start, 8, draw_strength(level), 8)
 

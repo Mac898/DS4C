@@ -46,7 +46,7 @@ final class HapticsSetupCheck {
         } else {
             reason = "ds4c.setup.no_haptics.generic";
         }
-        Constants.LOG.warn("DS4C: DualSense connected but HD haptics are unavailable ({}). See DS4C's docs/linux-hd-haptics.md.", reason);
+        Constants.LOG.warn("DualSense connected but HD haptics are unavailable ({}). See https://github.com/Mac898/DS4C/blob/main/docs/linux-hd-haptics.md", reason);
         minecraft.player.sendSystemMessage(Component.translatable(reason));
     }
 }
