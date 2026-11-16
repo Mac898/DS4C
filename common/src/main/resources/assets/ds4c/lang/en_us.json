@@ -1,7 +1,7 @@
 {
   "ds4c.pack.effects.name": "DS4C Effects",
   "ds4c.pack.effects.desc": "DualSense adaptive trigger rules for Controlify",
-  "ds4c.config.title": "DS4C",
+  "ds4c.config.title": "DualSense for Controlify",
   "ds4c.config.group.triggers": "Adaptive triggers",
   "ds4c.config.trigger_strength": "Trigger strength",
   "ds4c.config.trigger_strength.tooltip": "Scales the resistance and vibration of DS4C's trigger effects. Lower it if the triggers tire your fingers. Off turns DS4C's trigger effects off; Controlify's own still apply.",

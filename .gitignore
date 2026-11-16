@@ -17,3 +17,11 @@ run/
 
 # Python
 __pycache__/
+
+# local only
+internal/
+.claude/
+*.log
+hs_err_pid*
+.vscode/
+.DS_Store

@@ -58,8 +58,8 @@ java {
 }
 
 tasks.withType(Jar).configureEach {
-    from(rootProject.file('LICENSE')) {
-        rename { "${it}_${mod_name}" }
+    from(rootProject.file('LICENSE.txt')) {
+        rename { "LICENSE_${mod_id}.txt" }
     }
 }
 
@@ -81,7 +81,7 @@ jar {
 processResources {
     var expandProps = [
             'version'                      : version,
-            'group'                        : project.group, //Else we target the task's group.
+            'group'                        : project.group,
             'minecraft_version'            : minecraft_version,
             'minecraft_version_range'      : minecraft_version_range,
             'fabric_version'               : fabric_version,
