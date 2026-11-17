@@ -26,10 +26,6 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
             }
     );
 
-    public int durationMs() {
-        return (int) Math.round(pcm.length / 2.0 / format.getSampleRate() * 1000.0);
-    }
-
     public static AudioFormat defaultFormat() {
         return new AudioFormat(SAMPLE_RATE, 16, 1, true, false);
     }
@@ -92,7 +88,9 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
         return new HapticWaveform(data, fmt);
     }
 
-    /** Pink noise via Paul Kellet's filter. Not cached, so each call is fresh. */
+    /**
+     * Pink noise via Paul Kellet's filter. Not cached, so each call is fresh.
+     */
     public static HapticWaveform pinkNoise(int durationMs, float amplitude) {
         AudioFormat fmt = defaultFormat();
         float amp = clampAmp(amplitude);
@@ -115,7 +113,9 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
         return new HapticWaveform(writeSamples(samples), fmt);
     }
 
-    /** Brown noise via leaky integration of white noise. Not cached: rolls fresh each call. */
+    /**
+     * Brown noise via leaky integration of white noise. Not cached: rolls fresh each call.
+     */
     public static HapticWaveform brownNoise(int durationMs, float amplitude) {
         AudioFormat fmt = defaultFormat();
         float amp = clampAmp(amplitude);
@@ -238,11 +238,6 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
         return new HapticWaveform(out, fmt);
     }
 
-    // --- felt-band voices -------------------------------------------------------------------------
-    // The palm is most sensitive around 80-300 Hz and much less so below 40 Hz, so DS4C's
-    // synthesised effects put their energy in that band and express "heaviness" through envelope
-    // and amplitude rather than very low carriers.
-
     /**
      * An impact: a sine at {@code carrierHz} with a 2 ms attack and an exponential decay to about
      * -40 dB by the end. Heavier impacts use a lower carrier (80-100 Hz) and a longer decay.
@@ -267,6 +262,11 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
         return new HapticWaveform(data, fmt);
     }
 
+    // --- felt-band voices -------------------------------------------------------------------------
+    // The palm is most sensitive around 80-300 Hz and much less so below 40 Hz, so DS4C's
+    // synthesised effects put their energy in that band and express "heaviness" through envelope
+    // and amplitude rather than very low carriers.
+
     /**
      * White noise band-passed around {@code centerHz} (a two-pole resonator, Q of about 1.5),
      * normalised so its peak is {@code amplitude}. Textures in the felt band: gravel, wind, rain,
@@ -286,7 +286,10 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
         for (int i = 0; i < n; i++) {
             double x = rng.nextDouble() * 2.0 - 1.0;
             double out = b0 * x + b2 * x2 - a1 * y1 - a2 * y2;
-            x2 = x1; x1 = x; y2 = y1; y1 = out;
+            x2 = x1;
+            x1 = x;
+            y2 = y1;
+            y1 = out;
             y[i] = out;
             peak = Math.max(peak, Math.abs(out));
         }
@@ -327,18 +330,6 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
         return new HapticWaveform(new byte[samplesForMs(durationMs, defaultFormat()) * 2], defaultFormat());
     }
 
-    /** A copy scaled by {@code gain} (0..1). */
-    public HapticWaveform scaled(float gain) {
-        return new HapticWaveform(scaleSamples(pcm, gain), format);
-    }
-
-    /** Shifts this waveform later by {@code ms} of silence. */
-    public HapticWaveform delayed(int ms) {
-        return concat(silence(ms), this);
-    }
-
-    // --- stereo ------------------------------------------------------------------------------------
-
     static AudioFormat stereoFormat(AudioFormat mono) {
         return new AudioFormat(mono.getSampleRate(), mono.getSampleSizeInBits(), 2, true, mono.isBigEndian());
     }
@@ -365,6 +356,8 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
         return Math.max(0f, Math.min(1f, a));
     }
 
+    // --- stereo ------------------------------------------------------------------------------------
+
     private static int samplesForMs(int ms, AudioFormat fmt) {
         return Math.max(0, (int) (ms * fmt.getSampleRate() / 1000.0));
     }
@@ -388,5 +381,23 @@ public record HapticWaveform(byte[] pcm, AudioFormat format) {
                 && a.getSampleSizeInBits() == b.getSampleSizeInBits()
                 && a.isBigEndian() == b.isBigEndian()
                 && a.getEncoding().equals(b.getEncoding());
+    }
+
+    public int durationMs() {
+        return (int) Math.round(pcm.length / 2.0 / format.getSampleRate() * 1000.0);
+    }
+
+    /**
+     * A copy scaled by {@code gain} (0..1).
+     */
+    public HapticWaveform scaled(float gain) {
+        return new HapticWaveform(scaleSamples(pcm, gain), format);
+    }
+
+    /**
+     * Shifts this waveform later by {@code ms} of silence.
+     */
+    public HapticWaveform delayed(int ms) {
+        return concat(silence(ms), this);
     }
 }

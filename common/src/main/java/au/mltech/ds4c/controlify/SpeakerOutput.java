@@ -4,21 +4,13 @@ import au.mltech.ds4c.Constants;
 import dev.isxander.controlify.api.ControlifyApi;
 import dev.isxander.controlify.controller.ControllerEntity;
 import dev.isxander.controlify.controller.haptic.HDHapticComponent;
-import dev.isxander.sdl.Sdl;
-import dev.isxander.sdl.SdlAudio;
-import dev.isxander.sdl.SdlAudioDeviceId;
-import dev.isxander.sdl.SdlAudioSpec;
-import dev.isxander.sdl.SdlAudioStreamHandle;
+import dev.isxander.sdl.*;
 import net.minecraft.client.Minecraft;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.*;
 
 /**
  * The DualSense speaker, played through DS4C's own SDL streams bound to the audio device Controlify
@@ -43,25 +35,33 @@ public final class SpeakerOutput {
         this.deviceSpec = deviceSpec;
     }
 
-    /** Called by the driver mixin once the controller's components exist. */
+    /**
+     * Called by the driver mixin once the controller's components exist.
+     */
     public static void attach(HDHapticComponent component, Sdl sdl, SdlAudioDeviceId device, SdlAudioSpec deviceSpec) {
         if (deviceSpec.channels() != CHANNEL_MAP.length) return;
         SpeakerOutput old = OUTPUTS.put(component, new SpeakerOutput(sdl, device, deviceSpec));
         if (old != null) old.close();
     }
 
-    /** Called by the driver mixin before Controlify closes the audio device. */
+    /**
+     * Called by the driver mixin before Controlify closes the audio device.
+     */
     public static void detach(HDHapticComponent component) {
         SpeakerOutput output = OUTPUTS.remove(component);
         if (output != null) output.close();
     }
 
-    /** Whether the current controller has a speaker DS4C can play on. */
+    /**
+     * Whether the current controller has a speaker DS4C can play on.
+     */
     public static boolean isAvailable() {
         return current() != null;
     }
 
-    /** 16-bit signed little-endian mono PCM. Plays on the client thread. */
+    /**
+     * 16-bit signed little-endian mono PCM. Plays on the client thread.
+     */
     public static void playPcm(byte[] pcm, float sampleRate) {
         if (pcm.length == 0) return;
         Minecraft.getInstance().execute(() -> {

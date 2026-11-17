@@ -18,6 +18,10 @@ import java.util.Set;
 public final class ControlifyMixinPlugin implements IMixinConfigPlugin {
     private static final String HANDLER_PREFIX = "ds4c$";
 
+    private static void mark(String key) {
+        System.setProperty(ControlifyCompat.APPLIED_PROPERTY_PREFIX + key, "true");
+    }
+
     @Override
     public void onLoad(String mixinPackage) {
     }
@@ -57,9 +61,5 @@ public final class ControlifyMixinPlugin implements IMixinConfigPlugin {
                 }
             }
         }
-    }
-
-    private static void mark(String key) {
-        System.setProperty(ControlifyCompat.APPLIED_PROPERTY_PREFIX + key, "true");
     }
 }

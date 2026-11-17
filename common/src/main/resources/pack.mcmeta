@@ -1,9 +1,15 @@
 {
   "pack": {
     "description": "${mod_name}",
-    "supported_formats": [34, 10000],
+    "supported_formats": [
+      34,
+      10000
+    ],
     "pack_format": 64,
     "min_format": 34,
-    "max_format": [10000, 0]
+    "max_format": [
+      10000,
+      0
+    ]
   }
 }

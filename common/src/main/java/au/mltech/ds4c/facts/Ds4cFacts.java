@@ -12,16 +12,10 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUseAnimation;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ShearsItem;
-import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.phys.BlockHitResult;
@@ -39,12 +33,18 @@ import net.minecraft.world.phys.HitResult;
  * ({@code name/<n>}) only contribute the active bucket: a missing fact reads as false.
  */
 public final class Ds4cFacts {
-    /** Master switch for every DS4C trigger rule. */
+    /**
+     * Master switch for every DS4C trigger rule.
+     */
     public static final Identifier ENABLED = Constants.id("enabled");
 
-    /** Slot: the block occupying the player's feet (portals, cobwebs). */
+    /**
+     * Slot: the block occupying the player's feet (portals, cobwebs).
+     */
     public static final Identifier SLOT_BLOCK_AT_FEET = Constants.id("block_at_feet");
-    /** Slot: the block supporting the player. */
+    /**
+     * Slot: the block supporting the player.
+     */
     public static final Identifier SLOT_BLOCK_BELOW = Constants.id("block_below");
 
     public static final Identifier USING_ITEM = Constants.id("using_item");
@@ -52,36 +52,58 @@ public final class Ds4cFacts {
     public static final Identifier LOW_FOOD = Constants.id("low_food");
     public static final Identifier RIDING_MINECART = Constants.id("riding_minecart");
     public static final Identifier RIDING_BOAT = Constants.id("riding_boat");
-    /** Still holding Use on a crossbow that has finished loading. */
+    /**
+     * Still holding Use on a crossbow that has finished loading.
+     */
     public static final Identifier CROSSBOW_LOADED = Constants.id("crossbow_loaded");
-    /** Chewing/gulping beat while eating or drinking: two ticks on, two off. */
+    /**
+     * Chewing/gulping beat while eating or drinking: two ticks on, two off.
+     */
     public static final Identifier CHEW = Constants.id("chew");
     public static final Identifier FISHING_BITING = Constants.id("fishing_biting");
 
-    /** {@code ds4c:use_anim/<animation>}: the use animation of the item being used (bow, crossbow, eat...). */
+    /**
+     * {@code ds4c:use_anim/<animation>}: the use animation of the item being used (bow, crossbow, eat...).
+     */
     public static final String USE_ANIM = "use_anim/";
-    /** {@code ds4c:draw/0..3}: draw or charge progress of the bow, crossbow or trident being used. */
+    /**
+     * {@code ds4c:draw/0..3}: draw or charge progress of the bow, crossbow or trident being used.
+     */
     public static final String DRAW = "draw/";
-    /** The "pull through to shoot" setting is on: bow and trident draws give way at the end. */
+    /**
+     * The "pull through to shoot" setting is on: bow and trident draws give way at the end.
+     */
     public static final Identifier PULL_THROUGH = Constants.id("pull_through");
-    /** Holding a crossbow that is loaded. */
+    /**
+     * Holding a crossbow that is loaded.
+     */
     public static final Identifier HOLDING_LOADED_CROSSBOW = Constants.id("holding_loaded_crossbow");
-    /** {@code ds4c:tool/<class>}: main-hand tool class, for block-break pulse frequency. */
+    /**
+     * {@code ds4c:tool/<class>}: main-hand tool class, for block-break pulse frequency.
+     */
     public static final String TOOL = "tool/";
 
-    /** {@code ds4c:trigger_strength/50|75}: the trigger strength setting, when below 100%. */
+    /**
+     * {@code ds4c:trigger_strength/50|75}: the trigger strength setting, when below 100%.
+     */
     public static final String TRIGGER_STRENGTH = "trigger_strength/";
-    /** {@code ds4c:fall_charge/1..3}: airborne fall distance (mace wind-up). */
+    /**
+     * {@code ds4c:fall_charge/1..3}: airborne fall distance (mace wind-up).
+     */
     public static final String FALL_CHARGE = "fall_charge/";
     /**
      * {@code ds4c:target_resistance/1..3}: hardness of the block a held tool is aimed at and can
      * harvest (soft, medium, hard). Held briefly through changes, see {@link Dwell}.
      */
     public static final String TARGET_RESISTANCE = "target_resistance/";
-    /** Looking at a block, held briefly through changes so sweeping the crosshair doesn't flicker. */
+    /**
+     * Looking at a block, held briefly through changes so sweeping the crosshair doesn't flicker.
+     */
     public static final Identifier AIMING_AT_BLOCK = Constants.id("aiming_at_block");
 
-    /** How long a looked-at block change must persist before the trigger follows it: 150 ms. */
+    /**
+     * How long a looked-at block change must persist before the trigger follows it: 150 ms.
+     */
     private static final int AIM_DWELL_TICKS = 3;
     private static final Dwell aimDwell = new Dwell(AIM_DWELL_TICKS, 0);
     private static final Dwell resistanceDwell = new Dwell(AIM_DWELL_TICKS, 0);

@@ -14,7 +14,9 @@ import javax.sound.sampled.AudioFormat;
  * thread only.
  */
 public final class Haptics {
-    /** Base gain for DS4C's synthesised effects (tuned in testing: +20%), times the synthesis intensity setting. */
+    /**
+     * Base gain for DS4C's synthesised effects (tuned in testing: +20%), times the synthesis intensity setting.
+     */
     static final float SYNTH_GAIN = 1.2f;
 
     private static HapticTickHandler tickHandler = new HapticTickHandler();
@@ -23,7 +25,9 @@ public final class Haptics {
     private Haptics() {
     }
 
-    /** True when the current controller can play DS4C haptics right now. */
+    /**
+     * True when the current controller can play DS4C haptics right now.
+     */
     public static boolean isAvailable() {
         return Ds4cSettings.hapticsEnabled() && HdHaptics.INSTANCE.isAvailable();
     }
@@ -32,7 +36,9 @@ public final class Haptics {
         return Ds4cSettings.isCategoryEnabled(category) && isAvailable();
     }
 
-    /** A one-off effect (an event). Effects of the action and danger tiers duck lower tiers. */
+    /**
+     * A one-off effect (an event). Effects of the action and danger tiers duck lower tiers.
+     */
     public static void play(FeedbackCategory category, HapticWaveform waveform) {
         play(category, waveform, 1f, 0f);
     }
@@ -41,7 +47,9 @@ public final class Haptics {
         play(category, waveform, gain, 0f);
     }
 
-    /** @param pan -1 = left grip only, 0 = both, 1 = right grip only */
+    /**
+     * @param pan -1 = left grip only, 0 = both, 1 = right grip only
+     */
     public static void play(FeedbackCategory category, HapticWaveform waveform, float gain, float pan) {
         submit(category, HapticTier.of(category), waveform.pcm(), waveform.format(), gain, pan, false);
     }
@@ -55,7 +63,9 @@ public final class Haptics {
         submit(category, HapticTier.of(category), waveform.pcm(), waveform.format(), gain, pan, true);
     }
 
-    /** A decoded game sound (16-bit little-endian PCM, mono or stereo). */
+    /**
+     * A decoded game sound (16-bit little-endian PCM, mono or stereo).
+     */
     static void playSound(FeedbackCategory category, byte[] pcm, AudioFormat format, float gain) {
         submit(category, HapticTier.of(category), pcm, format, gain, 0f, false);
     }

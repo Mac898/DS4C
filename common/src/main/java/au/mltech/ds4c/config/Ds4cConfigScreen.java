@@ -2,11 +2,7 @@ package au.mltech.ds4c.config;
 
 import au.mltech.ds4c.Ds4cSettings;
 import au.mltech.ds4c.FeedbackCategory;
-import dev.isxander.yacl3.api.ConfigCategory;
-import dev.isxander.yacl3.api.Option;
-import dev.isxander.yacl3.api.OptionDescription;
-import dev.isxander.yacl3.api.OptionGroup;
-import dev.isxander.yacl3.api.YetAnotherConfigLib;
+import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
@@ -17,7 +13,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-/** DS4C settings, built with YACL (bundled with Controlify). Opened from Mod Menu or NeoForge's mod list. */
+/**
+ * DS4C settings, built with YACL (bundled with Controlify). Opened from Mod Menu or NeoForge's mod list.
+ */
 public final class Ds4cConfigScreen {
     private static final List<Integer> STRENGTHS = List.of(0, 50, 75, 100);
     private static final Component OFF = Component.translatable("ds4c.config.off");

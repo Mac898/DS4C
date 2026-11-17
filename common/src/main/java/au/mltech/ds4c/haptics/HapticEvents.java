@@ -32,7 +32,9 @@ import net.minecraft.world.phys.Vec3;
  * in water, slowing blocks and item breaks.
  */
 public final class HapticEvents {
-    /** Ticks after a jump during which sprint footsteps are boosted (sprint-jumping lands about every 12). */
+    /**
+     * Ticks after a jump during which sprint footsteps are boosted (sprint-jumping lands about every 12).
+     */
     private static final int SPRINT_JUMP_WINDOW = 15;
     private static int lastJumpTick = Integer.MIN_VALUE / 2;
     private static boolean leftFoot;
@@ -62,14 +64,18 @@ public final class HapticEvents {
         lastJumpTick = player.tickCount;
     }
 
-    /** Per-step tap shaped by the surface, alternating feet. */
+    /**
+     * Per-step tap shaped by the surface, alternating feet.
+     */
     public static void onFootstep(LocalPlayer player, BlockState state) {
         if (player.getVehicle() != null) return;
         boolean sprintJumping = player.isSprinting() && player.tickCount - lastJumpTick <= SPRINT_JUMP_WINDOW;
         footstep(state, player.isSprinting(), sprintJumping ? 1.6f : 1f);
     }
 
-    /** One footstep on {@code state}. Also used by the effect gallery. */
+    /**
+     * One footstep on {@code state}. Also used by the effect gallery.
+     */
     public static void footstep(BlockState state, boolean sprinting, float boost) {
         if (!Ds4cSettings.footstepsEnabled()) return;
         float intensity = intensity(FeedbackCategory.MOVEMENT);
@@ -91,27 +97,77 @@ public final class HapticEvents {
                 || st == SoundType.ANCIENT_DEBRIS || st == SoundType.AMETHYST || st == SoundType.AMETHYST_CLUSTER
                 || st == SoundType.COPPER || st == SoundType.DEEPSLATE || st == SoundType.DEEPSLATE_BRICKS
                 || st == SoundType.TUFF || st == SoundType.CALCITE || st == SoundType.NETHER_BRICKS) {
-            carrier = 180; bodyAmp = 0.30f; bodyMs = 45; noiseHz = 220; noiseAmp = 0.12f; noiseMs = 30;
+            carrier = 180;
+            bodyAmp = 0.30f;
+            bodyMs = 45;
+            noiseHz = 220;
+            noiseAmp = 0.12f;
+            noiseMs = 30;
         } else if (st == SoundType.WOOD || st == SoundType.BAMBOO || st == SoundType.BAMBOO_WOOD
                 || st == SoundType.HANGING_SIGN || st == SoundType.NETHER_WOOD || st == SoundType.CHERRY_WOOD) {
-            carrier = 120; bodyAmp = 0.32f; bodyMs = 80; noiseHz = 150; noiseAmp = 0.06f; noiseMs = 30;
+            carrier = 120;
+            bodyAmp = 0.32f;
+            bodyMs = 80;
+            noiseHz = 150;
+            noiseAmp = 0.06f;
+            noiseMs = 30;
         } else if (st == SoundType.WOOL || st == SoundType.MOSS || st == SoundType.MOSS_CARPET) {
-            carrier = 90; bodyAmp = 0.18f; bodyMs = 60; noiseHz = 0; noiseAmp = 0; noiseMs = 0;
+            carrier = 90;
+            bodyAmp = 0.18f;
+            bodyMs = 60;
+            noiseHz = 0;
+            noiseAmp = 0;
+            noiseMs = 0;
         } else if (st == SoundType.GRAVEL || st == SoundType.SAND || st == SoundType.SUSPICIOUS_GRAVEL
                 || st == SoundType.SUSPICIOUS_SAND) {
-            carrier = 110; bodyAmp = 0.10f; bodyMs = 40; noiseHz = 150; noiseAmp = 0.30f; noiseMs = 70;
+            carrier = 110;
+            bodyAmp = 0.10f;
+            bodyMs = 40;
+            noiseHz = 150;
+            noiseAmp = 0.30f;
+            noiseMs = 70;
         } else if (st == SoundType.GRASS || st == SoundType.ROOTED_DIRT) {
-            carrier = 110; bodyAmp = 0.20f; bodyMs = 60; noiseHz = 140; noiseAmp = 0.10f; noiseMs = 50;
+            carrier = 110;
+            bodyAmp = 0.20f;
+            bodyMs = 60;
+            noiseHz = 140;
+            noiseAmp = 0.10f;
+            noiseMs = 50;
         } else if (st == SoundType.SNOW || st == SoundType.POWDER_SNOW) {
-            carrier = 100; bodyAmp = 0.10f; bodyMs = 50; noiseHz = 130; noiseAmp = 0.25f; noiseMs = 80;
+            carrier = 100;
+            bodyAmp = 0.10f;
+            bodyMs = 50;
+            noiseHz = 130;
+            noiseAmp = 0.25f;
+            noiseMs = 80;
         } else if (st == SoundType.MUD || st == SoundType.MUDDY_MANGROVE_ROOTS) {
-            carrier = 85; bodyAmp = 0.32f; bodyMs = 110; noiseHz = 100; noiseAmp = 0.08f; noiseMs = 80;
+            carrier = 85;
+            bodyAmp = 0.32f;
+            bodyMs = 110;
+            noiseHz = 100;
+            noiseAmp = 0.08f;
+            noiseMs = 80;
         } else if (st == SoundType.HONEY_BLOCK || st == SoundType.SLIME_BLOCK) {
-            carrier = 80; bodyAmp = 0.30f; bodyMs = 120; noiseHz = 0; noiseAmp = 0; noiseMs = 0;
+            carrier = 80;
+            bodyAmp = 0.30f;
+            bodyMs = 120;
+            noiseHz = 0;
+            noiseAmp = 0;
+            noiseMs = 0;
         } else if (state.is(BlockTags.ICE)) {
-            carrier = 210; bodyAmp = 0.28f; bodyMs = 40; noiseHz = 240; noiseAmp = 0.12f; noiseMs = 30;
+            carrier = 210;
+            bodyAmp = 0.28f;
+            bodyMs = 40;
+            noiseHz = 240;
+            noiseAmp = 0.12f;
+            noiseMs = 30;
         } else {
-            carrier = 120; bodyAmp = 0.22f; bodyMs = 60; noiseHz = 140; noiseAmp = 0.08f; noiseMs = 40;
+            carrier = 120;
+            bodyAmp = 0.22f;
+            bodyMs = 60;
+            noiseHz = 140;
+            noiseAmp = 0.08f;
+            noiseMs = 40;
         }
         HapticWaveform body = HapticWaveform.thump(carrier, Math.round(bodyMs * (0.8f + 0.2f * weight)), Math.min(1f, bodyAmp * weight));
         if (noiseAmp <= 0f) return body;
@@ -170,7 +226,9 @@ public final class HapticEvents {
         Haptics.play(FeedbackCategory.COMBAT, overlay, intensity, pan);
     }
 
-    /** What getting hurt feels like, by cause; anything else is a plain hit from its direction. */
+    /**
+     * What getting hurt feels like, by cause; anything else is a plain hit from its direction.
+     */
     private static HapticWaveform damageOverlay(DamageSource source) {
         if (source.is(DamageTypes.FALL)) {
             return HapticWaveform.thump(85f, 240, 0.9f);
@@ -211,7 +269,9 @@ public final class HapticEvents {
         return proximity * proximity * proximity * Math.min(1f, (float) Math.sqrt(Math.max(0f, radius) / 6f));
     }
 
-    /** A blast: a crack, a heavy body and a rolling aftershock, leaning towards the explosion. */
+    /**
+     * A blast: a crack, a heavy body and a rolling aftershock, leaning towards the explosion.
+     */
     public static void explosion(float magnitude, float pan) {
         float intensity = intensity(FeedbackCategory.COMBAT) * magnitude;
         if (intensity <= 0.01f) return;
@@ -234,10 +294,12 @@ public final class HapticEvents {
         float a = 0.45f + 0.035f * Math.max(0, Math.min(9, stage));
         HapticWaveform pulse;
         if (tool.is(ItemTags.PICKAXES)) pulse = HapticWaveform.thump(150f, 60, a);
-        else if (tool.is(ItemTags.SHOVELS)) pulse = HapticWaveform.withASR(HapticWaveform.bandNoise(120f, 80, a), 3, 35, 42);
+        else if (tool.is(ItemTags.SHOVELS))
+            pulse = HapticWaveform.withASR(HapticWaveform.bandNoise(120f, 80, a), 3, 35, 42);
         else if (tool.is(ItemTags.AXES)) pulse = HapticWaveform.thump(110f, 80, a);
         else if (tool.is(ItemTags.HOES)) pulse = HapticWaveform.thump(130f, 60, a);
-        else if (tool.getItem() instanceof ShearsItem) pulse = HapticWaveform.withASR(HapticWaveform.bandNoise(200f, 50, a), 1, 20, 29);
+        else if (tool.getItem() instanceof ShearsItem)
+            pulse = HapticWaveform.withASR(HapticWaveform.bandNoise(200f, 50, a), 1, 20, 29);
         else pulse = HapticWaveform.thump(120f, 60, a * 0.85f);
         Haptics.play(FeedbackCategory.ENVIRONMENT, pulse, intensity);
     }
@@ -254,7 +316,9 @@ public final class HapticEvents {
                 surfaceTap(state, 2.2f)), intensity);
     }
 
-    /** Started mining a block the held item can't harvest: a dull scrape instead of progress. */
+    /**
+     * Started mining a block the held item can't harvest: a dull scrape instead of progress.
+     */
     public static void onIneffectiveTool() {
         float intensity = intensity(FeedbackCategory.ENVIRONMENT);
         if (intensity <= 0.001f) return;
@@ -262,7 +326,9 @@ public final class HapticEvents {
                 HapticWaveform.withASR(HapticWaveform.bandNoise(130f, 140, 0.4f), 5, 70, 65), intensity);
     }
 
-    /** Two quick, bright snips. */
+    /**
+     * Two quick, bright snips.
+     */
     public static void onShearsSnip() {
         float intensity = intensity(FeedbackCategory.ENVIRONMENT);
         if (intensity <= 0.001f) return;
@@ -270,7 +336,9 @@ public final class HapticEvents {
         Haptics.play(FeedbackCategory.ENVIRONMENT, HapticWaveform.mix(snip, snip.delayed(60)), intensity);
     }
 
-    /** Strike within 16 blocks: a sharp crack then a rolling rumble, fading with distance. */
+    /**
+     * Strike within 16 blocks: a sharp crack then a rolling rumble, fading with distance.
+     */
     public static void onLightningStrike(LightningBolt bolt) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return;
@@ -279,7 +347,9 @@ public final class HapticEvents {
         lightning((float) (1.0 - dist / 16.0), 0.5f * panTowards(player, bolt.position()));
     }
 
-    /** Lightning strike at {@code proximity} (1 = on top of the player, 0 = 16 blocks). Also used by the effect gallery. */
+    /**
+     * Lightning strike at {@code proximity} (1 = on top of the player, 0 = 16 blocks). Also used by the effect gallery.
+     */
     public static void lightning(float proximity, float pan) {
         float intensity = intensity(FeedbackCategory.AMBIENT) * proximity;
         if (intensity <= 0.001f) return;
@@ -290,7 +360,9 @@ public final class HapticEvents {
 
     // --- items -----------------------------------------------------------------------------------
 
-    /** Soft fishing cue (fish approaching, nibble, bobber bob). */
+    /**
+     * Soft fishing cue (fish approaching, nibble, bobber bob).
+     */
     public static void onFishingCue(float amplitude, float carrierHz, int durationMs) {
         float intensity = intensity(FeedbackCategory.ITEMS);
         if (intensity <= 0.001f) return;

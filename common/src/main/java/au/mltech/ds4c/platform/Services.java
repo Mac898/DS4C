@@ -5,7 +5,9 @@ import au.mltech.ds4c.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
 
-/** Loader-specific implementations, found through META-INF/services. */
+/**
+ * Loader-specific implementations, found through META-INF/services.
+ */
 public class Services {
 
     public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);

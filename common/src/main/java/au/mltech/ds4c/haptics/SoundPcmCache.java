@@ -24,20 +24,21 @@ import java.util.concurrent.ConcurrentHashMap;
  * buffers to OpenAL and drops the data, so we decode the .ogg ourselves (16-bit LE PCM) and keep it.
  */
 public final class SoundPcmCache {
-    public record Pcm(byte[] data, AudioFormat format) {
-    }
-
     private static final Map<Identifier, CompletableFuture<Optional<Pcm>>> CACHE = new ConcurrentHashMap<>();
 
     private SoundPcmCache() {
     }
 
-    /** @param path resource path of the .ogg, e.g. {@code minecraft:sounds/random/click.ogg} */
+    /**
+     * @param path resource path of the .ogg, e.g. {@code minecraft:sounds/random/click.ogg}
+     */
     static CompletableFuture<Optional<Pcm>> get(Identifier path) {
         return CACHE.computeIfAbsent(path, p -> CompletableFuture.supplyAsync(() -> decode(p), Util.nonCriticalIoPool()));
     }
 
-    /** The decoded sound if it's ready now, else null (and decoding starts, if it hadn't). */
+    /**
+     * The decoded sound if it's ready now, else null (and decoding starts, if it hadn't).
+     */
     public static @org.jspecify.annotations.Nullable Pcm getNow(Identifier path) {
         CompletableFuture<Optional<Pcm>> future = get(path);
         return future.isDone() && !future.isCompletedExceptionally() ? future.join().orElse(null) : null;
@@ -72,7 +73,9 @@ public final class SoundPcmCache {
         return count;
     }
 
-    /** Resources reloaded: sound files may have changed. */
+    /**
+     * Resources reloaded: sound files may have changed.
+     */
     public static void clear() {
         CACHE.clear();
     }
@@ -88,5 +91,8 @@ public final class SoundPcmCache {
             Constants.LOG.debug("Could not decode {} for haptics", path, e);
             return Optional.empty();
         }
+    }
+
+    public record Pcm(byte[] data, AudioFormat format) {
     }
 }

@@ -14,7 +14,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Hands the DualSense audio device Controlify opened to DS4C's speaker output. */
+/**
+ * Hands the DualSense audio device Controlify opened to DS4C's speaker output.
+ */
 @Mixin(SDLCommonDriver.class)
 public abstract class SDLCommonDriverSpeakerMixin {
     @Shadow

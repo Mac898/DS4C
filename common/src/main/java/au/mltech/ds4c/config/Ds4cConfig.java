@@ -24,28 +24,6 @@ import java.util.Map;
 public final class Ds4cConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    /** Serialised form. Field names are the JSON keys. */
-    static final class Data {
-        int triggerStrength = 100;
-        boolean pullThroughToShoot = true;
-        float masterIntensity = 1.0f;
-        float synthesisIntensity = 1.0f;
-        float falloffNearBlocks = 0.0f;
-        float falloffFarBlocks = 64.0f;
-        float footstepIntensity = 1.0f;
-        float speakerVolume = 1.0f;
-        int speakerLatencyMs = 0;
-        boolean effectGallery = false;
-        Map<String, Float> categoryIntensity = new LinkedHashMap<>();
-
-        // Read only, from configs saved before the on/off tickboxes became strength 0. Left null
-        // when saving, so Gson drops them.
-        Boolean triggerEffects;
-        Boolean hdHaptics;
-        Boolean footsteps;
-        Map<String, Boolean> categories;
-    }
-
     private Ds4cConfig() {
     }
 
@@ -115,12 +93,38 @@ public final class Ds4cConfig {
         return data;
     }
 
-    /** A legacy tickbox that was saved as off. */
+    /**
+     * A legacy tickbox that was saved as off.
+     */
     private static boolean isOff(Boolean legacy) {
         return legacy != null && !legacy;
     }
 
     static String key(FeedbackCategory category) {
         return category.name().toLowerCase(Locale.ROOT);
+    }
+
+    /**
+     * Serialised form. Field names are the JSON keys.
+     */
+    static final class Data {
+        int triggerStrength = 100;
+        boolean pullThroughToShoot = true;
+        float masterIntensity = 1.0f;
+        float synthesisIntensity = 1.0f;
+        float falloffNearBlocks = 0.0f;
+        float falloffFarBlocks = 64.0f;
+        float footstepIntensity = 1.0f;
+        float speakerVolume = 1.0f;
+        int speakerLatencyMs = 0;
+        boolean effectGallery = false;
+        Map<String, Float> categoryIntensity = new LinkedHashMap<>();
+
+        // Read only, from configs saved before the on/off tickboxes became strength 0. Left null
+        // when saving, so Gson drops them.
+        Boolean triggerEffects;
+        Boolean hdHaptics;
+        Boolean footsteps;
+        Map<String, Boolean> categories;
     }
 }

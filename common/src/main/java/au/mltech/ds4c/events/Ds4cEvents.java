@@ -9,13 +9,7 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUseAnimation;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -25,9 +19,13 @@ import net.minecraft.world.level.block.state.BlockState;
  */
 public final class Ds4cEvents {
     // Attack swing: a three-stage swoop (heavy start, light middle, hard stop).
-    /** A swing at (nearly) full attack charge: solid. */
+    /**
+     * A swing at (nearly) full attack charge: solid.
+     */
     public static final Identifier SWING_FULL = event("swing_full");
-    /** A swing before the attack has recharged: a weak flick. */
+    /**
+     * A swing before the attack has recharged: a weak flick.
+     */
     public static final Identifier SWING_WEAK = event("swing_weak");
     public static final Identifier TOOL_WARNING_ATTACK = event("tool_warning_attack");
     public static final Identifier TOOL_WARNING_USE = event("tool_warning_use");
@@ -57,11 +55,17 @@ public final class Ds4cEvents {
 
     // Block breaking.
     public static final Identifier BLOCK_BROKEN = event("block_broken");
-    /** A knock on R2 at every third crack stage while mining. */
+    /**
+     * A knock on R2 at every third crack stage while mining.
+     */
     public static final Identifier BREAK_PULSE = event("break_pulse");
-    /** {@code ds4c:event/explosion/1..3}: a nearby explosion, by how strongly it's felt. */
+    /**
+     * {@code ds4c:event/explosion/1..3}: a nearby explosion, by how strongly it's felt.
+     */
     public static final String EXPLOSION = "event/explosion/";
-    /** {@code ds4c:event/mace_land/1..3}: mace ground slam, by fall distance. */
+    /**
+     * {@code ds4c:event/mace_land/1..3}: mace ground slam, by fall distance.
+     */
     public static final String MACE_LAND = "event/mace_land/";
 
     private static int lastBreakStage = -1;
@@ -81,7 +85,9 @@ public final class Ds4cEvents {
 
     // --- client tick -----------------------------------------------------------------------------
 
-    /** Start of every client tick. Advances time and detects state transitions that have no hook. */
+    /**
+     * Start of every client tick. Advances time and detects state transitions that have no hook.
+     */
     public static void clientTick(Minecraft minecraft) {
         LocalPlayer player = minecraft.player;
         if (player == null || minecraft.level == null) {
@@ -106,7 +112,9 @@ public final class Ds4cEvents {
         crossbowWasLoaded = crossbowLoaded;
     }
 
-    /** Still holding Use on a crossbow that has finished loading. */
+    /**
+     * Still holding Use on a crossbow that has finished loading.
+     */
     public static boolean isCrossbowLoaded(LocalPlayer player) {
         if (!player.isUsingItem()) return false;
         ItemStack stack = player.getUseItem();
@@ -120,7 +128,9 @@ public final class Ds4cEvents {
 
     // --- attacking -------------------------------------------------------------------------------
 
-    /** The player started an attack (entity hit, block hit, miss, or spear stab). */
+    /**
+     * The player started an attack (entity hit, block hit, miss, or spear stab).
+     */
     public static void onAttackSwing(LocalPlayer player) {
         // Read before vanilla resets the attack timer for this swing.
         boolean full = player.getAttackStrengthScale(0.5f) >= 0.9f;
@@ -186,7 +196,9 @@ public final class Ds4cEvents {
         TimedFacts.pulse(bucket(MACE_LAND, level), 3);
     }
 
-    /** A felt explosion (see {@code HapticEvents.explosionMagnitude}): a kick on both triggers when it's close. */
+    /**
+     * A felt explosion (see {@code HapticEvents.explosionMagnitude}): a kick on both triggers when it's close.
+     */
     public static void onExplosion(float magnitude) {
         if (magnitude < 0.1f) return;
         int level = magnitude > 0.6f ? 3 : magnitude > 0.3f ? 2 : 1;
@@ -202,7 +214,9 @@ public final class Ds4cEvents {
         TimedFacts.pulse(CROSSBOW_FIRE, 3);
     }
 
-    /** Use was released early (bow shot, trident throw). Called before the use state is cleared. */
+    /**
+     * Use was released early (bow shot, trident throw). Called before the use state is cleared.
+     */
     public static void onReleaseUsingItem(LocalPlayer player) {
         ItemUseAnimation animation = player.getUseItem().getUseAnimation();
         if (animation == ItemUseAnimation.BOW) {
@@ -244,7 +258,9 @@ public final class Ds4cEvents {
 
     // --- block breaking --------------------------------------------------------------------------
 
-    /** Each tick of holding attack on a block. Pulses once per visible crack stage (0..9). */
+    /**
+     * Each tick of holding attack on a block. Pulses once per visible crack stage (0..9).
+     */
     public static void onBreakProgress(float destroyProgress) {
         int stage = Math.max(0, Math.min(9, (int) (destroyProgress * 10f)));
         if (stage == lastBreakStage) return;
@@ -260,7 +276,9 @@ public final class Ds4cEvents {
         lastBreakStage = -1;
     }
 
-    /** A block was broken (instantly, or at the end of breaking). */
+    /**
+     * A block was broken (instantly, or at the end of breaking).
+     */
     public static void onBlockBroken(LocalPlayer player, BlockState state) {
         onBreakReset();
         if (state.requiresCorrectToolForDrops() && !player.hasCorrectToolForDrops(state)) return;

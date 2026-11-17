@@ -4,6 +4,8 @@ import java.nio.file.Path;
 
 public interface IPlatformHelper {
 
-    /** The loader's config directory. */
+    /**
+     * The loader's config directory.
+     */
     Path getConfigDirectory();
 }

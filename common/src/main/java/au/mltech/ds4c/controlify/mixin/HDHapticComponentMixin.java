@@ -11,7 +11,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import javax.sound.sampled.AudioFormat;
 import java.util.function.Consumer;
 
-/** PCM playback on Controlify versions without HDHapticsApi. */
+/**
+ * PCM playback on Controlify versions without HDHapticsApi.
+ */
 @Mixin(HDHapticComponent.class)
 public abstract class HDHapticComponentMixin implements Ds4cHdHaptic {
     @Shadow

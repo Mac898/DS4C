@@ -10,9 +10,10 @@ import net.minecraft.sounds.SoundEvents;
  * the grips, and synthesised overlays where it doesn't.
  */
 public final class HapticSoundDefaults {
-    private HapticSoundDefaults() {}
-
     private static boolean registered = false;
+
+    private HapticSoundDefaults() {
+    }
 
     public static void registerAll() {
         if (registered) return;
@@ -233,8 +234,8 @@ public final class HapticSoundDefaults {
                 int ms = 900 + rng.nextInt(900);
                 float amp = (i == 0 ? 0.8f : 0.5f + 0.3f * rng.nextFloat());
                 parts[i] = HapticWaveform.withASR(
-                        HapticWaveform.amSine(70f + rng.nextInt(25), 2f + 3f * rng.nextFloat(), ms, amp, 0.6f),
-                        120 + rng.nextInt(200), ms / 3, ms - ms / 3 - 320)
+                                HapticWaveform.amSine(70f + rng.nextInt(25), 2f + 3f * rng.nextFloat(), ms, amp, 0.6f),
+                                120 + rng.nextInt(200), ms / 3, ms - ms / 3 - 320)
                         .delayed(i == 0 ? 0 : 250 + rng.nextInt(900));
             }
             return HapticWaveform.mix(parts);
@@ -303,9 +304,9 @@ public final class HapticSoundDefaults {
         }
     }
 
-    private enum NoteShape { PLUCK, THUMP, NOISE }
-
-    /** A note-block instrument as a synth-only overlay, fading out over 8 blocks. */
+    /**
+     * A note-block instrument as a synth-only overlay, fading out over 8 blocks.
+     */
     private static void registerNoteSynth(Holder.Reference<SoundEvent> ref, float freq,
                                           float amp, int durMs, NoteShape shape) {
         HapticSoundRegistry.registerSpatialOverlay(ref.value(), FeedbackCategory.ITEMS, 8f, () -> {
@@ -335,4 +336,6 @@ public final class HapticSoundDefaults {
             }
         });
     }
+
+    private enum NoteShape {PLUCK, THUMP, NOISE}
 }

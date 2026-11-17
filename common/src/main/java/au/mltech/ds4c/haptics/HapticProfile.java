@@ -5,10 +5,10 @@ import au.mltech.ds4c.FeedbackCategory;
 /**
  * Maps a sound to a haptic playback recipe.
  *
- * @param intensity            Base gain applied to the haptic (0..1+ allowed; clamped on the actuator).
- * @param maxDistance          Spatial attenuation distance in blocks. 0 disables proximity attenuation.
- * @param requiresLocalSource  When true, the sound only fires haptics if its source position is the local player.
- * @param category             Category whose strength setting applies.
+ * @param intensity           Base gain applied to the haptic (0..1+ allowed; clamped on the actuator).
+ * @param maxDistance         Spatial attenuation distance in blocks. 0 disables proximity attenuation.
+ * @param requiresLocalSource When true, the sound only fires haptics if its source position is the local player.
+ * @param category            Category whose strength setting applies.
  */
 public record HapticProfile(
         float intensity,

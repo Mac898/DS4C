@@ -1,7 +1,7 @@
 package au.mltech.ds4c.speaker;
 
-import au.mltech.ds4c.api.SpeakerRouting;
 import au.mltech.ds4c.Ds4cSettings;
+import au.mltech.ds4c.api.SpeakerRouting;
 import au.mltech.ds4c.controlify.SpeakerOutput;
 import au.mltech.ds4c.haptics.SoundPcmCache;
 import dev.isxander.controlify.api.ControlifyApi;
@@ -33,9 +33,13 @@ import java.util.concurrent.TimeUnit;
  * hasn't been decoded yet also stays on the main mix rather than arriving late.
  */
 public final class ControllerSpeaker {
-    /** Played on the speaker instead of the main mix, when they come from the player. */
+    /**
+     * Played on the speaker instead of the main mix, when they come from the player.
+     */
     private static final Set<Identifier> MOVED = new HashSet<>();
-    /** Stay on the main mix, plus an echo on the speaker. */
+    /**
+     * Stay on the main mix, plus an echo on the speaker.
+     */
     private static final Set<Identifier> ECHOED = new HashSet<>();
 
     /**
@@ -45,7 +49,9 @@ public final class ControllerSpeaker {
     private static final int ECHO_MS = 35;
     private static final float ECHO_GAIN = 0.55f;
     private static final float ECHO_PITCH = 1.25f;
-    /** The speaker has no bass: cut below this so it doesn't distort or rattle the shell. */
+    /**
+     * The speaker has no bass: cut below this so it doesn't distort or rattle the shell.
+     */
     private static final float HIGH_PASS_HZ = 250f;
 
     static {
@@ -67,7 +73,9 @@ public final class ControllerSpeaker {
     private ControllerSpeaker() {
     }
 
-    /** Every sound the speaker may play, so their variants can be decoded ahead of time. */
+    /**
+     * Every sound the speaker may play, so their variants can be decoded ahead of time.
+     */
     public static Set<Identifier> routedSounds() {
         Set<Identifier> all = new HashSet<>(MOVED);
         all.addAll(ECHOED);
@@ -136,7 +144,9 @@ public final class ControllerSpeaker {
         }
     }
 
-    /** 16-bit little-endian PCM (mono or stereo) to high-passed mono at {@code gain}. */
+    /**
+     * 16-bit little-endian PCM (mono or stereo) to high-passed mono at {@code gain}.
+     */
     private static byte[] render(SoundPcmCache.Pcm pcm, float gain) {
         AudioFormat f = pcm.format();
         if (f.getSampleSizeInBits() != 16 || f.isBigEndian()) return null;

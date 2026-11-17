@@ -8,13 +8,21 @@ import au.mltech.ds4c.FeedbackCategory;
  * each other, so higher tiers duck lower ones instead of everything summing.
  */
 public enum HapticTier {
-    /** Weather, water, proximity cues. */
+    /**
+     * Weather, water, proximity cues.
+     */
     AMBIENT,
-    /** Footsteps, landings, rides. Very frequent, so they never duck anything. */
+    /**
+     * Footsteps, landings, rides. Very frequent, so they never duck anything.
+     */
     MOVEMENT,
-    /** The player's own actions: mining, placing, using items, UI. */
+    /**
+     * The player's own actions: mining, placing, using items, UI.
+     */
     ACTION,
-    /** Damage, combat, explosions, threats. */
+    /**
+     * Damage, combat, explosions, threats.
+     */
     DANGER;
 
     public static HapticTier of(FeedbackCategory category) {
@@ -26,7 +34,9 @@ public enum HapticTier {
         };
     }
 
-    /** Whether an effect of this tier ducks lower tiers while it plays. */
+    /**
+     * Whether an effect of this tier ducks lower tiers while it plays.
+     */
     boolean ducksLowerTiers() {
         return this.ordinal() >= ACTION.ordinal();
     }

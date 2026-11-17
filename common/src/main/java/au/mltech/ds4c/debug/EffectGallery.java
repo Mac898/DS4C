@@ -27,13 +27,7 @@ import org.jspecify.annotations.Nullable;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -53,10 +47,9 @@ import java.util.function.Consumer;
  */
 public final class EffectGallery {
     private static final String TRIGGER_INDEX = "/assets/ds4c/gallery_triggers.json";
+    private static final Map<String, Consumer<LocalPlayer>> HAPTICS = new LinkedHashMap<>();
     private static @Nullable List<String> triggerNames;
     private static @Nullable Identifier activeTrigger;
-
-    private static final Map<String, Consumer<LocalPlayer>> HAPTICS = new LinkedHashMap<>();
 
     static {
         Map<String, Block> surfaces = new LinkedHashMap<>();

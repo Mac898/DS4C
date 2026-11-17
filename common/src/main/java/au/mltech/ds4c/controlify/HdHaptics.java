@@ -15,12 +15,16 @@ import java.lang.invoke.MethodType;
 public interface HdHaptics {
     HdHaptics INSTANCE = Impl.choose();
 
-    /** False when neither path exists (the mixin didn't apply); nothing will ever play. */
+    /**
+     * False when neither path exists (the mixin didn't apply); nothing will ever play.
+     */
     boolean isSupported();
 
     boolean isAvailable();
 
-    /** 16-bit signed little-endian PCM, mono or stereo. Client thread. */
+    /**
+     * 16-bit signed little-endian PCM, mono or stereo. Client thread.
+     */
     void playPcm(byte[] pcm, AudioFormat format);
 
     final class Impl {
@@ -73,6 +77,13 @@ public interface HdHaptics {
     }
 
     final class ComponentMixin implements HdHaptics {
+        private static Ds4cHdHaptic current() {
+            return ControlifyApi.get().getCurrentController()
+                    .flatMap(ControllerEntity::hdHaptics)
+                    .map(c -> c instanceof Ds4cHdHaptic haptic ? haptic : null)
+                    .orElse(null);
+        }
+
         @Override
         public boolean isSupported() {
             return ControlifyCompat.applied("HDHapticComponentMixin");
@@ -88,13 +99,6 @@ public interface HdHaptics {
         public void playPcm(byte[] pcm, AudioFormat format) {
             Ds4cHdHaptic haptic = current();
             if (haptic != null) haptic.ds4c$playPcm(pcm, format);
-        }
-
-        private static Ds4cHdHaptic current() {
-            return ControlifyApi.get().getCurrentController()
-                    .flatMap(ControllerEntity::hdHaptics)
-                    .map(c -> c instanceof Ds4cHdHaptic haptic ? haptic : null)
-                    .orElse(null);
         }
     }
 }

@@ -10,9 +10,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LightningBolt.class)
 public class LightningBoltMixin {
-    @Shadow private int life;
+    @Shadow
+    private int life;
 
-    /** {@code life == 2} is the tick vanilla plays the thunder and impact sounds on the client. */
+    /**
+     * {@code life == 2} is the tick vanilla plays the thunder and impact sounds on the client.
+     */
     @Inject(method = "tick", at = @At("HEAD"))
     private void ds4c$onTick(CallbackInfo ci) {
         LightningBolt self = (LightningBolt) (Object) this;

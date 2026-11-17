@@ -14,7 +14,9 @@ public enum FeedbackCategory {
     AMBIENT,
     ITEMS,
     ENVIRONMENT,
-    /** HD haptics only: pickups, level-ups, toasts, workstation results. */
+    /**
+     * HD haptics only: pickups, level-ups, toasts, workstation results.
+     */
     UI;
 
     private final Identifier factId = Constants.id("category/" + this.name().toLowerCase(Locale.ROOT));

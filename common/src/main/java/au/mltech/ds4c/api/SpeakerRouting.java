@@ -17,19 +17,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * ahead of time; a sound that isn't decoded yet when it starts stays on the main mix.
  */
 public final class SpeakerRouting {
-    /** One mod's routing rule. */
-    public interface Rule {
-        /** Every sound id this rule may route, so DS4C can decode them ahead of time. */
-        Set<Identifier> sounds();
-
-        /**
-         * Whether this sound, as it starts, is personal to the local player and should play on the
-         * speaker instead of the main mix. Called on the client thread; the rule does its own checks
-         * (whose sound it is, whether its mode is on).
-         */
-        boolean isPersonal(SoundInstance instance);
-    }
-
     private static final List<Rule> RULES = new CopyOnWriteArrayList<>();
 
     private SpeakerRouting() {
@@ -39,7 +26,9 @@ public final class SpeakerRouting {
         RULES.add(rule);
     }
 
-    /** True if any registered rule routes this sound to the speaker. */
+    /**
+     * True if any registered rule routes this sound to the speaker.
+     */
     public static boolean isPersonal(SoundInstance instance) {
         for (Rule rule : RULES) {
             if (rule.isPersonal(instance)) return true;
@@ -47,10 +36,29 @@ public final class SpeakerRouting {
         return false;
     }
 
-    /** Every sound id the registered rules may route. */
+    /**
+     * Every sound id the registered rules may route.
+     */
     public static Set<Identifier> sounds() {
         Set<Identifier> all = new HashSet<>();
         for (Rule rule : RULES) all.addAll(rule.sounds());
         return all;
+    }
+
+    /**
+     * One mod's routing rule.
+     */
+    public interface Rule {
+        /**
+         * Every sound id this rule may route, so DS4C can decode them ahead of time.
+         */
+        Set<Identifier> sounds();
+
+        /**
+         * Whether this sound, as it starts, is personal to the local player and should play on the
+         * speaker instead of the main mix. Called on the client thread; the rule does its own checks
+         * (whose sound it is, whether its mode is on).
+         */
+        boolean isPersonal(SoundInstance instance);
     }
 }

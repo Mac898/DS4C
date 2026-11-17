@@ -10,17 +10,26 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Soft HD-haptic cues that mirror the bobber before a bite: fish approaching, nibbles, bobbing. */
+/**
+ * Soft HD-haptic cues that mirror the bobber before a bite: fish approaching, nibbles, bobbing.
+ */
 @Mixin(FishingHook.class)
 public class FishingHookMixin {
-    @Shadow private int nibble;
-    @Shadow private int timeUntilHooked;
-    @Shadow private boolean biting;
+    @Shadow
+    private int nibble;
+    @Shadow
+    private int timeUntilHooked;
+    @Shadow
+    private boolean biting;
 
-    @Unique private int ds4c$lastTimeUntilHooked = 0;
-    @Unique private int ds4c$nibbleCooldown = 0;
-    @Unique private int ds4c$bobCooldown = 0;
-    @Unique private double ds4c$prevDy = 0.0;
+    @Unique
+    private int ds4c$lastTimeUntilHooked = 0;
+    @Unique
+    private int ds4c$nibbleCooldown = 0;
+    @Unique
+    private int ds4c$bobCooldown = 0;
+    @Unique
+    private double ds4c$prevDy = 0.0;
 
     @Inject(method = "tick", at = @At("RETURN"))
     private void ds4c$onTick(CallbackInfo ci) {

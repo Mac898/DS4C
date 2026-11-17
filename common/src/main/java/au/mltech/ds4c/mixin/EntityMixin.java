@@ -14,7 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
 public class EntityMixin {
-    /** HEAD: fallDistance hasn't been reset yet. */
+    /**
+     * HEAD: fallDistance hasn't been reset yet.
+     */
     @Inject(method = "checkFallDamage", at = @At("HEAD"))
     private void ds4c$onCheckFallDamage(double ya, boolean onGround, BlockState onState, BlockPos pos, CallbackInfo ci) {
         if (!onGround) return;

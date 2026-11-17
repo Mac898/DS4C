@@ -28,12 +28,6 @@ public final class TimedFacts {
     private TimedFacts() {
     }
 
-    private record Window(long start, long end) {
-        boolean contains(long tick) {
-            return tick >= this.start && tick < this.end;
-        }
-    }
-
     public static long now() {
         return now;
     }
@@ -47,7 +41,9 @@ public final class TimedFacts {
         }
     }
 
-    /** Fact is true from this tick for {@code durationTicks} ticks. Re-pulsing restarts the window. */
+    /**
+     * Fact is true from this tick for {@code durationTicks} ticks. Re-pulsing restarts the window.
+     */
     public static void pulse(Identifier fact, int durationTicks) {
         schedule(fact, 0, durationTicks);
     }
@@ -61,7 +57,9 @@ public final class TimedFacts {
         WINDOWS.put(fact, new Window(start, start + Math.max(1, durationTicks)));
     }
 
-    /** True while the fact's window is open or still scheduled. */
+    /**
+     * True while the fact's window is open or still scheduled.
+     */
     public static boolean isPending(Identifier fact) {
         Window window = WINDOWS.get(fact);
         return window != null && window.end > now;
@@ -81,6 +79,12 @@ public final class TimedFacts {
             if (entry.getValue().contains(now)) {
                 sink.contributeFact(entry.getKey());
             }
+        }
+    }
+
+    private record Window(long start, long end) {
+        boolean contains(long tick) {
+            return tick >= this.start && tick < this.end;
         }
     }
 }

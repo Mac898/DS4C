@@ -27,7 +27,9 @@ public class SoundEngineMixin {
         if (sound != null) SoundHaptics.onSoundPlayed(instance, sound);
     }
 
-    /** After subtitles are notified: sounds moved to the controller speaker skip the main mix. */
+    /**
+     * After subtitles are notified: sounds moved to the controller speaker skip the main mix.
+     */
     @Inject(
             method = "play",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sounds/SoundEngine;calculateVolume(FLnet/minecraft/sounds/SoundSource;)F"),

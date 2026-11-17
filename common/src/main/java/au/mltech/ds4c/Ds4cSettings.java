@@ -14,25 +14,45 @@ public final class Ds4cSettings {
      */
     private static final Map<FeedbackCategory, Float> CATEGORY_INTENSITY = new EnumMap<>(FeedbackCategory.class);
 
-    /** Footstep and small-landing taps (frequent, so some players want them off); 0 is off. */
+    /**
+     * Footstep and small-landing taps (frequent, so some players want them off); 0 is off.
+     */
     private static volatile float footstepIntensity = 1.0f;
-    /** Bow and trident: pressing Use through the resistance to the bottom looses the shot. */
+    /**
+     * Bow and trident: pressing Use through the resistance to the bottom looses the shot.
+     */
     private static volatile boolean pullThroughToShoot = true;
-    /** Adaptive trigger strength in percent: 100, 75 or 50, or 0 for trigger effects off. */
+    /**
+     * Adaptive trigger strength in percent: 100, 75 or 50, or 0 for trigger effects off.
+     */
     private static volatile int triggerStrength = 100;
-    /** Scales every DS4C HD haptic, applied once in {@code Haptics.play}; 0 is HD haptics off. */
+    /**
+     * Scales every DS4C HD haptic, applied once in {@code Haptics.play}; 0 is HD haptics off.
+     */
     private static volatile float masterIntensity = 1.0f;
-    /** Additionally scales synthesised waveforms (not passed-through game sounds). */
+    /**
+     * Additionally scales synthesised waveforms (not passed-through game sounds).
+     */
     private static volatile float synthesisIntensity = 1.0f;
-    /** Controller speaker volume; 0 keeps every sound on the main mix. */
+    /**
+     * Controller speaker volume; 0 keeps every sound on the main mix.
+     */
     private static volatile float speakerVolume = 1.0f;
-    /** How late the controller speaker plays relative to the game's audio (Bluetooth audio bridges). */
+    /**
+     * How late the controller speaker plays relative to the game's audio (Bluetooth audio bridges).
+     */
     private static volatile int speakerLatencyMs = 0;
-    /** Sounds within this many blocks play at full strength. */
+    /**
+     * Sounds within this many blocks play at full strength.
+     */
     private static volatile float falloffNearBlocks = 0.0f;
-    /** Sounds fade to silence by this many blocks (each mapping can cap it lower). */
+    /**
+     * Sounds fade to silence by this many blocks (each mapping can cap it lower).
+     */
     private static volatile float falloffFarBlocks = 64.0f;
-    /** Enables the {@code /ds4c gallery} commands for trying effects one at a time. */
+    /**
+     * Enables the {@code /ds4c gallery} commands for trying effects one at a time.
+     */
     private static volatile boolean effectGallery = false;
 
     private Ds4cSettings() {
@@ -70,7 +90,9 @@ public final class Ds4cSettings {
         return triggerStrength;
     }
 
-    /** Rounds to the nearest supported level (100, 75, 50, or 0 for off). */
+    /**
+     * Rounds to the nearest supported level (100, 75, 50, or 0 for off).
+     */
     public static void setTriggerStrength(int percent) {
         triggerStrength = percent >= 88 ? 100 : percent >= 63 ? 75 : percent >= 25 ? 50 : 0;
     }

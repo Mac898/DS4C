@@ -26,7 +26,9 @@ public class MinecraftMixin {
         PullThrough.clientTick(minecraft);
     }
 
-    /** After a pull-through shot, don't start a new draw until the trigger has been let out. */
+    /**
+     * After a pull-through shot, don't start a new draw until the trigger has been let out.
+     */
     @Inject(method = "startUseItem", at = @At("HEAD"), cancellable = true)
     private void ds4c$blockUseAfterPullThrough(CallbackInfo ci) {
         if (PullThrough.blocksUse()) ci.cancel();

@@ -2,9 +2,13 @@ package au.mltech.ds4c.controlify;
 
 import au.mltech.ds4c.Constants;
 
-/** Checks at startup that DS4C's hooks into Controlify internals are in place. */
+/**
+ * Checks at startup that DS4C's hooks into Controlify internals are in place.
+ */
 public final class ControlifyCompat {
-    /** Set by {@link ControlifyMixinPlugin}; game code reads the properties, never the plugin class. */
+    /**
+     * Set by {@link ControlifyMixinPlugin}; game code reads the properties, never the plugin class.
+     */
     static final String APPLIED_PROPERTY_PREFIX = "ds4c.controlify.applied.";
 
     private ControlifyCompat() {

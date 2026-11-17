@@ -13,8 +13,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ShearsItem;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,11 +26,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MultiPlayerGameMode.class)
 public class MultiPlayerGameModeMixin {
-    @Shadow @Final private Minecraft minecraft;
-    @Shadow private float destroyProgress;
-    @Shadow private boolean isDestroying;
+    @Shadow
+    @Final
+    private Minecraft minecraft;
+    @Shadow
+    private float destroyProgress;
+    @Shadow
+    private boolean isDestroying;
 
-    /** Pull through to shoot: a trigger dipping under the press threshold isn't a release. */
+    /**
+     * Pull through to shoot: a trigger dipping under the press threshold isn't a release.
+     */
     @Inject(method = "releaseUsingItem", at = @At("HEAD"), cancellable = true)
     private void ds4c$holdDrawUntilLetOut(Player player, CallbackInfo ci) {
         if (player instanceof LocalPlayer local && PullThrough.holdsDraw(local)) ci.cancel();

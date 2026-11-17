@@ -12,15 +12,15 @@ public final class Constants {
 
     public static final String EFFECTS_PACK_NAME_KEY = "ds4c.pack.effects.name";
 
+    private Constants() {
+    }
+
     /**
      * Built-in resource pack holding DS4C's contextual facts and trigger-effect rules: the one using
      * the bow effect if Controlify has it, else the same rules with a weapon-effect fallback.
      */
     public static Identifier effectsPackId() {
         return id(BowEffect.isSupported() ? "effects" : "effects_no_bow");
-    }
-
-    private Constants() {
     }
 
     public static Identifier id(String path) {

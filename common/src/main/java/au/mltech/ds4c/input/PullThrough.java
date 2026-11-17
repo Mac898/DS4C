@@ -21,7 +21,9 @@ import org.jspecify.annotations.Nullable;
  * below {@link #RESET}.
  */
 public final class PullThrough {
-    /** How far the trigger must be pressed to count as "through" (0..1). */
+    /**
+     * How far the trigger must be pressed to count as "through" (0..1).
+     */
     private static final float THROUGH = 0.97f;
     /**
      * How far it must come back to count as let out: before another draw can start after a
@@ -38,7 +40,9 @@ public final class PullThrough {
     private PullThrough() {
     }
 
-    /** Start of every client tick, before vanilla handles the use key. */
+    /**
+     * Start of every client tick, before vanilla handles the use key.
+     */
     public static void clientTick(Minecraft minecraft) {
         LocalPlayer player = minecraft.player;
         if (!Ds4cSettings.pullThroughToShoot() || player == null || minecraft.gameMode == null) {
@@ -76,7 +80,9 @@ public final class PullThrough {
         return useAnalogue() >= RESET;
     }
 
-    /** True while a shot was just pulled through and the trigger hasn't been let out yet. */
+    /**
+     * True while a shot was just pulled through and the trigger hasn't been let out yet.
+     */
     public static boolean blocksUse() {
         return waitingForRelease;
     }

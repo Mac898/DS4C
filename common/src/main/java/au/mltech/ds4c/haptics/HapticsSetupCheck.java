@@ -15,7 +15,9 @@ import net.minecraft.util.Util;
  * this, missing haptics just look like DS4C doing nothing.
  */
 final class HapticsSetupCheck {
-    /** Wait for the controller and its audio device to settle after joining a world. */
+    /**
+     * Wait for the controller and its audio device to settle after joining a world.
+     */
     private static final int DELAY_TICKS = 100;
     private static int ticksInWorld;
     private static boolean warned;

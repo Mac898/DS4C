@@ -3,11 +3,7 @@ package au.mltech.ds4c.haptics;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -22,7 +18,9 @@ public final class HapticLoops {
     private HapticLoops() {
     }
 
-    /** Starts the loop if it isn't running and returns it. */
+    /**
+     * Starts the loop if it isn't running and returns it.
+     */
     public static HapticLoop ensure(Identifier id, Supplier<HapticLoop> factory) {
         return LOOPS.computeIfAbsent(id, k -> factory.get());
     }

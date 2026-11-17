@@ -27,7 +27,9 @@ public final class HapticLoop {
     private float pan = 0f;
     private float habituationFloor = HABITUATION_FLOOR;
     private int ticksSinceAccent = 0;
-    /** Ticks of audio currently buffered downstream. */
+    /**
+     * Ticks of audio currently buffered downstream.
+     */
     private int ticksRemaining = 0;
 
     /**
@@ -58,30 +60,40 @@ public final class HapticLoop {
         this.pan = pan;
     }
 
-    /** How far this loop fades once it has gone unchanged for a while (1 = no fade). */
+    /**
+     * How far this loop fades once it has gone unchanged for a while (1 = no fade).
+     */
     public void setHabituationFloor(float floor) {
         this.habituationFloor = Math.max(0f, Math.min(1f, floor));
     }
 
-    /** Something changed (a bump, a gust, a new state): play at full level again. */
+    /**
+     * Something changed (a bump, a gust, a new state): play at full level again.
+     */
     public void accent() {
         ticksSinceAccent = 0;
     }
 
-    /** The level this loop plays at right now, after habituation. */
+    /**
+     * The level this loop plays at right now, after habituation.
+     */
     float effectiveAmplitude() {
         float faded = Math.min(1f, Math.max(0f, (ticksSinceAccent - HABITUATION_START_TICKS) / (float) HABITUATION_FADE_TICKS));
         return amplitude * (1f - (1f - habituationFloor) * faded);
     }
 
-    /** Advances one tick. Returns true if the next chunk should be queued now. */
+    /**
+     * Advances one tick. Returns true if the next chunk should be queued now.
+     */
     boolean tick() {
         ticksSinceAccent++;
         if (ticksRemaining > 0) ticksRemaining--;
         return ticksRemaining <= 0;
     }
 
-    /** Plays the next chunk, or skips it (silence) if {@code audible} is false. */
+    /**
+     * Plays the next chunk, or skips it (silence) if {@code audible} is false.
+     */
     void queueNext(boolean audible) {
         ticksRemaining += chunkTicks;
         float amp = effectiveAmplitude();

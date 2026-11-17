@@ -17,7 +17,9 @@ import java.util.Map;
  * {@link HapticSoundRegistry}, plus any synthesised overlay, scaled by distance.
  */
 public final class SoundHaptics {
-    /** Minimum ticks between passthroughs of the same sound event, so bursts don't stack up. */
+    /**
+     * Minimum ticks between passthroughs of the same sound event, so bursts don't stack up.
+     */
     private static final int COOLDOWN_TICKS = 3;
     private static final Map<Identifier, Integer> COOLDOWNS = new HashMap<>();
 

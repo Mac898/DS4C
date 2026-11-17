@@ -5,16 +5,16 @@
 DualSense for Controlify (DS4C) is a client-side Minecraft mod that adds DualSense feedback on
 top of [Controlify](https://github.com/isXander/Controlify):
 
-- **HD haptics from the game.** The grip actuators play game sounds that work as touch (eating,
-  goat horns, attacks, thunder) and synthesised effects for everything else: footsteps shaped by
-  the ground underfoot, landings, mining voiced by the tool, damage by cause, rain, water,
-  rides, the heartbeat at low health, and more. Directional effects lean towards one grip.
-- **Adaptive triggers.** Resistance and vibration on L2 and R2 for drawing a bow or crossbow,
-  swinging, mining, eating, the mace, explosions and so on. Bows and tridents can shoot by
-  pressing the trigger through the resistance.
-- **Controller speaker.** A few sounds that happen in your hands (bows, crossbows, a tool
-  breaking, bundles, books, the spyglass, the level-up chime) play from the DualSense speaker
-  instead of your speakers or headphones, and pickups get a small echo from the controller.
+- **HD haptics.** Some game sounds play straight through the grips (eating, goat horns, attacks,
+  thunder). Everything else is synthesised: footsteps that change with the ground, landings,
+  mining that changes with the tool, damage by cause, rain, water, rides, a heartbeat at low
+  health, and more. Effects with a direction are panned towards that grip.
+- **Adaptive triggers.** Resistance and vibration on L2 and R2 for bows and crossbows, swinging,
+  mining, eating, the mace, explosions and so on. Bows and tridents can fire when you pull the
+  trigger through the resistance.
+- **Controller speaker.** A few handheld sounds (bows, crossbows, a tool breaking, bundles,
+  books, the spyglass) and the level-up chime play from the DualSense speaker instead of your
+  speakers or headphones. Pickups get a short echo from the controller.
 
 [docs/coverage.md](docs/coverage.md) lists what each game event does on the triggers and grips.
 
@@ -22,34 +22,36 @@ top of [Controlify](https://github.com/isXander/Controlify):
 
 - Minecraft 26.3
 - Fabric (with Fabric API) or NeoForge
-- Controlify 3.5.x, from 3.5.3
+- Controlify 3.5.3 or a later 3.5.x
 - A DualSense controller
 - Optional on Fabric: Mod Menu, to open the settings screen
 
-DS4C hooks into a few Controlify internals for HD haptics, the speaker and per-controller audio
-streams, so each Controlify minor version needs a matching DS4C. If a hook doesn't fit, that
-feature turns off and the log says which. Pull through to shoot feels best with a Controlify that
-has the bow trigger effect (which gives way and then pushes back); on 3.5.3 DS4C uses the weapon
-effect instead, which gives way without the push back.
+DS4C hooks into Controlify internals for HD haptics and the speaker, so each Controlify minor
+version needs a matching DS4C release. If a hook doesn't apply, that feature turns off and the
+log says which one.
+
+Pull through to shoot works best on a Controlify with the bow trigger effect, which gives way and
+then pushes back. 3.5.3 doesn't have it, so DS4C uses the weapon effect there, which gives way
+but doesn't push back.
 
 ## USB and Bluetooth
 
-Adaptive triggers work over USB and Bluetooth. HD haptics and the controller speaker use the
-DualSense's audio device, which only exists over USB on most systems.
+Adaptive triggers work over USB and Bluetooth. HD haptics and the controller speaker need the
+DualSense's audio device, which on most systems only exists over USB.
 
-- **USB:** on Linux with PipeWire, the controller's card profile and channel map usually need a
-  change; see [docs/linux-hd-haptics.md](docs/linux-hd-haptics.md).
+- **USB:** on Linux with PipeWire, the controller's card profile and channel map usually need
+  changing; see [docs/linux-hd-haptics.md](docs/linux-hd-haptics.md).
 - **Bluetooth on Linux:** run [DS4L](https://github.com/Mac898/DS4L), which gives a Bluetooth
   DualSense the same audio device as a wired one.
-- **Bluetooth elsewhere:** no HD haptics or speaker; triggers still work.
+- **Bluetooth elsewhere:** triggers only.
 
 If a DualSense is connected but HD haptics can't play, DS4C says so once in chat.
 
 ## Controlify settings
 
 - Turn **HD Haptics** on.
-- Turn **Allow Vibrations** off. DS4C plays its own versions of the events Controlify rumbles for
-  (damage, explosions, mining, and so on), so with both on you feel them twice.
+- Turn **Allow Vibrations** off. DS4C replaces the events Controlify rumbles for (damage,
+  explosions, mining and so on), so with both on you feel them twice.
 
 ## Settings
 
@@ -57,17 +59,17 @@ Open DS4C's settings from Mod Menu (Fabric) or the mod list (NeoForge). They are
 `config/ds4c.json`.
 
 - **Adaptive triggers:** trigger strength (off, 50%, 75%, 100%) and pull through to shoot.
-- **HD haptics:** master intensity, synthesised effect intensity, and the distance range over
-  which sounds fade out.
+- **HD haptics:** master intensity, synthesised effect intensity, and the distance over which
+  sounds fade out.
 - **Controller speaker:** volume (0 keeps every sound on your main audio) and a delay for when
   the speaker plays over Bluetooth.
-- **Categories:** a strength for movement, combat, ambient, items, environment and interface
-  feedback, plus footsteps. 0 turns a category off, its trigger effects included.
+- **Categories:** a strength each for movement, combat, ambient, items, environment, interface
+  and footsteps. 0 turns a category off, trigger effects included.
 - **Debug:** the effect gallery, off by default. When on, `/ds4c gallery` plays one trigger
-  effect, grip haptic or game sound at a time, which helps when tuning or checking a setup. See
+  effect, grip haptic or game sound at a time, for tuning or checking a setup. See
   [docs/coverage.md](docs/coverage.md#trying-effects-on-their-own).
 
-Other mods can route more of their own sounds to the controller speaker through
+Other mods can send their own sounds to the controller speaker through
 `au.mltech.ds4c.api.SpeakerRouting`.
 
 ## Building
@@ -76,11 +78,11 @@ Other mods can route more of their own sounds to the controller speaker through
 ./gradlew build
 ```
 
-The jars are written to `fabric/build/libs` and `neoforge/build/libs`. Java 25 is required.
+Needs Java 25. The jars end up in `fabric/build/libs` and `neoforge/build/libs`.
 
 The trigger rules in `common/src/main/resources/resourcepacks/effects` and `effects_no_bow` are
-generated: edit `tools/generate_rules.py`, run `python3 tools/generate_rules.py` from the
-repository root, and commit the generated JSON with it.
+generated. To change them, edit `tools/generate_rules.py`, run `python3 tools/generate_rules.py`
+from the repository root, and commit the generated JSON too.
 
 ## Licence
 

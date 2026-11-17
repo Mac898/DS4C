@@ -13,7 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPacketListener.class)
 public class ClientPacketListenerMixin {
-    /** RETURN: only reached on the client thread (the handler re-dispatches itself off the network thread). */
+    /**
+     * RETURN: only reached on the client thread (the handler re-dispatches itself off the network thread).
+     */
     @Inject(method = "handleExplosion", at = @At("RETURN"))
     private void ds4c$onExplosion(ClientboundExplodePacket packet, CallbackInfo ci) {
         LocalPlayer player = Minecraft.getInstance().player;

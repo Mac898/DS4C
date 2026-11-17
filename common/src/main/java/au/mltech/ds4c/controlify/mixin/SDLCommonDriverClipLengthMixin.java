@@ -17,6 +17,14 @@ import javax.sound.sampled.AudioFormat;
  */
 @Mixin(SDLCommonDriver.class)
 public abstract class SDLCommonDriverClipLengthMixin {
+    @Unique
+    private static int ds4c$clipTicks(CompleteSoundData sound, int ticks) {
+        AudioFormat format = sound.format();
+        double bytesPerSecond = format.getSampleRate() * format.getChannels() * (format.getSampleSizeInBits() / 8);
+        if (bytesPerSecond <= 0) return ticks;
+        return Math.max(ticks, Math.max(1, (int) Math.ceil(sound.audio().length * 20.0 / bytesPerSecond)));
+    }
+
     @ModifyArg(
             method = "playHaptic",
             at = @At(value = "INVOKE", target = "Ldev/isxander/controlify/driver/sdl/SDLCommonDriver$AudioStreamHandle;queueAudio([BI)V"),
@@ -33,13 +41,5 @@ public abstract class SDLCommonDriverClipLengthMixin {
     )
     private int ds4c$clipTicksCreated(int ticks, @Local(argsOnly = true) CompleteSoundData sound) {
         return ds4c$clipTicks(sound, ticks);
-    }
-
-    @Unique
-    private static int ds4c$clipTicks(CompleteSoundData sound, int ticks) {
-        AudioFormat format = sound.format();
-        double bytesPerSecond = format.getSampleRate() * format.getChannels() * (format.getSampleSizeInBits() / 8);
-        if (bytesPerSecond <= 0) return ticks;
-        return Math.max(ticks, Math.max(1, (int) Math.ceil(sound.audio().length * 20.0 / bytesPerSecond)));
     }
 }

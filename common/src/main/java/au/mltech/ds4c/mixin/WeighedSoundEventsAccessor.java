@@ -8,7 +8,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.List;
 
-/** The variants of a sound event, so DS4C can decode them ahead of first use. */
+/**
+ * The variants of a sound event, so DS4C can decode them ahead of first use.
+ */
 @Mixin(WeighedSoundEvents.class)
 public interface WeighedSoundEventsAccessor {
     @Accessor("list")

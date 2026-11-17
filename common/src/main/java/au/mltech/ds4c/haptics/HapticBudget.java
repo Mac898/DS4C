@@ -19,10 +19,6 @@ import java.util.List;
 final class HapticBudget {
     static final int MAX_LAYERS = 3;
     static final float DUCK_GAIN = 0.4f;
-
-    private record Voice(HapticTier tier, boolean ducks, long endNanos) {
-    }
-
     private static final List<Voice> ACTIVE = new ArrayList<>();
 
     private HapticBudget() {
@@ -57,5 +53,8 @@ final class HapticBudget {
 
     static void clear() {
         ACTIVE.clear();
+    }
+
+    private record Voice(HapticTier tier, boolean ducks, long endNanos) {
     }
 }
